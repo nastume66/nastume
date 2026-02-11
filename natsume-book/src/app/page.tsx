@@ -11,7 +11,7 @@ export default function Home() {
           <p className="mt-1 text-sm">“{banner.subtitle}”</p>
         </div>
 
-        <div className="relative overflow-hidden rounded-3xl border border-amber-100 bg-white/80 p-6 shadow-sm md:p-12 dark:border-zinc-800 dark:bg-zinc-900/80">
+        <div className="relative overflow-hidden rounded-3xl border border-amber-200 bg-white p-6 shadow-sm md:p-12 dark:border-zinc-800 dark:bg-zinc-900/80">
           <div className="pointer-events-none absolute -right-16 -top-16 h-52 w-52 rounded-full bg-amber-200/40 blur-2xl" />
           <div className="pointer-events-none absolute -bottom-20 -left-16 h-52 w-52 rounded-full bg-orange-200/40 blur-2xl" />
 
@@ -24,7 +24,7 @@ export default function Home() {
 
           <div className="mt-8 grid gap-3 md:grid-cols-3">
             {highlights.map((item) => (
-              <article key={item.title} className="rounded-2xl border border-amber-100 bg-white/90 p-4 dark:border-zinc-700 dark:bg-zinc-800/80">
+              <article key={item.title} className="rounded-2xl border border-amber-200 bg-white p-4 shadow-sm dark:border-zinc-700 dark:bg-zinc-800/80">
                 <h2 className="text-base font-semibold text-zinc-900 dark:text-zinc-100">{item.title}</h2>
                 <p className="mt-2 text-sm leading-6 text-zinc-600 dark:text-zinc-300">{item.desc}</p>
               </article>
@@ -33,7 +33,7 @@ export default function Home() {
         </div>
 
         <section className="mt-8 grid gap-4 md:grid-cols-[1.2fr_1fr]">
-          <article className="rounded-2xl border border-amber-100 bg-white/80 p-5 shadow-sm dark:border-zinc-800 dark:bg-zinc-900/80">
+          <article className="rounded-2xl border border-amber-200 bg-white p-5 shadow-sm dark:border-zinc-800 dark:bg-zinc-900/80">
             <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">首页插画位</h3>
             <p className="mt-2 text-sm leading-7 text-zinc-600 dark:text-zinc-300">后续可换成你喜欢的海报/截图（注意版权来源标注）。</p>
             <div className="mt-4 flex h-44 items-center justify-center rounded-xl bg-gradient-to-br from-amber-100 via-orange-100 to-rose-100 text-4xl dark:from-zinc-800 dark:via-zinc-700 dark:to-zinc-600">
@@ -43,7 +43,7 @@ export default function Home() {
 
           <div className="grid gap-4">
             {quotes.map((q) => (
-              <article key={q} className="rounded-2xl border border-amber-100 bg-white/80 p-4 shadow-sm dark:border-zinc-800 dark:bg-zinc-900/80">
+              <article key={q} className="rounded-2xl border border-amber-200 bg-white p-4 shadow-sm dark:border-zinc-800 dark:bg-zinc-900/80">
                 <p className="text-sm leading-7 text-zinc-700 dark:text-zinc-300">“{q}”</p>
               </article>
             ))}

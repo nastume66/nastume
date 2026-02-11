@@ -54,7 +54,7 @@ export default function RootLayout({
   return (
     <html lang="zh-CN">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <header className="sticky top-0 z-30 border-b border-black/5 bg-white/85 backdrop-blur dark:border-zinc-800 dark:bg-zinc-950/80">
+        <header className="sticky top-0 z-30 border-b border-amber-200/70 bg-white/95 backdrop-blur dark:border-zinc-800 dark:bg-zinc-950/80">
           <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
             <Link href="/" className="text-sm font-semibold tracking-wide text-amber-800 dark:text-amber-400">
               友人之庭
