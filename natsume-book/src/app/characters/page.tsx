@@ -33,12 +33,12 @@ export default function CharactersPage() {
             className="rounded-2xl border border-amber-200 bg-white p-5 text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900"
           >
             <div className="mb-4 flex items-center gap-3">
-              <div className={`flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br ${c.color} text-xl`}>
-                {c.emoji}
+              <div className="flex h-10 min-w-10 items-center justify-center rounded-full border border-amber-200 bg-amber-50 text-xs text-amber-700 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300">
+                {c.role}
               </div>
               <div>
                 <h2 className="text-xl font-semibold text-zinc-900 dark:text-zinc-100">{c.name}</h2>
-                <p className="text-sm text-amber-700 dark:text-amber-400">{c.role}</p>
+                <p className="text-sm text-amber-700 dark:text-amber-400">{c.note}</p>
               </div>
             </div>
 
@@ -56,8 +56,8 @@ export default function CharactersPage() {
               )}
             </div>
 
-            <p className="text-sm leading-7 text-zinc-700 dark:text-zinc-300">{c.note}</p>
-            <p className="mt-3 text-xs text-zinc-500 dark:text-zinc-400">点击查看详情</p>
+            <p className="text-sm leading-7 text-zinc-700 dark:text-zinc-300">{c.detail.slice(0, 34)}...</p>
+            <p className="mt-3 text-xs text-zinc-500 dark:text-zinc-400">点击查看完整角色介绍</p>
           </button>
         ))}
       </div>

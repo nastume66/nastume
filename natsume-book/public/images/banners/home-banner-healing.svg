@@ -1,0 +1,20 @@
+<svg width="1200" height="420" viewBox="0 0 1200 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="420">
+      <stop offset="0" stop-color="#F8F3E8"/>
+      <stop offset="1" stop-color="#F1E8D7"/>
+    </linearGradient>
+    <linearGradient id="mist" x1="0" y1="180" x2="1200" y2="340">
+      <stop stop-color="#DDE7D5" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#C9D9C2" stop-opacity="0.6"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="420" fill="url(#sky)"/>
+  <rect y="250" width="1200" height="170" fill="#EAE1CF"/>
+  <path d="M0 270C160 230 280 230 430 265C560 295 690 295 830 265C980 233 1090 233 1200 265V420H0V270Z" fill="url(#mist)"/>
+  <circle cx="935" cy="88" r="36" fill="#EEDBAE"/>
+  <path d="M190 300C245 250 345 250 400 300" stroke="#9FAE97" stroke-width="14" stroke-linecap="round"/>
+  <path d="M800 300C845 260 925 260 970 300" stroke="#A8B79F" stroke-width="12" stroke-linecap="round"/>
+  <text x="600" y="165" text-anchor="middle" fill="#7E6750" font-size="52" font-family="Georgia, serif">友人之庭</text>
+  <text x="600" y="205" text-anchor="middle" fill="#8E775F" font-size="22" font-family="Georgia, serif">Natsume Yuujinchou · 治愈与羁绊</text>
+</svg>
