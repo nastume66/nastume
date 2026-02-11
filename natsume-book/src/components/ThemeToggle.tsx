@@ -7,8 +7,7 @@ export default function ThemeToggle() {
 
   useEffect(() => {
     const saved = localStorage.getItem("natsume-theme");
-    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    const enabled = saved ? saved === "dark" : prefersDark;
+    const enabled = saved === "dark";
     setDark(enabled);
     document.documentElement.classList.toggle("dark", enabled);
   }, []);
