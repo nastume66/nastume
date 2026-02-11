@@ -6,10 +6,20 @@ const { banner, quotes, highlights } = homeData;
 export default function Home() {
   return (
     <div className="min-h-[calc(100vh-56px)] bg-gradient-to-b from-amber-50 via-orange-50 to-white dark:from-zinc-950 dark:via-zinc-950 dark:to-zinc-900">
-      <section className="mx-auto max-w-5xl px-4 py-12 md:py-24">
+      <section className="mx-auto max-w-5xl px-4 py-10 md:py-16">
         <div className="mb-6 overflow-hidden rounded-2xl border border-amber-200/70 bg-gradient-to-r from-amber-100 via-orange-100 to-rose-100 p-5 text-zinc-800 dark:border-amber-500/30 dark:from-zinc-800 dark:via-zinc-800 dark:to-zinc-700 dark:text-zinc-100">
           <p className="text-sm font-medium">{banner.title}</p>
           <p className="mt-1 text-sm">“{banner.subtitle}”</p>
+        </div>
+
+        <div className="mb-6 overflow-hidden rounded-2xl border border-amber-200 bg-white shadow-sm dark:border-zinc-800 dark:bg-zinc-900/80">
+          <Image
+            src="https://cdn.myanimelist.net/images/anime/1681/108439l.jpg"
+            alt="夏目友人帐 横幅"
+            width={1200}
+            height={420}
+            className="h-56 w-full bg-amber-50 object-contain md:h-72"
+          />
         </div>
 
         <div className="relative overflow-hidden rounded-3xl border border-amber-200 bg-white p-6 shadow-sm md:p-12 dark:border-zinc-800 dark:bg-zinc-900/80">
@@ -33,28 +43,12 @@ export default function Home() {
           </div>
         </div>
 
-        <section className="mt-8 grid gap-4 md:grid-cols-[1.2fr_1fr]">
-          <article className="rounded-2xl border border-amber-200 bg-white p-5 shadow-sm dark:border-zinc-800 dark:bg-zinc-900/80">
-            <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">首页插画位</h3>
-            <p className="mt-2 text-sm leading-7 text-zinc-600 dark:text-zinc-300">后续可换成你喜欢的海报/截图（注意版权来源标注）。</p>
-            <div className="mt-4 overflow-hidden rounded-xl border border-amber-200/70 dark:border-zinc-700">
-              <Image
-                src="/images/banners/home-banner-healing.jpg"
-                alt="友人之庭首页横幅示例"
-                width={1200}
-                height={420}
-                className="h-52 w-full object-cover md:h-56"
-              />
-            </div>
-          </article>
-
-          <div className="grid gap-4">
-            {quotes.map((q) => (
-              <article key={q} className="rounded-2xl border border-amber-200 bg-white p-4 shadow-sm dark:border-zinc-800 dark:bg-zinc-900/80">
-                <p className="text-sm leading-7 text-zinc-700 dark:text-zinc-300">“{q}”</p>
-              </article>
-            ))}
-          </div>
+        <section className="mt-8 grid gap-4 md:grid-cols-3">
+          {quotes.map((q) => (
+            <article key={q} className="rounded-2xl border border-amber-200 bg-white p-4 shadow-sm dark:border-zinc-800 dark:bg-zinc-900/80">
+              <p className="text-sm leading-7 text-zinc-700 dark:text-zinc-300">“{q}”</p>
+            </article>
+          ))}
         </section>
       </section>
     </div>
