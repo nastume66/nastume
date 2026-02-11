@@ -38,7 +38,7 @@ export default function RootLayout({
             <Link href="/" className="text-sm font-semibold tracking-wide text-amber-800">
               友人之庭
             </Link>
-            <nav className="flex items-center gap-4 text-sm text-zinc-700">
+            <nav className="flex items-center gap-3 overflow-x-auto text-sm text-zinc-700 md:gap-4">
               {nav.map((item) => (
                 <Link key={item.href} href={item.href} className="hover:text-amber-700">
                   {item.label}
