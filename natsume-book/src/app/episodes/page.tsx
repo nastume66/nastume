@@ -1,25 +1,4 @@
-const seasons = [
-  {
-    season: "第一季",
-    year: "2008",
-    highlights: ["初遇猫咪老师", "友人帐的秘密", "归还名字的开始"],
-  },
-  {
-    season: "第二季",
-    year: "2009",
-    highlights: ["人与妖之间", "夏目的成长", "更深的羁绊"],
-  },
-  {
-    season: "第三季",
-    year: "2011",
-    highlights: ["过去与现在", "新妖怪登场", "温柔延续"],
-  },
-  {
-    season: "第四季+",
-    year: "2012-至今",
-    highlights: ["羁绊深化", "更多温柔故事", "剧场版拓展"],
-  },
-];
+import seasons from "@/data/episodes.json";
 
 export default function EpisodesPage() {
   return (

@@ -1,36 +1,55 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 友人之庭（Natsume Book）
 
-## Getting Started
+《夏目友人帐》主题网站，基于 Next.js + Tailwind。
 
-First, run the development server:
+线上地址：<https://nastume.vercel.app/>
+
+## 已完成功能
+
+- 首页横幅 + 主题文案区
+- 角色图鉴（点击卡片弹出详情）
+- 剧集时间线
+- 友人帐留言（浏览器本地存储）
+- 日间/夜间主题切换
+- 基础 SEO（title/description/open graph）
+
+## 本地开发
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+打开：<http://localhost:3000>
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 内容维护（最重要）
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+网站内容已抽到 JSON，后续改文案不需要改组件代码：
 
-## Learn More
+- `src/data/home.json`：首页横幅、金句、功能卡片
+- `src/data/characters.json`：角色列表
+- `src/data/episodes.json`：剧集时间线
 
-To learn more about Next.js, take a look at the following resources:
+改完后提交并 push，Vercel 会自动部署。
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 图片资源建议
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+建议把图片放到：
 
-## Deploy on Vercel
+- `public/images/characters/`
+- `public/images/banners/`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+然后在 JSON 里增加 `image` 字段，例如：
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```json
+{
+  "name": "猫咪老师（斑）",
+  "image": "/images/characters/nyanko.jpg"
+}
+```
+
+## 安全注意
+
+- 不要把任何 API Key 写入代码
+- 敏感信息只放 `.env.local`
+- `.env*` 不要提交到仓库

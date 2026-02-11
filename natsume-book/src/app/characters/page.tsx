@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import charactersData from "@/data/characters.json";
 
 type Character = {
   name: string;
@@ -11,40 +12,7 @@ type Character = {
   color: string;
 };
 
-const characters: Character[] = [
-  {
-    name: "夏目贵志",
-    role: "主角",
-    note: "能看见妖怪，温柔又坚定。",
-    detail: "继承外婆玲子的友人帐，在归还名字的旅途中逐渐理解自己，也慢慢学会接纳孤独与连接。",
-    emoji: "🌿",
-    color: "from-emerald-100 to-teal-100",
-  },
-  {
-    name: "猫咪老师（斑）",
-    role: "保镖",
-    note: "嘴硬心软，贪吃爱酒。",
-    detail: "强大的妖怪“斑”，以招财猫外形活动。表面嫌弃夏目，关键时刻总会出手守护。",
-    emoji: "🐱",
-    color: "from-amber-100 to-orange-100",
-  },
-  {
-    name: "名取周一",
-    role: "除妖师",
-    note: "看似轻浮，实则可靠。",
-    detail: "知名演员兼除妖师，行事成熟，和夏目在“人类世界与妖怪世界”之间形成独特互助关系。",
-    emoji: "🎭",
-    color: "from-violet-100 to-fuchsia-100",
-  },
-  {
-    name: "田沼要",
-    role: "朋友",
-    note: "理解夏目的少数人之一。",
-    detail: "虽看不见妖怪，却能感知异样。以平实和耐心给夏目重要的现实支点。",
-    emoji: "📖",
-    color: "from-sky-100 to-blue-100",
-  },
-];
+const characters = charactersData as Character[];
 
 export default function CharactersPage() {
   const [selected, setSelected] = useState<Character | null>(null);

@@ -1,22 +1,14 @@
-const quotes = [
-  "愿你被温柔以待，即使世界偶尔粗糙。",
-  "名字被归还，羁绊却会留下。",
-  "能看见妖怪的人，也能看见孤独。",
-];
+import homeData from "@/data/home.json";
 
-const highlights = [
-  { title: "角色图鉴", desc: "收录主要人物设定与关系。" },
-  { title: "剧集索引", desc: "按季整理，支持补充观后感。" },
-  { title: "友人帐", desc: "写下今天的心情与想说的话。" },
-];
+const { banner, quotes, highlights } = homeData;
 
 export default function Home() {
   return (
     <div className="min-h-[calc(100vh-56px)] bg-gradient-to-b from-amber-50 via-orange-50 to-white dark:from-zinc-950 dark:via-zinc-950 dark:to-zinc-900">
       <section className="mx-auto max-w-5xl px-4 py-12 md:py-24">
         <div className="mb-6 overflow-hidden rounded-2xl border border-amber-200/70 bg-gradient-to-r from-amber-100 via-orange-100 to-rose-100 p-5 text-zinc-800 dark:border-amber-500/30 dark:from-zinc-800 dark:via-zinc-800 dark:to-zinc-700 dark:text-zinc-100">
-          <p className="text-sm font-medium">🍃 本周横幅</p>
-          <p className="mt-1 text-sm">“把名字还给你，也把温柔还给自己。”</p>
+          <p className="text-sm font-medium">{banner.title}</p>
+          <p className="mt-1 text-sm">“{banner.subtitle}”</p>
         </div>
 
         <div className="relative overflow-hidden rounded-3xl border border-amber-100 bg-white/80 p-6 shadow-sm md:p-12 dark:border-zinc-800 dark:bg-zinc-900/80">
