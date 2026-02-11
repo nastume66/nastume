@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import charactersData from "@/data/characters.json";
 
 type Character = {
@@ -10,6 +11,7 @@ type Character = {
   detail: string;
   emoji: string;
   color: string;
+  image?: string;
 };
 
 const characters = charactersData as Character[];
@@ -40,7 +42,19 @@ export default function CharactersPage() {
               </div>
             </div>
 
-            <div className={`mb-3 h-28 rounded-xl bg-gradient-to-br ${c.color} dark:opacity-70`} />
+            <div className="mb-3 overflow-hidden rounded-xl border border-black/5 dark:border-white/10">
+              {c.image ? (
+                <Image
+                  src={c.image}
+                  alt={c.name}
+                  width={640}
+                  height={360}
+                  className="h-28 w-full object-cover"
+                />
+              ) : (
+                <div className={`h-28 bg-gradient-to-br ${c.color} dark:opacity-70`} />
+              )}
+            </div>
 
             <p className="text-sm leading-7 text-zinc-700 dark:text-zinc-300">{c.note}</p>
             <p className="mt-3 text-xs text-zinc-500 dark:text-zinc-400">点击查看详情</p>

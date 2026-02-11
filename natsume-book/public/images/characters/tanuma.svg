@@ -1,0 +1,6 @@
+<svg width="640" height="360" viewBox="0 0 640 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="640" height="360" fill="#DBEAFE"/>
+  <circle cx="320" cy="160" r="72" fill="#93C5FD"/>
+  <rect x="250" y="230" width="140" height="72" rx="16" fill="#60A5FA"/>
+  <text x="320" y="336" text-anchor="middle" fill="#1E3A8A" font-size="28" font-family="Arial">田沼要</text>
+</svg>

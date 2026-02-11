@@ -39,7 +39,7 @@ npm run dev
 - `public/images/characters/`
 - `public/images/banners/`
 
-然后在 JSON 里增加 `image` 字段，例如：
+现在 `src/data/characters.json` 已经接好 `image` 字段，你可以直接替换文件路径，例如：
 
 ```json
 {

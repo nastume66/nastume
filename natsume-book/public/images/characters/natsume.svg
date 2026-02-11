@@ -1,0 +1,6 @@
+<svg width="640" height="360" viewBox="0 0 640 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="640" height="360" fill="#D1FAE5"/>
+  <circle cx="320" cy="160" r="72" fill="#6EE7B7"/>
+  <rect x="250" y="230" width="140" height="72" rx="16" fill="#34D399"/>
+  <text x="320" y="336" text-anchor="middle" fill="#065F46" font-size="28" font-family="Arial">夏目贵志</text>
+</svg>

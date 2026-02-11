@@ -1,0 +1,6 @@
+<svg width="640" height="360" viewBox="0 0 640 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="640" height="360" fill="#EDE9FE"/>
+  <circle cx="320" cy="160" r="72" fill="#C4B5FD"/>
+  <rect x="250" y="230" width="140" height="72" rx="16" fill="#A78BFA"/>
+  <text x="320" y="336" text-anchor="middle" fill="#5B21B6" font-size="28" font-family="Arial">名取周一</text>
+</svg>
