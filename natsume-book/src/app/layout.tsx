@@ -14,9 +14,29 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const siteUrl = "https://nastume.vercel.app";
+
 export const metadata: Metadata = {
-  title: "夏目友人帐 · 友人之庭",
-  description: "一个关于《夏目友人帐》的温柔小站",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: "夏目友人帐 · 友人之庭",
+    template: "%s · 友人之庭",
+  },
+  description: "一个关于《夏目友人帐》的温柔小站，收录角色、剧集与友人帐留言。",
+  keywords: ["夏目友人帐", "猫咪老师", "动漫", "Natsume Yuujinchou", "友人帐"],
+  openGraph: {
+    title: "夏目友人帐 · 友人之庭",
+    description: "一个温柔的小站，记录角色、剧集和治愈瞬间。",
+    url: siteUrl,
+    siteName: "友人之庭",
+    locale: "zh_CN",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "夏目友人帐 · 友人之庭",
+    description: "记录《夏目友人帐》的角色、剧集和治愈瞬间。",
+  },
 };
 
 const nav = [
