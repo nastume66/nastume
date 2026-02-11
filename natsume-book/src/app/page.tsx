@@ -18,7 +18,7 @@ export default function Home() {
             alt="夏目友人帐 横幅"
             width={1200}
             height={420}
-            className="h-56 w-full bg-amber-50 object-contain md:h-72"
+            className="h-56 w-full object-cover object-center md:h-72"
           />
         </div>
 
