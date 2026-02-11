@@ -1,3 +1,4 @@
+import Image from "next/image";
 import homeData from "@/data/home.json";
 
 const { banner, quotes, highlights } = homeData;
@@ -36,8 +37,14 @@ export default function Home() {
           <article className="rounded-2xl border border-amber-200 bg-white p-5 shadow-sm dark:border-zinc-800 dark:bg-zinc-900/80">
             <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">首页插画位</h3>
             <p className="mt-2 text-sm leading-7 text-zinc-600 dark:text-zinc-300">后续可换成你喜欢的海报/截图（注意版权来源标注）。</p>
-            <div className="mt-4 flex h-44 items-center justify-center rounded-xl bg-gradient-to-br from-amber-100 via-orange-100 to-rose-100 text-4xl dark:from-zinc-800 dark:via-zinc-700 dark:to-zinc-600">
-              🐱🌿
+            <div className="mt-4 overflow-hidden rounded-xl border border-amber-200/70 dark:border-zinc-700">
+              <Image
+                src="/images/banners/home-banner-sample.svg"
+                alt="友人之庭首页横幅示例"
+                width={1200}
+                height={420}
+                className="h-44 w-full object-cover"
+              />
             </div>
           </article>
 
