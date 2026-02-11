@@ -43,7 +43,7 @@ export default function Home() {
                 alt="友人之庭首页横幅示例"
                 width={1200}
                 height={420}
-                className="h-44 w-full object-cover"
+                className="h-52 w-full object-cover md:h-56"
               />
             </div>
           </article>

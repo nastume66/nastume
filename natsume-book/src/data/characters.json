@@ -6,7 +6,7 @@
     "detail": "继承外婆玲子的友人帐，在归还名字的旅途中逐渐理解自己，也慢慢学会接纳孤独与连接。",
     "emoji": "🌿",
     "color": "from-emerald-100 to-teal-100",
-    "image": "/images/characters/natsume-healing.svg"
+    "image": "/images/characters/natsume-healing.jpg"
   },
   {
     "name": "猫咪老师（斑）",
@@ -15,7 +15,7 @@
     "detail": "强大的妖怪“斑”，以招财猫外形活动。表面嫌弃夏目，关键时刻总会出手守护。",
     "emoji": "🐱",
     "color": "from-amber-100 to-orange-100",
-    "image": "/images/characters/nyanko-healing.svg"
+    "image": "/images/characters/nyanko-healing.jpg"
   },
   {
     "name": "名取周一",
@@ -24,7 +24,7 @@
     "detail": "知名演员兼除妖师，行事成熟，和夏目在“人类世界与妖怪世界”之间形成独特互助关系。",
     "emoji": "🎭",
     "color": "from-violet-100 to-fuchsia-100",
-    "image": "/images/characters/natori-healing.svg"
+    "image": "/images/characters/natori-healing.jpg"
   },
   {
     "name": "田沼要",
@@ -33,6 +33,6 @@
     "detail": "虽看不见妖怪，却能感知异样。以平实和耐心给夏目重要的现实支点。",
     "emoji": "📖",
     "color": "from-sky-100 to-blue-100",
-    "image": "/images/characters/tanuma-healing.svg"
+    "image": "/images/characters/tanuma-healing.jpg"
   }
 ]

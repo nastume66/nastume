@@ -49,7 +49,7 @@ export default function CharactersPage() {
                   alt={c.name}
                   width={640}
                   height={360}
-                  className="h-28 w-full object-cover"
+                  className="h-36 w-full bg-amber-50 object-contain"
                 />
               ) : (
                 <div className={`h-28 bg-gradient-to-br ${c.color} dark:opacity-70`} />
