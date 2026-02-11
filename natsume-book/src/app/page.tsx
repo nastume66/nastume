@@ -39,7 +39,7 @@ export default function Home() {
             <p className="mt-2 text-sm leading-7 text-zinc-600 dark:text-zinc-300">后续可换成你喜欢的海报/截图（注意版权来源标注）。</p>
             <div className="mt-4 overflow-hidden rounded-xl border border-amber-200/70 dark:border-zinc-700">
               <Image
-                src="/images/banners/home-banner-healing.svg"
+                src="/images/banners/home-banner-healing.jpg"
                 alt="友人之庭首页横幅示例"
                 width={1200}
                 height={420}
