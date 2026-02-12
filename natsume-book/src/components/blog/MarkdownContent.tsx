@@ -7,7 +7,7 @@ export default function MarkdownContent({ content }: { content: string }) {
   if (looksLikeHtml) {
     return (
       <div
-        className="prose max-w-none prose-zinc dark:prose-invert [&_img]:my-4 [&_img]:max-h-[420px] [&_img]:rounded-xl [&_img]:border [&_img]:border-zinc-200 [&_img]:object-contain dark:[&_img]:border-zinc-700"
+        className="prose max-w-none prose-zinc dark:prose-invert [&_a]:font-medium [&_a]:text-sky-600 [&_a]:underline [&_a]:decoration-sky-400 [&_a]:underline-offset-2 hover:[&_a]:text-sky-700 dark:[&_a]:text-sky-400 dark:[&_a]:decoration-sky-500 [&_img]:my-4 [&_img]:max-h-[420px] [&_img]:rounded-xl [&_img]:border [&_img]:border-zinc-200 [&_img]:object-contain dark:[&_img]:border-zinc-700"
         dangerouslySetInnerHTML={{ __html: content }}
       />
     );
@@ -22,7 +22,12 @@ export default function MarkdownContent({ content }: { content: string }) {
           p: ({ children }) => <p className="leading-8">{children}</p>,
           li: ({ children }) => <li className="leading-7">{children}</li>,
           a: ({ href, children }) => (
-            <a href={href} target="_blank" rel="noreferrer" className="text-amber-700 underline dark:text-amber-400">
+            <a
+              href={href}
+              target="_blank"
+              rel="noreferrer"
+              className="font-medium text-sky-600 underline decoration-sky-400 underline-offset-2 hover:text-sky-700 dark:text-sky-400 dark:decoration-sky-500"
+            >
               {children}
             </a>
           ),
