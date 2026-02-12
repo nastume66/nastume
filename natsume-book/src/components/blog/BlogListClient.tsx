@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { getSupabaseClient, BlogPost } from "@/lib/supabase";
 
-type Post = Pick<BlogPost, "id" | "slug" | "title" | "summary" | "tags" | "created_at">;
+type Post = Pick<BlogPost, "id" | "slug" | "title" | "summary" | "tags" | "created_at" | "status">;
 
 export default function BlogListClient() {
   const [q, setQ] = useState("");
@@ -31,7 +31,7 @@ export default function BlogListClient() {
 
       const { data, error } = await supabase
         .from("posts")
-        .select("id,slug,title,summary,tags,created_at")
+        .select("id,slug,title,summary,tags,status,created_at")
         .eq("status", "published")
         .eq("author_id", uid)
         .order("created_at", { ascending: false });
@@ -103,7 +103,12 @@ export default function BlogListClient() {
             <article key={post.id} className="rounded-2xl border border-amber-200 bg-white p-5 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
               <div className="flex items-center justify-between gap-3">
                 <h2 className="text-xl font-semibold text-zinc-900 dark:text-zinc-100">{post.title}</h2>
-                <span className="text-xs text-zinc-500 dark:text-zinc-400">{post.created_at.slice(0, 10)}</span>
+                <div className="flex items-center gap-2">
+                  <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-[11px] font-medium text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300">
+                    {post.status === "published" ? "已发布" : "草稿"}
+                  </span>
+                  <span className="text-xs text-zinc-500 dark:text-zinc-400">{post.created_at.slice(0, 10)}</span>
+                </div>
               </div>
               <p className="mt-2 text-sm leading-7 text-zinc-700 dark:text-zinc-300">{post.summary}</p>
               <div className="mt-3 flex flex-wrap gap-2">
