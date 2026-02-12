@@ -1,17 +1,6 @@
-import posts from "@/data/posts.json";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-
-type Post = {
-  slug: string;
-  title: string;
-  date: string;
-  summary: string;
-  tags: string[];
-  content: string;
-};
-
-const postList = posts as Post[];
+import { getPostBySlug } from "@/lib/blog";
 
 function renderSimpleMarkdown(text: string) {
   return text.split("\n").map((line, i) => {
@@ -31,7 +20,7 @@ function renderSimpleMarkdown(text: string) {
     }
     if (!line.trim()) return <div key={i} className="h-2" />;
     return (
-      <p key={i} className="text-zinc-700 dark:text-zinc-300 leading-8">
+      <p key={i} className="leading-8 text-zinc-700 dark:text-zinc-300">
         {line}
       </p>
     );
@@ -40,7 +29,7 @@ function renderSimpleMarkdown(text: string) {
 
 export default async function BlogDetail({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const post = postList.find((p) => p.slug === slug);
+  const post = await getPostBySlug(slug);
   if (!post) return notFound();
 
   return (
@@ -49,7 +38,7 @@ export default async function BlogDetail({ params }: { params: Promise<{ slug: s
         ← 返回博客列表
       </Link>
       <h1 className="mt-4 text-3xl font-bold text-zinc-900 dark:text-zinc-100">{post.title}</h1>
-      <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">{post.date}</p>
+      <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">{post.created_at.slice(0, 10)}</p>
 
       <article className="mt-8 space-y-1 rounded-2xl border border-amber-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
         {renderSimpleMarkdown(post.content)}

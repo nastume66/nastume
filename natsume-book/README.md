@@ -22,15 +22,42 @@ npm run dev
 
 打开：<http://localhost:3000>
 
-## 内容维护（最重要）
+## 博客后台（可编辑 + 可持久化）
 
-网站内容已抽到 JSON，后续改文案不需要改组件代码：
+已新增：
+
+- `/blog`：博客列表（优先读 Supabase）
+- `/blog/[slug]`：文章详情
+- `/admin`：后台编辑器（登录后可新建/编辑/删除）
+
+### Supabase 配置步骤
+
+1. 新建 Supabase 项目
+2. 在 SQL Editor 执行：`supabase/schema.sql`
+3. 在 Vercel / 本地环境变量添加：
+
+```bash
+NEXT_PUBLIC_SUPABASE_URL=你的supabase-url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=你的anon-key
+```
+
+4. 安装依赖并重新部署：
+
+```bash
+npm install
+npm run build
+```
+
+> 未配置 Supabase 时，博客会自动回退到 `src/data/posts.json` 的静态数据。
+
+## 内容维护（静态兜底）
+
+网站仍保留 JSON 内容源（作为兜底和离线编辑）：
 
 - `src/data/home.json`：首页横幅、金句、功能卡片
 - `src/data/characters.json`：角色列表
 - `src/data/episodes.json`：剧集时间线
-
-改完后提交并 push，Vercel 会自动部署。
+- `src/data/posts.json`：博客静态兜底数据
 
 ## 图片资源建议
 
