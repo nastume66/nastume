@@ -45,6 +45,7 @@ const nav = [
   { href: "/episodes", label: "剧集" },
   { href: "/guestbook", label: "友人帐" },
   { href: "/blog", label: "博客" },
+  { href: "/changelog", label: "日志" },
   { href: "/admin", label: "管理" },
 ];
 
