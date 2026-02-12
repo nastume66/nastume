@@ -1,6 +1,8 @@
 import { listPublishedPosts } from "@/lib/blog";
 import BlogListClient from "@/components/blog/BlogListClient";
 
+export const dynamic = "force-dynamic";
+
 export default async function BlogPage() {
   const postList = await listPublishedPosts();
 

@@ -2,6 +2,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getPostBySlug } from "@/lib/blog";
 
+export const dynamic = "force-dynamic";
+
 function renderSimpleMarkdown(text: string) {
   return text.split("\n").map((line, i) => {
     if (line.startsWith("## ")) {
