@@ -102,6 +102,15 @@ export default function AdminClient() {
     }
   };
 
+  const switchAccount = async () => {
+    if (!supabase) return;
+    await supabase.auth.signOut();
+    setUser(null);
+    setPosts([]);
+    setEditor(emptyEditor);
+    setMsg("已退出登录，可输入新邮箱切换账号");
+  };
+
   const uploadImages = async (files: FileList | null) => {
     if (!files || files.length === 0) return;
     if (!supabase) {
@@ -191,7 +200,7 @@ export default function AdminClient() {
             <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">文章编辑器（富文本 2.0）</h2>
             <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">{msg}</p>
           </div>
-          <div className="flex w-full gap-2 md:w-auto md:min-w-[420px]">
+          <div className="flex w-full gap-2 md:w-auto md:min-w-[520px]">
             <input
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -205,6 +214,14 @@ export default function AdminClient() {
             >
               {isSendingLogin ? "发送中..." : "登录"}
             </button>
+            {user ? (
+              <button
+                onClick={switchAccount}
+                className="rounded-xl border border-zinc-300 px-3 py-2 text-sm text-zinc-700 hover:bg-zinc-100 dark:border-zinc-600 dark:text-zinc-200 dark:hover:bg-zinc-800"
+              >
+                切换账号
+              </button>
+            ) : null}
           </div>
         </div>
 
