@@ -9,6 +9,7 @@ import Highlight from "@tiptap/extension-highlight";
 import TextAlign from "@tiptap/extension-text-align";
 import Link from "@tiptap/extension-link";
 import Image from "@tiptap/extension-image";
+import { useEffect } from "react";
 
 export default function RichTextEditor({
   value,
@@ -17,7 +18,7 @@ export default function RichTextEditor({
 }: {
   value: string;
   onChange: (html: string) => void;
-  onUpload: (files: FileList | null) => Promise<void>;
+  onUpload: (files: FileList | null) => Promise<string[]>;
 }) {
   const editor = useEditor({
     extensions: [
@@ -34,6 +35,14 @@ export default function RichTextEditor({
     onUpdate: ({ editor }) => onChange(editor.getHTML()),
     immediatelyRender: false,
   });
+
+  useEffect(() => {
+    if (!editor) return;
+    const current = editor.getHTML();
+    if (value !== current) {
+      editor.commands.setContent(value || "", false);
+    }
+  }, [value, editor]);
 
   if (!editor) {
     return <div className="rounded-xl border border-zinc-200 p-3 text-sm text-zinc-500">编辑器加载中...</div>;
@@ -72,7 +81,12 @@ export default function RichTextEditor({
             multiple
             className="hidden"
             onChange={async (e) => {
-              await onUpload(e.target.files);
+              const urls = await onUpload(e.target.files);
+              if (urls.length > 0) {
+                urls.forEach((url) => {
+                  editor.chain().focus().setImage({ src: url }).run();
+                });
+              }
               e.currentTarget.value = "";
             }}
           />

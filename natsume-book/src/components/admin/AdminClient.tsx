@@ -111,19 +111,19 @@ export default function AdminClient() {
     setMsg("已退出登录，可输入新邮箱切换账号");
   };
 
-  const uploadImages = async (files: FileList | null) => {
-    if (!files || files.length === 0) return;
+  const uploadImages = async (files: FileList | null): Promise<string[]> => {
+    if (!files || files.length === 0) return [];
     if (!supabase) {
       setMsg("未连接 Supabase，无法上传图片");
-      return;
+      return [];
     }
     if (!user) {
       setMsg("请先登录后再上传图片");
-      return;
+      return [];
     }
 
     setMsg(`正在上传 ${files.length} 张图片...`);
-    const htmlBlocks: string[] = [];
+    const urls: string[] = [];
 
     for (const file of Array.from(files)) {
       const ext = file.name.split(".").pop() || "png";
@@ -134,14 +134,14 @@ export default function AdminClient() {
       });
       if (error) {
         setMsg(`上传失败：${error.message}`);
-        return;
+        return [];
       }
       const { data } = supabase.storage.from("blog-images").getPublicUrl(path);
-      htmlBlocks.push(`<p><img src="${data.publicUrl}" alt="${file.name}" /></p>`);
+      urls.push(data.publicUrl);
     }
 
-    setEditor((v) => ({ ...v, content: `${v.content}${htmlBlocks.join("\n")}` }));
     setMsg(`✅ 已上传 ${files.length} 张图片并插入正文`);
+    return urls;
   };
 
   const save = async () => {
