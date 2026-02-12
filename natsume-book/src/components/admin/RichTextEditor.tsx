@@ -81,7 +81,7 @@ export default function RichTextEditor({
 
       <EditorContent
         editor={editor}
-        className="min-h-72 rounded-xl border border-zinc-200 p-3 text-sm dark:border-zinc-700 dark:bg-zinc-950"
+        className="min-h-[560px] rounded-xl border border-zinc-200 p-3 text-base leading-8 dark:border-zinc-700 dark:bg-zinc-950"
       />
     </div>
   );
