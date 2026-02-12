@@ -103,7 +103,17 @@ export default function RichTextEditor({
           onClick={() => {
             const url = window.prompt("输入链接", "https://");
             if (!url) return;
-            editor.chain().focus().extendMarkRange("link").setLink({ href: url }).run();
+
+            const { empty } = editor.state.selection;
+            if (empty) {
+              editor
+                .chain()
+                .focus()
+                .insertContent(`<a href="${url}" target="_blank" rel="noreferrer">链接文字</a>`)
+                .run();
+            } else {
+              editor.chain().focus().extendMarkRange("link").setLink({ href: url }).run();
+            }
           }}
         >
           链接
