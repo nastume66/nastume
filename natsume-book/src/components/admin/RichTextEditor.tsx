@@ -10,6 +10,7 @@ import TextAlign from "@tiptap/extension-text-align";
 import Link from "@tiptap/extension-link";
 import Image from "@tiptap/extension-image";
 import { useEffect } from "react";
+import type { Editor } from "@tiptap/react";
 
 export default function RichTextEditor({
   value,
@@ -20,6 +21,15 @@ export default function RichTextEditor({
   onChange: (html: string) => void;
   onUpload: (files: FileList | null) => Promise<string[]>;
 }) {
+  const insertImages = async (targetEditor: Editor, fileList: FileList) => {
+    const urls = await onUpload(fileList);
+    if (urls.length > 0) {
+      urls.forEach((url) => {
+        targetEditor.chain().focus().setImage({ src: url }).run();
+      });
+    }
+  };
+
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -43,6 +53,15 @@ export default function RichTextEditor({
       editor.commands.setContent(value || "", false);
     }
   }, [value, editor]);
+
+  useEffect(() => {
+    try {
+      document.execCommand("enableObjectResizing", false, "true");
+      document.execCommand("enableInlineTableEditing", false, "false");
+    } catch {
+      // ignore browser differences
+    }
+  }, []);
 
   if (!editor) {
     return <div className="rounded-xl border border-zinc-200 p-3 text-sm text-zinc-500">编辑器加载中...</div>;
@@ -81,22 +100,40 @@ export default function RichTextEditor({
             multiple
             className="hidden"
             onChange={async (e) => {
-              const urls = await onUpload(e.target.files);
-              if (urls.length > 0) {
-                urls.forEach((url) => {
-                  editor.chain().focus().setImage({ src: url }).run();
-                });
-              }
+              if (e.target.files) await insertImages(editor, e.target.files);
               e.currentTarget.value = "";
             }}
           />
         </label>
       </div>
 
-      <EditorContent
-        editor={editor}
-        className="min-h-[560px] rounded-xl border border-zinc-200 p-3 text-base leading-8 dark:border-zinc-700 dark:bg-zinc-950"
-      />
+      <div
+        onDrop={async (e) => {
+          const files = e.dataTransfer?.files;
+          if (!files || files.length === 0) return;
+          const imageFiles = Array.from(files).filter((f) => f.type.startsWith("image/"));
+          if (imageFiles.length === 0) return;
+          e.preventDefault();
+          const dt = new DataTransfer();
+          imageFiles.forEach((f) => dt.items.add(f));
+          await insertImages(editor, dt.files);
+        }}
+        onPaste={async (e) => {
+          const files = e.clipboardData?.files;
+          if (!files || files.length === 0) return;
+          const imageFiles = Array.from(files).filter((f) => f.type.startsWith("image/"));
+          if (imageFiles.length === 0) return;
+          e.preventDefault();
+          const dt = new DataTransfer();
+          imageFiles.forEach((f) => dt.items.add(f));
+          await insertImages(editor, dt.files);
+        }}
+      >
+        <EditorContent
+          editor={editor}
+          className="min-h-[560px] rounded-xl border border-zinc-200 p-3 text-base leading-8 dark:border-zinc-700 dark:bg-zinc-950 [&_img]:mx-auto [&_img]:my-3 [&_img]:max-h-[420px] [&_img]:cursor-pointer [&_img]:rounded-lg [&_img]:border [&_img]:border-zinc-200"
+        />
+      </div>
     </div>
   );
 }
