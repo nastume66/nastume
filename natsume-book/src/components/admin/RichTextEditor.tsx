@@ -12,6 +12,17 @@ import Image from "@tiptap/extension-image";
 import { useEffect } from "react";
 import type { Editor } from "@tiptap/react";
 
+const CustomImage = Image.extend({
+  addAttributes() {
+    return {
+      ...this.parent?.(),
+      style: {
+        default: null,
+      },
+    };
+  },
+});
+
 export default function RichTextEditor({
   value,
   onChange,
@@ -30,6 +41,11 @@ export default function RichTextEditor({
     }
   };
 
+  const setImageStyle = (style: string) => {
+    if (!editor || !editor.isActive("image")) return;
+    editor.chain().focus().updateAttributes("image", { style }).run();
+  };
+
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -39,7 +55,7 @@ export default function RichTextEditor({
       Highlight,
       Link.configure({ openOnClick: false }),
       TextAlign.configure({ types: ["heading", "paragraph"] }),
-      Image,
+      CustomImage,
     ],
     content: value,
     onUpdate: ({ editor }) => onChange(editor.getHTML()),
@@ -105,7 +121,15 @@ export default function RichTextEditor({
             }}
           />
         </label>
+        <span className="mx-1 text-xs text-zinc-400">|</span>
+        <button className="rounded bg-zinc-100 px-2 py-1 text-xs dark:bg-zinc-800" onClick={() => setImageStyle("width: 35%; display: block; margin: 12px 0;")}>小图</button>
+        <button className="rounded bg-zinc-100 px-2 py-1 text-xs dark:bg-zinc-800" onClick={() => setImageStyle("width: 60%; display: block; margin: 12px 0;")}>中图</button>
+        <button className="rounded bg-zinc-100 px-2 py-1 text-xs dark:bg-zinc-800" onClick={() => setImageStyle("width: 100%; display: block; margin: 12px 0;")}>大图</button>
+        <button className="rounded bg-zinc-100 px-2 py-1 text-xs dark:bg-zinc-800" onClick={() => setImageStyle("width: 60%; display: block; margin: 12px auto 12px 0;")}>图左</button>
+        <button className="rounded bg-zinc-100 px-2 py-1 text-xs dark:bg-zinc-800" onClick={() => setImageStyle("width: 60%; display: block; margin: 12px auto;")}>图中</button>
+        <button className="rounded bg-zinc-100 px-2 py-1 text-xs dark:bg-zinc-800" onClick={() => setImageStyle("width: 60%; display: block; margin: 12px 0 12px auto;")}>图右</button>
       </div>
+      <p className="text-xs text-zinc-500">先点击图片再点「小图/中图/大图/图左/图中/图右」即可调整。</p>
 
       <div
         onDrop={async (e) => {
