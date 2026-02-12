@@ -16,6 +16,7 @@ export type BlogPost = {
   content: string;
   tags: string[];
   status: "draft" | "published";
+  author_id?: string;
   created_at: string;
   updated_at: string;
 };

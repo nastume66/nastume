@@ -34,6 +34,7 @@ npm run dev
 
 1. 新建 Supabase 项目
 2. 在 SQL Editor 执行：`supabase/schema.sql`
+3. 如需“每个账号只看/改自己的文章”，再执行：`supabase/author-migration.sql`
 3. 在 Vercel / 本地环境变量添加：
 
 ```bash

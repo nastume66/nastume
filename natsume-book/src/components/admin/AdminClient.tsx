@@ -34,9 +34,22 @@ export default function AdminClient() {
   const [isSendingLogin, setIsSendingLogin] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
 
-  const loadPosts = async () => {
+  const loadPosts = async (uid?: string) => {
     if (!supabase) return;
-    const { data } = await supabase.from("posts").select("*").order("updated_at", { ascending: false });
+    if (!uid) {
+      setPosts([]);
+      return;
+    }
+    const { data, error } = await supabase
+      .from("posts")
+      .select("*")
+      .eq("author_id", uid)
+      .order("updated_at", { ascending: false });
+
+    if (error) {
+      setMsg(`读取文章失败：${error.message}（请执行 supabase/author-migration.sql）`);
+      return;
+    }
     setPosts((data || []) as BlogPost[]);
   };
 
@@ -50,15 +63,16 @@ export default function AdminClient() {
       const current = data.session?.user ?? null;
       setUser(current);
       setMsg(current ? `已登录：${current.email}` : "请先点击登录邮箱链接完成认证");
+      void loadPosts(current?.id);
     });
 
     const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
       const current = session?.user ?? null;
       setUser(current);
       setMsg(current ? `已登录：${current.email}` : "请先点击登录邮箱链接完成认证");
+      void loadPosts(current?.id);
     });
 
-    loadPosts();
     return () => sub.subscription.unsubscribe();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -142,6 +156,7 @@ export default function AdminClient() {
       tags: editor.tags.split(",").map((t) => t.trim()).filter(Boolean),
       content: editor.content,
       status: editor.status,
+      author_id: user.id,
     };
 
     try {
@@ -154,7 +169,7 @@ export default function AdminClient() {
       setMsg(error ? `保存失败：${error.message}` : "✅ 已保存");
       if (!error) {
         setEditor(emptyEditor);
-        await loadPosts();
+        await loadPosts(user.id);
       }
     } finally {
       setIsSaving(false);
@@ -162,10 +177,10 @@ export default function AdminClient() {
   };
 
   const remove = async (id: string) => {
-    if (!supabase) return;
-    const { error } = await supabase.from("posts").delete().eq("id", id);
+    if (!supabase || !user) return;
+    const { error } = await supabase.from("posts").delete().eq("id", id).eq("author_id", user.id);
     setMsg(error ? `删除失败：${error.message}` : "已删除");
-    if (!error) await loadPosts();
+    if (!error) await loadPosts(user.id);
   };
 
   return (
