@@ -165,7 +165,7 @@ export default function RichTextEditor({
       >
         <EditorContent
           editor={editor}
-          className="min-h-[560px] rounded-xl border border-zinc-200 p-3 text-base leading-8 dark:border-zinc-700 dark:bg-zinc-950 [&_img]:mx-auto [&_img]:my-3 [&_img]:max-h-[420px] [&_img]:cursor-pointer [&_img]:rounded-lg [&_img]:border [&_img]:border-zinc-200"
+          className="min-h-[560px] rounded-xl border border-zinc-200 p-3 text-base leading-8 dark:border-zinc-700 dark:bg-zinc-950 [&_a]:font-medium [&_a]:text-sky-600 [&_a]:underline [&_a]:decoration-sky-400 [&_a]:underline-offset-2 hover:[&_a]:text-sky-700 dark:[&_a]:text-sky-400 dark:[&_a]:decoration-sky-500 [&_img]:mx-auto [&_img]:my-3 [&_img]:max-h-[420px] [&_img]:cursor-pointer [&_img]:rounded-lg [&_img]:border [&_img]:border-zinc-200"
         />
       </div>
     </div>
