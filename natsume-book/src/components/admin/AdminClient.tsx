@@ -28,6 +28,8 @@ export default function AdminClient() {
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [editor, setEditor] = useState<EditorState>(emptyEditor);
   const [msg, setMsg] = useState("请先登录后台");
+  const [isSendingLogin, setIsSendingLogin] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
 
   const loadPosts = async () => {
     if (!supabase) return;
@@ -53,15 +55,31 @@ export default function AdminClient() {
       setMsg("未检测到 Supabase 环境变量，请检查 Vercel 的 NEXT_PUBLIC_SUPABASE_URL / ANON_KEY");
       return;
     }
-    const { error } = await supabase.auth.signInWithOtp({
-      email: email.trim(),
-      options: { emailRedirectTo: window.location.origin + "/admin" },
-    });
-    setMsg(error ? `登录失败：${error.message}` : "登录链接已发送到邮箱（请检查收件箱/垃圾箱）");
+    try {
+      setIsSendingLogin(true);
+      setMsg("正在发送登录邮件...");
+      const redirectBase = process.env.NEXT_PUBLIC_SITE_URL || window.location.origin;
+      const { error } = await supabase.auth.signInWithOtp({
+        email: email.trim(),
+        options: { emailRedirectTo: `${redirectBase}/admin` },
+      });
+      setMsg(error ? `登录失败：${error.message}` : "✅ 登录链接已发送到邮箱（请检查收件箱/垃圾箱）");
+    } catch (e) {
+      setMsg(`登录失败：${e instanceof Error ? e.message : "未知错误"}`);
+    } finally {
+      setIsSendingLogin(false);
+    }
   };
 
   const save = async () => {
-    if (!supabase) return;
+    if (!supabase) {
+      setMsg("未连接 Supabase，无法保存");
+      return;
+    }
+    if (!editor.title.trim() || !editor.slug.trim() || !editor.content.trim()) {
+      setMsg("标题、slug、正文不能为空");
+      return;
+    }
     const payload = {
       title: editor.title,
       slug: editor.slug,
@@ -71,14 +89,20 @@ export default function AdminClient() {
       status: editor.status,
     };
 
-    const { error } = editor.id
-      ? await supabase.from("posts").update(payload).eq("id", editor.id)
-      : await supabase.from("posts").insert(payload);
+    try {
+      setIsSaving(true);
+      setMsg("正在保存文章...");
+      const { error } = editor.id
+        ? await supabase.from("posts").update(payload).eq("id", editor.id)
+        : await supabase.from("posts").insert(payload);
 
-    setMsg(error ? `保存失败：${error.message}` : "已保存");
-    if (!error) {
-      setEditor(emptyEditor);
-      await loadPosts();
+      setMsg(error ? `保存失败：${error.message}` : "✅ 已保存");
+      if (!error) {
+        setEditor(emptyEditor);
+        await loadPosts();
+      }
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -96,7 +120,13 @@ export default function AdminClient() {
         <p className="mt-2 text-xs text-zinc-500 dark:text-zinc-400">{msg}</p>
         <div className="mt-3 flex gap-2">
           <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="你的邮箱" className="w-full rounded-xl border border-zinc-200 p-2 text-sm dark:border-zinc-700 dark:bg-zinc-950" />
-          <button onClick={login} className="rounded-xl bg-amber-600 px-3 py-2 text-sm text-white">登录</button>
+          <button
+            onClick={login}
+            disabled={isSendingLogin}
+            className="rounded-xl bg-amber-600 px-3 py-2 text-sm text-white disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            {isSendingLogin ? "发送中..." : "登录"}
+          </button>
         </div>
 
         <h3 className="mt-6 text-sm font-semibold text-zinc-800 dark:text-zinc-200">文章列表</h3>
@@ -135,7 +165,13 @@ export default function AdminClient() {
             <option value="published">发布</option>
           </select>
           <div className="flex gap-2">
-            <button onClick={save} className="rounded-xl bg-amber-600 px-4 py-2 text-sm text-white">保存文章</button>
+            <button
+              onClick={save}
+              disabled={isSaving}
+              className="rounded-xl bg-amber-600 px-4 py-2 text-sm text-white disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {isSaving ? "保存中..." : "保存文章"}
+            </button>
             <button onClick={() => setEditor(emptyEditor)} className="rounded-xl border border-zinc-200 px-4 py-2 text-sm">清空</button>
           </div>
         </div>
