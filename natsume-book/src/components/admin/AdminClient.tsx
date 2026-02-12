@@ -184,60 +184,29 @@ export default function AdminClient() {
   };
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[1fr_1.2fr]">
+    <div className="space-y-6">
       <section className="rounded-2xl border border-amber-200 bg-white p-5 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
-        <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">登录与状态</h2>
-        <p className="mt-2 text-xs text-zinc-500 dark:text-zinc-400">{msg}</p>
-        <div className="mt-3 flex gap-2">
-          <input
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="你的邮箱"
-            className="w-full rounded-xl border border-zinc-200 p-2 text-sm dark:border-zinc-700 dark:bg-zinc-950"
-          />
-          <button
-            onClick={login}
-            disabled={isSendingLogin}
-            className="rounded-xl bg-amber-600 px-3 py-2 text-sm text-white disabled:cursor-not-allowed disabled:opacity-60"
-          >
-            {isSendingLogin ? "发送中..." : "登录"}
-          </button>
+        <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+          <div>
+            <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">文章编辑器（富文本 2.0）</h2>
+            <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">{msg}</p>
+          </div>
+          <div className="flex w-full gap-2 md:w-auto md:min-w-[420px]">
+            <input
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="你的邮箱"
+              className="w-full rounded-xl border border-zinc-200 p-2 text-sm dark:border-zinc-700 dark:bg-zinc-950"
+            />
+            <button
+              onClick={login}
+              disabled={isSendingLogin}
+              className="rounded-xl bg-amber-600 px-3 py-2 text-sm text-white disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {isSendingLogin ? "发送中..." : "登录"}
+            </button>
+          </div>
         </div>
-
-        <h3 className="mt-6 text-sm font-semibold text-zinc-800 dark:text-zinc-200">文章列表</h3>
-        <div className="mt-2 space-y-2">
-          {posts.map((p) => (
-            <div key={p.id} className="rounded-xl border border-zinc-200 p-3 dark:border-zinc-700">
-              <p className="text-sm font-medium text-zinc-900 dark:text-zinc-100">{p.title}</p>
-              <p className="text-xs text-zinc-500">/{p.slug} · {p.status}</p>
-              <div className="mt-2 flex gap-2 text-xs">
-                <button
-                  className="text-amber-700"
-                  onClick={() =>
-                    setEditor({
-                      id: p.id,
-                      title: p.title,
-                      slug: p.slug,
-                      summary: p.summary,
-                      tags: p.tags.join(", "),
-                      content: p.content,
-                      status: p.status,
-                    })
-                  }
-                >
-                  编辑
-                </button>
-                <button className="text-red-600" onClick={() => remove(p.id)}>
-                  删除
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="rounded-2xl border border-amber-200 bg-white p-5 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
-        <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">文章编辑器（富文本 2.0）</h2>
 
         <div className="mt-4 space-y-3">
           <input value={editor.title} onChange={(e) => setEditor((v) => ({ ...v, title: e.target.value }))} placeholder="标题" className="w-full rounded-xl border border-zinc-200 p-2 text-sm dark:border-zinc-700 dark:bg-zinc-950" />
@@ -270,6 +239,43 @@ export default function AdminClient() {
           </div>
         </div>
       </section>
+
+      <details className="rounded-2xl border border-amber-200 bg-white p-4 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+        <summary className="cursor-pointer text-sm font-semibold text-zinc-800 dark:text-zinc-200">我的文章列表（点击展开）</summary>
+        <div className="mt-3 space-y-2">
+          {posts.length === 0 ? (
+            <p className="text-xs text-zinc-500 dark:text-zinc-400">还没有文章，先写第一篇吧。</p>
+          ) : (
+            posts.map((p) => (
+              <div key={p.id} className="rounded-xl border border-zinc-200 p-3 dark:border-zinc-700">
+                <p className="text-sm font-medium text-zinc-900 dark:text-zinc-100">{p.title}</p>
+                <p className="text-xs text-zinc-500">/{p.slug} · {p.status}</p>
+                <div className="mt-2 flex gap-2 text-xs">
+                  <button
+                    className="text-amber-700"
+                    onClick={() =>
+                      setEditor({
+                        id: p.id,
+                        title: p.title,
+                        slug: p.slug,
+                        summary: p.summary,
+                        tags: p.tags.join(", "),
+                        content: p.content,
+                        status: p.status,
+                      })
+                    }
+                  >
+                    编辑
+                  </button>
+                  <button className="text-red-600" onClick={() => remove(p.id)}>
+                    删除
+                  </button>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+      </details>
     </div>
   );
 }
