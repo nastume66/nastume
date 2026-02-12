@@ -36,14 +36,28 @@ export default function AdminClient() {
   };
 
   useEffect(() => {
+    if (!supabase) {
+      setMsg("未连接 Supabase：请先配置环境变量并重新部署");
+      return;
+    }
     loadPosts();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const login = async () => {
-    if (!supabase || !email) return;
-    const { error } = await supabase.auth.signInWithOtp({ email, options: { emailRedirectTo: window.location.origin + "/admin" } });
-    setMsg(error ? `登录失败：${error.message}` : "登录链接已发送到邮箱");
+    if (!email.trim()) {
+      setMsg("请先输入邮箱地址");
+      return;
+    }
+    if (!supabase) {
+      setMsg("未检测到 Supabase 环境变量，请检查 Vercel 的 NEXT_PUBLIC_SUPABASE_URL / ANON_KEY");
+      return;
+    }
+    const { error } = await supabase.auth.signInWithOtp({
+      email: email.trim(),
+      options: { emailRedirectTo: window.location.origin + "/admin" },
+    });
+    setMsg(error ? `登录失败：${error.message}` : "登录链接已发送到邮箱（请检查收件箱/垃圾箱）");
   };
 
   const save = async () => {
