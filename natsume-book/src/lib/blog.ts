@@ -28,11 +28,20 @@ export async function listPublishedPosts(): Promise<BlogPost[]> {
   const supabase = getSupabaseClient();
   if (!supabase) return mapFallback();
 
-  const { data, error } = await supabase
+  const blogOwnerId = process.env.NEXT_PUBLIC_BLOG_OWNER_ID?.trim();
+
+  let query = supabase
     .from("posts")
-    .select("id,slug,title,summary,content,tags,status,created_at,updated_at")
+    .select("id,slug,title,summary,content,tags,status,author_id,created_at,updated_at")
     .eq("status", "published")
+    .not("author_id", "is", null)
     .order("created_at", { ascending: false });
+
+  if (blogOwnerId) {
+    query = query.eq("author_id", blogOwnerId);
+  }
+
+  const { data, error } = await query;
 
   if (error || !data) return mapFallback();
   return data as BlogPost[];
@@ -42,12 +51,20 @@ export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
   const supabase = getSupabaseClient();
   if (!supabase) return mapFallback().find((p) => p.slug === slug) ?? null;
 
-  const { data } = await supabase
+  const blogOwnerId = process.env.NEXT_PUBLIC_BLOG_OWNER_ID?.trim();
+
+  let query = supabase
     .from("posts")
-    .select("id,slug,title,summary,content,tags,status,created_at,updated_at")
+    .select("id,slug,title,summary,content,tags,status,author_id,created_at,updated_at")
     .eq("slug", slug)
     .eq("status", "published")
-    .maybeSingle();
+    .not("author_id", "is", null);
+
+  if (blogOwnerId) {
+    query = query.eq("author_id", blogOwnerId);
+  }
+
+  const { data } = await query.maybeSingle();
 
   if (!data) return mapFallback().find((p) => p.slug === slug) ?? null;
   return data as BlogPost;
