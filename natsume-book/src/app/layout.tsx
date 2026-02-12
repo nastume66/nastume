@@ -44,6 +44,7 @@ const nav = [
   { href: "/characters", label: "角色" },
   { href: "/episodes", label: "剧集" },
   { href: "/guestbook", label: "友人帐" },
+  { href: "/blog", label: "博客" },
 ];
 
 export default function RootLayout({
