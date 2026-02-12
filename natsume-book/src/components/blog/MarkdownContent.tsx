@@ -2,6 +2,17 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
 export default function MarkdownContent({ content }: { content: string }) {
+  const looksLikeHtml = /<\s*[a-z][\s\S]*>/i.test(content);
+
+  if (looksLikeHtml) {
+    return (
+      <div
+        className="prose max-w-none prose-zinc dark:prose-invert [&_img]:my-4 [&_img]:max-h-[420px] [&_img]:rounded-xl [&_img]:border [&_img]:border-zinc-200 [&_img]:object-contain dark:[&_img]:border-zinc-700"
+        dangerouslySetInnerHTML={{ __html: content }}
+      />
+    );
+  }
+
   return (
     <div className="prose max-w-none prose-zinc dark:prose-invert">
       <ReactMarkdown

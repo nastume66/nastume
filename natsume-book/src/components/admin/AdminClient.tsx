@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { getSupabaseClient, BlogPost } from "@/lib/supabase";
 import type { User } from "@supabase/supabase-js";
+import RichTextEditor from "@/components/admin/RichTextEditor";
 
 type EditorState = {
   id?: string;
@@ -25,8 +26,6 @@ const emptyEditor: EditorState = {
 
 export default function AdminClient() {
   const supabase = useMemo(() => getSupabaseClient(), []);
-  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
-
   const [email, setEmail] = useState("");
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [editor, setEditor] = useState<EditorState>(emptyEditor);
@@ -63,36 +62,6 @@ export default function AdminClient() {
     return () => sub.subscription.unsubscribe();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const insertAtCursor = (text: string) => {
-    const el = textareaRef.current;
-    if (!el) {
-      setEditor((v) => ({ ...v, content: `${v.content}${text}` }));
-      return;
-    }
-
-    const start = el.selectionStart;
-    const end = el.selectionEnd;
-    const old = editor.content;
-    const next = old.slice(0, start) + text + old.slice(end);
-
-    setEditor((v) => ({ ...v, content: next }));
-
-    requestAnimationFrame(() => {
-      el.focus();
-      const pos = start + text.length;
-      el.setSelectionRange(pos, pos);
-    });
-  };
-
-  const withSelection = (wrapLeft: string, wrapRight = wrapLeft) => {
-    const el = textareaRef.current;
-    if (!el) return;
-    const start = el.selectionStart;
-    const end = el.selectionEnd;
-    const selected = editor.content.slice(start, end) || "文字";
-    insertAtCursor(`${wrapLeft}${selected}${wrapRight}`);
-  };
 
   const login = async () => {
     if (!email.trim()) {
@@ -131,7 +100,7 @@ export default function AdminClient() {
     }
 
     setMsg(`正在上传 ${files.length} 张图片...`);
-    const lines: string[] = [];
+    const htmlBlocks: string[] = [];
 
     for (const file of Array.from(files)) {
       const ext = file.name.split(".").pop() || "png";
@@ -145,10 +114,10 @@ export default function AdminClient() {
         return;
       }
       const { data } = supabase.storage.from("blog-images").getPublicUrl(path);
-      lines.push(`![${file.name}](${data.publicUrl})`);
+      htmlBlocks.push(`<p><img src="${data.publicUrl}" alt="${file.name}" /></p>`);
     }
 
-    insertAtCursor(`\n${lines.join("\n\n")}\n`);
+    setEditor((v) => ({ ...v, content: `${v.content}${htmlBlocks.join("\n")}` }));
     setMsg(`✅ 已上传 ${files.length} 张图片并插入正文`);
   };
 
@@ -253,35 +222,19 @@ export default function AdminClient() {
       </section>
 
       <section className="rounded-2xl border border-amber-200 bg-white p-5 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
-        <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">文章编辑器（CSDN风格简化版）</h2>
-
-        <div className="mt-4 flex flex-wrap gap-2 rounded-xl border border-zinc-200 p-2 dark:border-zinc-700">
-          <button className="rounded bg-zinc-100 px-2 py-1 text-xs dark:bg-zinc-800" onClick={() => insertAtCursor("\n## 标题\n")}>H2</button>
-          <button className="rounded bg-zinc-100 px-2 py-1 text-xs dark:bg-zinc-800" onClick={() => withSelection("**")}>加粗</button>
-          <button className="rounded bg-zinc-100 px-2 py-1 text-xs dark:bg-zinc-800" onClick={() => insertAtCursor("\n- 列表项\n")}>列表</button>
-          <button className="rounded bg-zinc-100 px-2 py-1 text-xs dark:bg-zinc-800" onClick={() => insertAtCursor("\n```\n代码\n```\n")}>代码块</button>
-          <button
-            className="rounded bg-zinc-100 px-2 py-1 text-xs dark:bg-zinc-800"
-            onClick={() => {
-              const url = prompt("输入链接 URL", "https://");
-              if (!url) return;
-              insertAtCursor(`[链接文字](${url})`);
-            }}
-          >
-            链接
-          </button>
-          <label className="cursor-pointer rounded bg-amber-100 px-2 py-1 text-xs text-amber-700">
-            上传图片
-            <input type="file" accept="image/*" multiple className="hidden" onChange={(e) => uploadImages(e.target.files)} />
-          </label>
-        </div>
+        <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">文章编辑器（富文本 2.0）</h2>
 
         <div className="mt-4 space-y-3">
           <input value={editor.title} onChange={(e) => setEditor((v) => ({ ...v, title: e.target.value }))} placeholder="标题" className="w-full rounded-xl border border-zinc-200 p-2 text-sm dark:border-zinc-700 dark:bg-zinc-950" />
           <input value={editor.slug} onChange={(e) => setEditor((v) => ({ ...v, slug: e.target.value }))} placeholder="slug（如 agent-day-3）" className="w-full rounded-xl border border-zinc-200 p-2 text-sm dark:border-zinc-700 dark:bg-zinc-950" />
           <input value={editor.summary} onChange={(e) => setEditor((v) => ({ ...v, summary: e.target.value }))} placeholder="摘要" className="w-full rounded-xl border border-zinc-200 p-2 text-sm dark:border-zinc-700 dark:bg-zinc-950" />
           <input value={editor.tags} onChange={(e) => setEditor((v) => ({ ...v, tags: e.target.value }))} placeholder="标签（逗号分隔）" className="w-full rounded-xl border border-zinc-200 p-2 text-sm dark:border-zinc-700 dark:bg-zinc-950" />
-          <textarea ref={textareaRef} value={editor.content} onChange={(e) => setEditor((v) => ({ ...v, content: e.target.value }))} placeholder="正文（支持 Markdown）" className="min-h-72 w-full rounded-xl border border-zinc-200 p-3 text-sm dark:border-zinc-700 dark:bg-zinc-950" />
+
+          <RichTextEditor
+            value={editor.content}
+            onChange={(html) => setEditor((v) => ({ ...v, content: html }))}
+            onUpload={uploadImages}
+          />
 
           <select value={editor.status} onChange={(e) => setEditor((v) => ({ ...v, status: e.target.value as "draft" | "published" }))} className="rounded-xl border border-zinc-200 p-2 text-sm dark:border-zinc-700 dark:bg-zinc-950">
             <option value="draft">草稿</option>
