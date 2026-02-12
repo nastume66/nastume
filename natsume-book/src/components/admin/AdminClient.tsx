@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { getSupabaseClient, BlogPost } from "@/lib/supabase";
+import type { User } from "@supabase/supabase-js";
 
 type EditorState = {
   id?: string;
@@ -28,6 +29,7 @@ export default function AdminClient() {
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [editor, setEditor] = useState<EditorState>(emptyEditor);
   const [msg, setMsg] = useState("请先登录后台");
+  const [user, setUser] = useState<User | null>(null);
   const [isSendingLogin, setIsSendingLogin] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
 
@@ -42,7 +44,21 @@ export default function AdminClient() {
       setMsg("未连接 Supabase：请先配置环境变量并重新部署");
       return;
     }
+
+    supabase.auth.getSession().then(({ data }) => {
+      const current = data.session?.user ?? null;
+      setUser(current);
+      setMsg(current ? `已登录：${current.email}` : "请先点击登录邮箱链接完成认证");
+    });
+
+    const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
+      const current = session?.user ?? null;
+      setUser(current);
+      setMsg(current ? `已登录：${current.email}` : "请先点击登录邮箱链接完成认证");
+    });
+
     loadPosts();
+    return () => sub.subscription.unsubscribe();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -99,6 +115,10 @@ export default function AdminClient() {
   const save = async () => {
     if (!supabase) {
       setMsg("未连接 Supabase，无法保存");
+      return;
+    }
+    if (!user) {
+      setMsg("保存失败：你当前未登录（RLS 已开启），请先完成邮箱登录");
       return;
     }
     if (!editor.title.trim() || !editor.slug.trim() || !editor.content.trim()) {
@@ -206,10 +226,10 @@ export default function AdminClient() {
           <div className="flex gap-2">
             <button
               onClick={save}
-              disabled={isSaving}
+              disabled={isSaving || !user}
               className="rounded-xl bg-amber-600 px-4 py-2 text-sm text-white disabled:cursor-not-allowed disabled:opacity-60"
             >
-              {isSaving ? "保存中..." : "保存文章"}
+              {isSaving ? "保存中..." : user ? "保存文章" : "请先登录"}
             </button>
             <button onClick={() => setEditor(emptyEditor)} className="rounded-xl border border-zinc-200 px-4 py-2 text-sm">清空</button>
           </div>
