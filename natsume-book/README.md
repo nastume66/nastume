@@ -41,7 +41,12 @@ NEXT_PUBLIC_SUPABASE_URL=你的supabase-url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=你的anon-key
 ```
 
-4. 安装依赖并重新部署：
+4. 创建存储桶（用于博客图片上传）：
+   - Supabase → Storage → New bucket
+   - 名称：`blog-images`
+   - 设为 Public（便于前台直接展示）
+
+5. 安装依赖并重新部署：
 
 ```bash
 npm install

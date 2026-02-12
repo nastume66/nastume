@@ -71,6 +71,31 @@ export default function AdminClient() {
     }
   };
 
+  const uploadImage = async (file: File) => {
+    if (!supabase) {
+      setMsg("未连接 Supabase，无法上传图片");
+      return;
+    }
+    const ext = file.name.split(".").pop() || "png";
+    const path = `blog/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+
+    setMsg("正在上传图片...");
+    const { error } = await supabase.storage.from("blog-images").upload(path, file, {
+      cacheControl: "3600",
+      upsert: false,
+    });
+
+    if (error) {
+      setMsg(`上传失败：${error.message}`);
+      return;
+    }
+
+    const { data } = supabase.storage.from("blog-images").getPublicUrl(path);
+    const md = `\n![image](${data.publicUrl})\n`;
+    setEditor((v) => ({ ...v, content: `${v.content}${md}` }));
+    setMsg("✅ 图片上传成功，已插入正文（Markdown）");
+  };
+
   const save = async () => {
     if (!supabase) {
       setMsg("未连接 Supabase，无法保存");
@@ -160,6 +185,20 @@ export default function AdminClient() {
           <input value={editor.summary} onChange={(e) => setEditor((v) => ({ ...v, summary: e.target.value }))} placeholder="摘要" className="w-full rounded-xl border border-zinc-200 p-2 text-sm dark:border-zinc-700 dark:bg-zinc-950" />
           <input value={editor.tags} onChange={(e) => setEditor((v) => ({ ...v, tags: e.target.value }))} placeholder="标签（逗号分隔）" className="w-full rounded-xl border border-zinc-200 p-2 text-sm dark:border-zinc-700 dark:bg-zinc-950" />
           <textarea value={editor.content} onChange={(e) => setEditor((v) => ({ ...v, content: e.target.value }))} placeholder="正文（支持简单 markdown）" className="min-h-60 w-full rounded-xl border border-zinc-200 p-3 text-sm dark:border-zinc-700 dark:bg-zinc-950" />
+          <div className="rounded-xl border border-dashed border-zinc-300 p-3 text-xs text-zinc-600 dark:border-zinc-700 dark:text-zinc-300">
+            <p>上传图片会自动插入 Markdown 到正文。</p>
+            <input
+              type="file"
+              accept="image/*"
+              className="mt-2 text-xs"
+              onChange={async (e) => {
+                const file = e.target.files?.[0];
+                if (!file) return;
+                await uploadImage(file);
+                e.currentTarget.value = "";
+              }}
+            />
+          </div>
           <select value={editor.status} onChange={(e) => setEditor((v) => ({ ...v, status: e.target.value as "draft" | "published" }))} className="rounded-xl border border-zinc-200 p-2 text-sm dark:border-zinc-700 dark:bg-zinc-950">
             <option value="draft">草稿</option>
             <option value="published">发布</option>
