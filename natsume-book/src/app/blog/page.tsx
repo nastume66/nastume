@@ -1,11 +1,8 @@
-import { listPublishedPosts } from "@/lib/blog";
 import BlogListClient from "@/components/blog/BlogListClient";
 
 export const dynamic = "force-dynamic";
 
-export default async function BlogPage() {
-  const postList = await listPublishedPosts();
-
+export default function BlogPage() {
   return (
     <div className="mx-auto max-w-5xl px-4 py-12">
       <h1 className="text-3xl font-bold text-zinc-900 dark:text-zinc-100">Agent 学习博客</h1>
@@ -16,7 +13,7 @@ export default async function BlogPage() {
         <a href="/admin" className="mt-2 inline-block text-sm font-medium text-amber-700 hover:text-amber-800 dark:text-amber-400">去登录并写作 →</a>
       </div>
 
-      <BlogListClient posts={postList} />
+      <BlogListClient />
     </div>
   );
 }

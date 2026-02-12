@@ -1,20 +1,60 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import { getSupabaseClient, BlogPost } from "@/lib/supabase";
 
-type Post = {
-  id: string;
-  slug: string;
-  title: string;
-  summary: string;
-  tags: string[];
-  created_at: string;
-};
+type Post = Pick<BlogPost, "id" | "slug" | "title" | "summary" | "tags" | "created_at">;
 
-export default function BlogListClient({ posts }: { posts: Post[] }) {
+export default function BlogListClient() {
   const [q, setQ] = useState("");
   const [activeTag, setActiveTag] = useState<string>("全部");
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [stateText, setStateText] = useState("正在加载文章...");
+
+  useEffect(() => {
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      setStateText("未配置 Supabase，暂时无法加载文章。");
+      return;
+    }
+
+    const loadOwnPosts = async () => {
+      const { data: authData } = await supabase.auth.getSession();
+      const uid = authData.session?.user?.id;
+
+      if (!uid) {
+        setPosts([]);
+        setStateText("请先到后台登录，博客列表将显示当前登录账号的文章。");
+        return;
+      }
+
+      const { data, error } = await supabase
+        .from("posts")
+        .select("id,slug,title,summary,tags,created_at")
+        .eq("status", "published")
+        .eq("author_id", uid)
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        setPosts([]);
+        setStateText(`加载失败：${error.message}`);
+        return;
+      }
+
+      const result = (data || []) as Post[];
+      setPosts(result);
+      setStateText(result.length === 0 ? "当前账号还没有已发布文章。" : "");
+    };
+
+    void loadOwnPosts();
+
+    const { data: sub } = supabase.auth.onAuthStateChange(() => {
+      void loadOwnPosts();
+    });
+
+    return () => sub.subscription.unsubscribe();
+  }, []);
 
   const tags = useMemo(() => {
     const s = new Set<string>();
@@ -56,7 +96,7 @@ export default function BlogListClient({ posts }: { posts: Post[] }) {
       <div className="mt-6 space-y-4">
         {filtered.length === 0 ? (
           <div className="rounded-2xl border border-dashed border-zinc-300 p-6 text-sm text-zinc-500 dark:border-zinc-700 dark:text-zinc-400">
-            没有匹配的文章，换个关键词试试。
+            {stateText || "没有匹配的文章，换个关键词试试。"}
           </div>
         ) : (
           filtered.map((post) => (
