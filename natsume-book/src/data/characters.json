@@ -144,48 +144,48 @@
     "image": "https://cdn.myanimelist.net/images/characters/4/33411.jpg"
   },
   {
-    "name": "一目中级妖怪",
-    "role": "妖怪",
-    "note": "中级妖怪组成员之一。",
-    "detail": "与同伴常在夏目周围出没，偶尔吵闹但本性不坏。",
-    "emoji": "👁️",
+    "name": "瓜姬",
+    "role": "式神",
+    "note": "名取的式神之一，行动干练。",
+    "detail": "与柊、笹后同属名取阵营，常参与除妖现场协作。",
+    "emoji": "🎐",
     "color": "from-lime-50 to-emerald-100",
-    "image": "https://cdn.myanimelist.net/images/characters/14/121636.jpg"
+    "image": "https://cdn.myanimelist.net/images/characters/14/122101.jpg"
   },
   {
-    "name": "河童",
-    "role": "妖怪",
-    "note": "单纯耿直，重情义。",
-    "detail": "曾受夏目帮助，因此对夏目怀有朴素而真挚的感激。",
-    "emoji": "💧",
+    "name": "笹后",
+    "role": "式神",
+    "note": "名取麾下式神，风格冷静。",
+    "detail": "作为名取的常驻式神之一，出场稳定、辨识度高。",
+    "emoji": "🪶",
     "color": "from-cyan-50 to-teal-100",
-    "image": "https://cdn.myanimelist.net/images/characters/12/127607.jpg"
+    "image": "https://cdn.myanimelist.net/images/characters/6/158917.jpg"
   },
   {
-    "name": "加奈",
+    "name": "萤",
     "role": "妖怪",
-    "note": "寻找归途的漂泊者。",
-    "detail": "在旅途中与夏目有过交集，故事带着淡淡的哀伤感。",
-    "emoji": "🌫️",
+    "note": "短暂却动人的相遇。",
+    "detail": "与人类羁绊相关的单元角色，情感张力强，观众记忆点高。",
+    "emoji": "✨",
     "color": "from-slate-50 to-gray-200",
-    "image": "https://cdn.myanimelist.net/images/characters/16/121638.jpg"
+    "image": "https://cdn.myanimelist.net/images/characters/8/150677.jpg"
   },
   {
-    "name": "赤金",
+    "name": "菱垣",
     "role": "妖怪",
-    "note": "出场虽短，却有辨识度。",
-    "detail": "属于作品中的支线妖怪角色，设定与氛围感都很鲜明。",
-    "emoji": "🪙",
+    "note": "早期围绕友人帐展开的妖怪之一。",
+    "detail": "与“归还名字”主线直接相关，比冷门支线更贴近核心叙事。",
+    "emoji": "📜",
     "color": "from-yellow-50 to-amber-200",
-    "image": "https://cdn.myanimelist.net/images/characters/14/100108.jpg"
+    "image": "https://cdn.myanimelist.net/images/characters/3/122099.jpg"
   },
   {
-    "name": "猿面",
+    "name": "牛头青鬼",
     "role": "妖怪",
-    "note": "个性古怪，存在感强。",
-    "detail": "出现在零散单元回中，强化了《友人帐》群像的丰富层次。",
-    "emoji": "🎭",
+    "note": "中级妖怪组成员，辨识度很高。",
+    "detail": "与夏目周边妖怪群像联系紧密，比泛支线角色更熟悉。",
+    "emoji": "🐃",
     "color": "from-violet-50 to-purple-100",
-    "image": "https://cdn.myanimelist.net/images/characters/15/209947.jpg"
+    "image": "https://cdn.myanimelist.net/images/characters/13/516183.jpg"
   }
 ]
