@@ -41,7 +41,8 @@
     "note": "温柔又勇敢，擅长结界。",
     "detail": "能通过阵法短暂看见妖怪，常在关键时刻帮助夏目，是值得依靠的伙伴。",
     "emoji": "🫧",
-    "color": "from-pink-100 to-rose-100"
+    "color": "from-pink-100 to-rose-100",
+    "image": "https://cdn.myanimelist.net/images/characters/4/160753.jpg"
   },
   {
     "name": "夏目玲子",
@@ -49,7 +50,8 @@
     "note": "友人帐的创造者。",
     "detail": "拥有强大妖力，留下“友人帐”与许多未解之谜，也是夏目最想了解的人。",
     "emoji": "🕊️",
-    "color": "from-purple-100 to-indigo-100"
+    "color": "from-purple-100 to-indigo-100",
+    "image": "https://cdn.myanimelist.net/images/characters/15/313321.jpg"
   },
   {
     "name": "藤原塔子",
@@ -57,7 +59,8 @@
     "note": "给了夏目真正的家。",
     "detail": "温柔细腻、无条件接纳夏目，让他第一次拥有安稳与被爱。",
     "emoji": "🍵",
-    "color": "from-orange-100 to-amber-100"
+    "color": "from-orange-100 to-amber-100",
+    "image": "https://cdn.myanimelist.net/images/characters/9/122735.jpg"
   },
   {
     "name": "藤原滋",
@@ -65,7 +68,8 @@
     "note": "沉稳可靠的守护者。",
     "detail": "与塔子一起收养夏目，以安静而坚定的方式支持他成长。",
     "emoji": "🧣",
-    "color": "from-slate-100 to-zinc-100"
+    "color": "from-slate-100 to-zinc-100",
+    "image": "https://cdn.myanimelist.net/images/characters/5/578176.jpg"
   },
   {
     "name": "西村悟",
@@ -73,7 +77,8 @@
     "note": "爱热闹、很讲义气。",
     "detail": "虽然不知道妖怪世界，但一直把夏目当作重要朋友。",
     "emoji": "⚡",
-    "color": "from-yellow-100 to-lime-100"
+    "color": "from-yellow-100 to-lime-100",
+    "image": "https://cdn.myanimelist.net/images/characters/6/154433.jpg"
   },
   {
     "name": "北本笃史",
@@ -81,7 +86,8 @@
     "note": "靠谱又温和。",
     "detail": "对朋友细心体贴，是夏目在人类世界里稳定而温暖的连接。",
     "emoji": "🧩",
-    "color": "from-cyan-100 to-sky-100"
+    "color": "from-cyan-100 to-sky-100",
+    "image": "https://cdn.myanimelist.net/images/characters/16/55210.jpg"
   },
   {
     "name": "的场静司",
@@ -89,7 +95,8 @@
     "note": "立场冷硬，手段强势。",
     "detail": "的场一门首领，对妖怪与友人帐有强烈掌控欲，与夏目的价值观多次冲突。",
     "emoji": "🜂",
-    "color": "from-zinc-200 to-zinc-300"
+    "color": "from-zinc-200 to-zinc-300",
+    "image": "https://cdn.myanimelist.net/images/characters/9/128687.jpg"
   },
   {
     "name": "丙",
@@ -97,6 +104,7 @@
     "note": "美艳洒脱，性格直率。",
     "detail": "与玲子有旧缘，虽嘴上不饶人，却会在关键时刻帮夏目一把。",
     "emoji": "🦋",
-    "color": "from-fuchsia-100 to-pink-100"
+    "color": "from-fuchsia-100 to-pink-100",
+    "image": "https://cdn.myanimelist.net/images/characters/7/55192.jpg"
   }
 ]
