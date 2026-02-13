@@ -4,6 +4,7 @@ import { DragEvent, useEffect, useMemo, useState } from "react";
 import { getSupabaseClient, BlogCategory, BlogPost } from "@/lib/supabase";
 import type { User } from "@supabase/supabase-js";
 import RichTextEditor from "@/components/admin/RichTextEditor";
+import UserIdentityCard from "@/components/common/UserIdentityCard";
 
 type Profile = {
   nickname: string | null;
@@ -303,18 +304,12 @@ export default function AdminClient() {
           <div className="flex w-full gap-2 md:w-auto md:min-w-[520px]">
             {user ? (
               <div className="flex w-full items-center justify-end gap-2">
-                <div className="flex items-center gap-2 rounded-xl border border-emerald-200 bg-emerald-50 px-2 py-1">
-                  {profile?.avatar_url ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img src={profile.avatar_url} alt={nickname || fallbackNickname(user)} className="h-8 w-8 rounded-full object-cover" />
-                  ) : (
-                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-amber-200 text-xs text-amber-800">{(nickname || fallbackNickname(user)).slice(0, 1)}</div>
-                  )}
-                  <div className="leading-tight">
-                    <p className="text-xs font-medium text-emerald-800">{nickname || fallbackNickname(user)}</p>
-                    <p className="text-[11px] text-emerald-700">{user.email}</p>
-                  </div>
-                </div>
+                <UserIdentityCard
+                  name={nickname || fallbackNickname(user)}
+                  email={user.email}
+                  avatarUrl={profile?.avatar_url}
+                  compact
+                />
                 <button onClick={switchAccount} className="rounded-xl border border-zinc-300 px-3 py-2 text-sm">切换账号</button>
               </div>
             ) : (

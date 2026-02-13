@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import type { User } from "@supabase/supabase-js";
 import seasons from "@/data/episodes.json";
 import { getSupabaseClient } from "@/lib/supabase";
+import UserIdentityCard from "@/components/common/UserIdentityCard";
 
 type Episode = { no: number; title: string; titleZh?: string };
 type Season = {
@@ -286,20 +287,12 @@ export default function EpisodesPage() {
           </div>
         ) : (
           <div className="mt-3 space-y-3">
-            <div className="flex items-center gap-3 rounded-xl border border-emerald-200 bg-emerald-50/70 px-3 py-2">
-              {avatarUrl ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img src={avatarUrl} alt={nickname || "友人"} className="h-9 w-9 rounded-full object-cover" />
-              ) : (
-                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-amber-200 text-sm text-amber-800">
-                  {(nickname || fallbackNickname(user)).slice(0, 1)}
-                </div>
-              )}
-              <div>
-                <p className="text-sm font-medium text-emerald-800">{nickname || fallbackNickname(user)}</p>
-                <p className="text-xs text-emerald-700">已登录</p>
-              </div>
-            </div>
+            <UserIdentityCard
+              name={nickname || fallbackNickname(user)}
+              email={user.email}
+              avatarUrl={avatarUrl}
+              subtitle="已登录"
+            />
 
             <p className="text-xs text-zinc-500">
               昵称和头像已统一在后台管理维护，这里不再重复设置。
