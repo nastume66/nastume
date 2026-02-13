@@ -5,8 +5,11 @@ import Link from "next/link";
 import { getSupabaseClient, BlogPost } from "@/lib/supabase";
 import MarkdownContent from "@/components/blog/MarkdownContent";
 
+type Profile = { nickname: string | null; avatar_url: string | null };
+
 export default function BlogDetailClient({ slug, pid }: { slug: string; pid?: string }) {
   const [post, setPost] = useState<BlogPost | null>(null);
+  const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
   const [msg, setMsg] = useState("正在加载文章...");
 
@@ -71,6 +74,12 @@ export default function BlogDetailClient({ slug, pid }: { slug: string; pid?: st
       }
 
       setPost(data as BlogPost);
+      if ((data as BlogPost).author_id) {
+        const p = await supabase.from("user_profiles").select("nickname,avatar_url").eq("id", (data as BlogPost).author_id).maybeSingle();
+        setProfile((p.data as Profile | null) ?? null);
+      } else {
+        setProfile(null);
+      }
       setMsg("");
       setLoading(false);
     };
@@ -100,13 +109,25 @@ export default function BlogDetailClient({ slug, pid }: { slug: string; pid?: st
     );
   }
 
+  const displayName = profile?.nickname?.trim() || "友人";
+
   return (
     <div className="mx-auto max-w-3xl px-4 py-12">
       <Link href="/blog" className="text-sm text-amber-700 hover:text-amber-800 dark:text-amber-400">
         ← 返回专栏
       </Link>
       <h1 className="mt-4 text-3xl font-bold text-zinc-900 dark:text-zinc-100">{post.title}</h1>
-      <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">{post.created_at.slice(0, 10)}</p>
+      <div className="mt-2 flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400">
+        {profile?.avatar_url ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={profile.avatar_url} alt={displayName} className="h-7 w-7 rounded-full object-cover" />
+        ) : (
+          <div className="flex h-7 w-7 items-center justify-center rounded-full bg-amber-200 text-xs text-amber-800">{displayName.slice(0, 1)}</div>
+        )}
+        <span>{displayName}</span>
+        <span>·</span>
+        <span>{post.created_at.slice(0, 10)}</span>
+      </div>
 
       <article className="mt-8 rounded-2xl border border-amber-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
         <MarkdownContent content={post.content} />

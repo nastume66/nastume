@@ -4,7 +4,12 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { getSupabaseClient, BlogCategory, BlogPost } from "@/lib/supabase";
 
-type Post = Pick<BlogPost, "id" | "slug" | "title" | "summary" | "tags" | "created_at" | "status" | "category_id">;
+type Post = Pick<BlogPost, "id" | "slug" | "title" | "summary" | "tags" | "created_at" | "status" | "category_id" | "author_id">;
+
+type Profile = {
+  nickname: string | null;
+  avatar_url: string | null;
+};
 
 export default function BlogListClient() {
   const [q, setQ] = useState("");
@@ -13,6 +18,7 @@ export default function BlogListClient() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [categories, setCategories] = useState<BlogCategory[]>([]);
   const [stateText, setStateText] = useState("正在加载文章...");
+  const [profile, setProfile] = useState<Profile | null>(null);
 
   useEffect(() => {
     const supabase = getSupabaseClient();
@@ -32,7 +38,7 @@ export default function BlogListClient() {
       const [postsRes, catRes] = await Promise.all([
         supabase
           .from("posts")
-          .select("id,slug,title,summary,tags,status,category_id,created_at")
+          .select("id,slug,title,summary,tags,status,category_id,created_at,author_id")
           .eq("status", "published")
           .eq("author_id", uid)
           .order("created_at", { ascending: false }),
@@ -48,6 +54,9 @@ export default function BlogListClient() {
       setPosts((postsRes.data || []) as Post[]);
       setCategories((catRes.data || []) as BlogCategory[]);
       setStateText((postsRes.data || []).length === 0 ? "当前账号还没有已发布文章。" : "");
+
+      const profileRes = await supabase.from("user_profiles").select("nickname,avatar_url").eq("id", uid).maybeSingle();
+      setProfile((profileRes.data as Profile | null) ?? null);
     };
 
     void loadOwnPosts();
@@ -75,6 +84,8 @@ export default function BlogListClient() {
       return hitCategory && hitTag && hitQ;
     });
   }, [posts, q, activeTag, activeCategory, categoryMap]);
+
+  const displayName = profile?.nickname?.trim() || "友人";
 
   return (
     <>
@@ -118,6 +129,15 @@ export default function BlogListClient() {
                     <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-[11px] font-medium text-emerald-700">{post.status === "published" ? "已发布" : "草稿"}</span>
                     <span className="text-xs text-zinc-500 dark:text-zinc-400">{post.created_at.slice(0, 10)}</span>
                   </div>
+                </div>
+                <div className="mt-2 flex items-center gap-2 text-xs text-zinc-500 dark:text-zinc-400">
+                  {profile?.avatar_url ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={profile.avatar_url} alt={displayName} className="h-6 w-6 rounded-full object-cover" />
+                  ) : (
+                    <div className="flex h-6 w-6 items-center justify-center rounded-full bg-amber-200 text-[10px] text-amber-800">{displayName.slice(0, 1)}</div>
+                  )}
+                  <span>{displayName}</span>
                 </div>
                 <p className="mt-2 text-sm leading-7 text-zinc-700 dark:text-zinc-300">{post.summary}</p>
                 <div className="mt-3 flex flex-wrap gap-2">
