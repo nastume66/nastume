@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { DragEvent, useEffect, useMemo, useState } from "react";
 import { getSupabaseClient, BlogCategory, BlogPost } from "@/lib/supabase";
 import type { User } from "@supabase/supabase-js";
 import RichTextEditor from "@/components/admin/RichTextEditor";
@@ -32,6 +32,7 @@ export default function AdminClient() {
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [categories, setCategories] = useState<BlogCategory[]>([]);
   const [newCategoryName, setNewCategoryName] = useState("");
+  const [draggingCategoryId, setDraggingCategoryId] = useState<string | null>(null);
   const [editor, setEditor] = useState<EditorState>(emptyEditor);
   const [msg, setMsg] = useState("请先登录后台");
   const [user, setUser] = useState<User | null>(null);
@@ -40,7 +41,7 @@ export default function AdminClient() {
 
   const loadCategories = async (uid?: string) => {
     if (!supabase || !uid) return;
-    const { data } = await supabase.from("categories").select("*").eq("author_id", uid).order("created_at", { ascending: true });
+    const { data } = await supabase.from("categories").select("*").eq("author_id", uid).order("sort_order", { ascending: true });
     setCategories((data || []) as BlogCategory[]);
   };
 
@@ -119,10 +120,12 @@ export default function AdminClient() {
   const createCategory = async () => {
     if (!supabase || !user || !newCategoryName.trim()) return;
     const slug = newCategoryName.trim().toLowerCase().replace(/\s+/g, "-");
+    const nextOrder = categories.length;
     const { error } = await supabase.from("categories").insert({
       name: newCategoryName.trim(),
       slug,
       author_id: user.id,
+      sort_order: nextOrder,
     });
     if (error) return setMsg(`创建栏目失败：${error.message}`);
     setNewCategoryName("");
@@ -136,6 +139,42 @@ export default function AdminClient() {
     if (error) return setMsg(`删除栏目失败：${error.message}`);
     await loadCategories(user.id);
     setMsg("栏目已删除");
+  };
+
+  const renameCategory = async (category: BlogCategory) => {
+    if (!supabase || !user) return;
+    const nextName = window.prompt("输入新的栏目名", category.name)?.trim();
+    if (!nextName || nextName === category.name) return;
+    const nextSlug = nextName.toLowerCase().replace(/\s+/g, "-");
+    const { error } = await supabase
+      .from("categories")
+      .update({ name: nextName, slug: nextSlug })
+      .eq("id", category.id)
+      .eq("author_id", user.id);
+    if (error) return setMsg(`重命名失败：${error.message}`);
+    await loadCategories(user.id);
+    setMsg("✅ 栏目已重命名");
+  };
+
+  const reorderCategories = async (fromId: string, toId: string) => {
+    if (!supabase || !user || fromId === toId) return;
+    const list = [...categories];
+    const fromIndex = list.findIndex((c) => c.id === fromId);
+    const toIndex = list.findIndex((c) => c.id === toId);
+    if (fromIndex < 0 || toIndex < 0) return;
+
+    const [moved] = list.splice(fromIndex, 1);
+    list.splice(toIndex, 0, moved);
+    setCategories(list);
+
+    for (let i = 0; i < list.length; i += 1) {
+      await supabase
+        .from("categories")
+        .update({ sort_order: i })
+        .eq("id", list[i].id)
+        .eq("author_id", user.id);
+    }
+    setMsg("✅ 栏目顺序已更新");
   };
 
   const uploadImages = async (files: FileList | null): Promise<string[]> => {
@@ -208,17 +247,30 @@ export default function AdminClient() {
         </div>
 
         <div className="mt-4 rounded-xl border border-zinc-200 p-3 dark:border-zinc-700">
-          <p className="text-sm font-medium">栏目管理</p>
+          <p className="text-sm font-medium">栏目管理（支持重命名 + 拖拽排序）</p>
           <div className="mt-2 flex gap-2">
             <input value={newCategoryName} onChange={(e) => setNewCategoryName(e.target.value)} placeholder="新增栏目名（如 跨境电商）" className="w-full rounded-xl border border-zinc-200 p-2 text-sm dark:border-zinc-700 dark:bg-zinc-950" />
             <button onClick={createCategory} className="rounded-xl bg-zinc-900 px-3 py-2 text-sm text-white dark:bg-zinc-100 dark:text-zinc-900">新增</button>
           </div>
           <div className="mt-2 flex flex-wrap gap-2">
             {categories.map((c) => (
-              <span key={c.id} className="inline-flex items-center gap-2 rounded-full bg-amber-100 px-3 py-1 text-xs text-amber-700">
-                {c.name}
-                <button onClick={() => deleteCategory(c.id)} className="text-red-600">×</button>
-              </span>
+              <div
+                key={c.id}
+                draggable
+                onDragStart={() => setDraggingCategoryId(c.id)}
+                onDragOver={(e: DragEvent<HTMLDivElement>) => e.preventDefault()}
+                onDrop={async () => {
+                  if (!draggingCategoryId) return;
+                  await reorderCategories(draggingCategoryId, c.id);
+                  setDraggingCategoryId(null);
+                }}
+                className="inline-flex cursor-move items-center gap-2 rounded-full bg-amber-100 px-3 py-1 text-xs text-amber-700"
+                title="拖拽可排序"
+              >
+                <span>☰ {c.name}</span>
+                <button onClick={() => renameCategory(c)} className="text-zinc-700">改名</button>
+                <button onClick={() => deleteCategory(c.id)} className="text-red-600">删</button>
+              </div>
             ))}
           </div>
         </div>

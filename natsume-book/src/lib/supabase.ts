@@ -27,5 +27,6 @@ export type BlogCategory = {
   name: string;
   slug: string;
   author_id: string;
+  sort_order?: number;
   created_at: string;
 };

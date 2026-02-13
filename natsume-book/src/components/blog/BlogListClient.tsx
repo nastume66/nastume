@@ -36,7 +36,7 @@ export default function BlogListClient() {
           .eq("status", "published")
           .eq("author_id", uid)
           .order("created_at", { ascending: false }),
-        supabase.from("categories").select("*").eq("author_id", uid).order("created_at", { ascending: true }),
+        supabase.from("categories").select("*").eq("author_id", uid).order("sort_order", { ascending: true }),
       ]);
 
       if (postsRes.error) {
