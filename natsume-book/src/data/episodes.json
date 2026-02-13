@@ -12,55 +12,68 @@
     "episodes": [
       {
         "no": 1,
-        "title": "猫と友人帳"
+        "title": "猫と友人帳",
+        "titleZh": "猫咪老师与友人帐"
       },
       {
         "no": 2,
-        "title": "露神の祠"
+        "title": "露神の祠",
+        "titleZh": "露神的小祠堂"
       },
       {
         "no": 3,
-        "title": "八ツ原の怪人"
+        "title": "八ツ原の怪人",
+        "titleZh": "八原的怪人"
       },
       {
         "no": 4,
-        "title": "時雨と少女"
+        "title": "時雨と少女",
+        "titleZh": "时雨与少女"
       },
       {
         "no": 5,
-        "title": "心色の切符"
+        "title": "心色の切符",
+        "titleZh": "心之色的车票"
       },
       {
         "no": 6,
-        "title": "湖底のつばめ"
+        "title": "湖底のつばめ",
+        "titleZh": "湖底的燕子"
       },
       {
         "no": 7,
-        "title": "子狐のぼうし"
+        "title": "子狐のぼうし",
+        "titleZh": "小狐狸的帽子"
       },
       {
         "no": 8,
-        "title": "儚い光"
+        "title": "儚い光",
+        "titleZh": "短暂的光"
       },
       {
         "no": 9,
-        "title": "あやかし祓い"
+        "title": "あやかし祓い",
+        "titleZh": "驱除妖异"
       },
       {
         "no": 10,
-        "title": "アサギの琴"
+        "title": "アサギの琴",
+        "titleZh": "浅葱之琴"
       },
       {
         "no": 11,
-        "title": "ニャンコ徒然帳"
+        "title": "ニャンコ徒然帳",
+        "titleZh": "猫咪老师漫记"
       },
       {
         "no": 12,
-        "title": "五日印"
+        "title": "五日印",
+        "titleZh": "五日印"
       },
       {
         "no": 13,
-        "title": "秋の夜宴"
+        "title": "秋の夜宴",
+        "titleZh": "秋之夜宴"
       }
     ]
   },
