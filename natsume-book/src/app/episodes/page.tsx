@@ -93,7 +93,7 @@ export default function EpisodesPage() {
               onClick={() => setActiveEpisode(ep.no)}
               className={`rounded-lg border px-2 py-2 text-xs ${activeEpisode === ep.no ? "border-amber-500 bg-amber-100 text-amber-800" : "border-zinc-200 bg-white text-zinc-700 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-300"}`}
             >
-              {ep.title}
+              {String(ep.no).padStart(2, "0")} · {ep.title}
             </button>
           ))}
         </div>
