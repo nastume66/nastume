@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useEffect, useMemo, useState } from "react";
+import { getSupabaseClient } from "@/lib/supabase";
 
 type Message = {
   id: string;
@@ -8,45 +9,89 @@ type Message = {
   createdAt: string;
 };
 
-const STORAGE_KEY = "natsume-guestbook-messages";
-
 export default function GuestbookClient() {
   const [text, setText] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
+  const [saving, setSaving] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string>("");
 
   useEffect(() => {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return;
-    try {
-      const parsed = JSON.parse(raw) as Message[];
-      setMessages(parsed);
-    } catch {
-      localStorage.removeItem(STORAGE_KEY);
-    }
+    const load = async () => {
+      setLoading(true);
+      setError("");
+      const supabase = getSupabaseClient();
+
+      if (!supabase) {
+        setError("未检测到数据库配置，当前环境无法跨设备同步。");
+        setLoading(false);
+        return;
+      }
+
+      const { data, error } = await supabase
+        .from("guestbook_messages")
+        .select("id, text, created_at")
+        .order("created_at", { ascending: false })
+        .limit(100);
+
+      if (error) {
+        setError("留言读取失败，请稍后重试。");
+      } else {
+        setMessages(
+          (data ?? []).map((item) => ({
+            id: item.id,
+            text: item.text,
+            createdAt: item.created_at,
+          }))
+        );
+      }
+
+      setLoading(false);
+    };
+
+    load();
   }, []);
-
-  useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(messages));
-  }, [messages]);
 
   const sorted = useMemo(
     () => [...messages].sort((a, b) => +new Date(b.createdAt) - +new Date(a.createdAt)),
     [messages]
   );
 
-  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const value = text.trim();
-    if (!value) return;
+    if (!value || saving) return;
+
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      setError("未检测到数据库配置，当前环境无法跨设备同步。");
+      return;
+    }
+
+    setSaving(true);
+    setError("");
+
+    const { data, error } = await supabase
+      .from("guestbook_messages")
+      .insert({ text: value })
+      .select("id, text, created_at")
+      .single();
+
+    if (error || !data) {
+      setError("留言发布失败，请稍后重试。");
+      setSaving(false);
+      return;
+    }
 
     const msg: Message = {
-      id: crypto.randomUUID(),
-      text: value,
-      createdAt: new Date().toISOString(),
+      id: data.id,
+      text: data.text,
+      createdAt: data.created_at,
     };
 
-    setMessages((prev) => [msg, ...prev].slice(0, 30));
+    setMessages((prev) => [msg, ...prev].slice(0, 100));
     setText("");
+    setSaving(false);
   };
 
   return (
@@ -63,18 +108,23 @@ export default function GuestbookClient() {
           className="min-h-24 w-full rounded-xl border border-zinc-200 p-3 text-sm outline-none ring-amber-300 placeholder:text-zinc-400 focus:ring"
         />
         <div className="mt-3 flex items-center justify-between">
-          <p className="text-xs text-zinc-500">仅保存在当前浏览器（最多30条）</p>
+          <p className="text-xs text-zinc-500">云端同步（跨设备可见，最多展示100条）</p>
           <button
             type="submit"
-            className="rounded-xl bg-amber-600 px-4 py-2 text-sm font-medium text-white hover:bg-amber-700"
+            disabled={saving}
+            className="rounded-xl bg-amber-600 px-4 py-2 text-sm font-medium text-white hover:bg-amber-700 disabled:cursor-not-allowed disabled:opacity-60"
           >
-            留言
+            {saving ? "发送中..." : "留言"}
           </button>
         </div>
       </form>
 
+      {error ? <p className="mt-3 text-sm text-rose-600">{error}</p> : null}
+
       <div className="mt-5 space-y-3">
-        {sorted.length === 0 ? (
+        {loading ? (
+          <p className="rounded-xl border border-dashed border-zinc-300 p-4 text-sm text-zinc-500">留言加载中...</p>
+        ) : sorted.length === 0 ? (
           <p className="rounded-xl border border-dashed border-zinc-300 p-4 text-sm text-zinc-500">还没有留言，写下第一条吧。</p>
         ) : (
           sorted.map((msg) => (
