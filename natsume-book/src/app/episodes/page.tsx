@@ -327,13 +327,27 @@ export default function EpisodesPage() {
             </button>
           </div>
         ) : (
-          <div className="mt-3 space-y-2">
-            <p className="text-xs text-emerald-700">✅ 已登录：{user.email}</p>
+          <div className="mt-3 space-y-3">
+            <div className="flex items-center gap-3 rounded-xl border border-emerald-200 bg-emerald-50/70 px-3 py-2">
+              {avatarUrl ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={avatarUrl} alt={nickname || "友人"} className="h-9 w-9 rounded-full object-cover" />
+              ) : (
+                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-amber-200 text-sm text-amber-800">
+                  {(nickname || fallbackNickname(user)).slice(0, 1)}
+                </div>
+              )}
+              <div>
+                <p className="text-sm font-medium text-emerald-800">{nickname || fallbackNickname(user)}</p>
+                <p className="text-xs text-emerald-700">已登录</p>
+              </div>
+            </div>
+
             <div className="grid gap-2 md:grid-cols-2">
               <input
                 value={nickname}
                 onChange={(e) => setNickname(e.target.value)}
-                placeholder="你的昵称（公开短评显示）"
+                placeholder="修改昵称（公开短评显示）"
                 className="rounded-xl border border-zinc-200 p-2 text-sm dark:border-zinc-700 dark:bg-zinc-950"
               />
               <div className="space-y-2">
@@ -343,15 +357,10 @@ export default function EpisodesPage() {
                   onChange={(e) => uploadAvatar(e.target.files?.[0] || null)}
                   className="w-full rounded-xl border border-zinc-200 p-2 text-sm dark:border-zinc-700 dark:bg-zinc-950"
                 />
-                <input
-                  value={avatarUrl}
-                  onChange={(e) => setAvatarUrl(e.target.value)}
-                  placeholder="或粘贴头像链接（可选）"
-                  className="w-full rounded-xl border border-zinc-200 p-2 text-sm dark:border-zinc-700 dark:bg-zinc-950"
-                />
                 {isUploadingAvatar ? <p className="text-xs text-zinc-500">头像上传中...</p> : null}
               </div>
             </div>
+
             <button
               onClick={saveMyProfile}
               disabled={isSavingProfile}
