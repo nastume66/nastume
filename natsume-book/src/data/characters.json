@@ -191,16 +191,17 @@
   {
     "name": "葵",
     "role": "妖怪",
-    "note": "你点名要加回的角色。",
-    "detail": "图片待核对，先保留角色条目避免错配。",
+    "note": "御影神麾下的琴师妖怪。",
+    "detail": "因身患怪病身体逐渐干枯，离开森林后与同伴一同行动，始终执着于再次奏响琴音。",
     "emoji": "🌸",
-    "color": "from-rose-50 to-fuchsia-100"
+    "color": "from-rose-50 to-fuchsia-100",
+    "image": "https://cdn.myanimelist.net/images/characters/3/33409.jpg"
   },
   {
     "name": "中级妖怪",
     "role": "妖怪",
-    "note": "夏目身边常见的中级妖怪组。",
-    "detail": "补回一目中级妖怪卡，恢复你之前习惯的角色名单。",
+    "note": "“一目中级妖怪”代表角色。",
+    "detail": "经常和同伴一起出现在夏目身边，嘴上闹腾，关键时刻却常会护着他。",
     "emoji": "👁️",
     "color": "from-lime-50 to-emerald-100",
     "image": "https://cdn.myanimelist.net/images/characters/14/121636.jpg"
@@ -209,7 +210,7 @@
     "name": "河童",
     "role": "妖怪",
     "note": "单纯耿直，重情义。",
-    "detail": "补回河童角色卡，保持经典单元角色完整。",
+    "detail": "曾因缺水倒在路边，被夏目救下后一直记着这份恩情，是很有代表性的温情单元角色。",
     "emoji": "💧",
     "color": "from-cyan-50 to-teal-100",
     "image": "https://cdn.myanimelist.net/images/characters/12/127607.jpg"
@@ -217,25 +218,28 @@
   {
     "name": "小胡子",
     "role": "妖怪",
-    "note": "你指定新增的角色名。",
-    "detail": "图片待核对，先保留角色条目避免错配。",
+    "note": "对应“みくり（Mikuri）”。",
+    "detail": "居住在沼泽附近的鲶鱼妖怪，因名字纠葛对旧事耿耿于怀，是剧情中很有记忆点的一类妖怪。",
     "emoji": "🐟",
-    "color": "from-sky-50 to-cyan-100"
+    "color": "from-sky-50 to-cyan-100",
+    "image": "https://cdn.myanimelist.net/images/characters/7/122103.jpg"
   },
   {
     "name": "红峰",
     "role": "妖怪",
-    "note": "你指定新增的角色名。",
-    "detail": "图片待核对，先保留角色条目避免错配。",
+    "note": "对应“アカガネ（Akagane）”。",
+    "detail": "肩负护卫与执伞职责，为了让葵再次弹奏琴音而奔走，也因此与夏目产生交集。",
     "emoji": "🟥",
-    "color": "from-red-50 to-orange-100"
+    "color": "from-red-50 to-orange-100",
+    "image": "https://cdn.myanimelist.net/images/characters/14/100108.jpg"
   },
   {
     "name": "狸追",
     "role": "妖怪",
-    "note": "你指定新增的角色名。",
-    "detail": "图片待核对，先保留角色条目避免错配。",
+    "note": "对应“Karikage”角色条目。",
+    "detail": "与菱垣同为早期围绕友人帐行动的妖怪之一，和夏目有“归还名字”相关的交集。",
     "emoji": "🦝",
-    "color": "from-amber-50 to-yellow-100"
+    "color": "from-amber-50 to-yellow-100",
+    "image": "https://cdn.myanimelist.net/images/characters/12/121844.jpg"
   }
 ]
