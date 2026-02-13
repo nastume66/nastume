@@ -19,11 +19,13 @@ export default function BlogDetailClient({ slug }: { slug: string }) {
     }
 
     const load = async () => {
+      setLoading(true);
       const { data: authData } = await supabase.auth.getSession();
       const uid = authData.session?.user?.id;
 
       if (!uid) {
-        setMsg("请先到后台登录后查看文章。\n");
+        setPost(null);
+        setMsg("请先到后台登录后查看文章。若你刚登录，请刷新一次本页。");
         setLoading(false);
         return;
       }
@@ -37,16 +39,23 @@ export default function BlogDetailClient({ slug }: { slug: string }) {
         .maybeSingle();
 
       if (error || !data) {
-        setMsg("没找到这篇文章，可能已删除或你当前账号无权限查看。");
+        setPost(null);
+        setMsg("没找到这篇文章，可能已删除或你当前账号无权限查看。\n可回到专栏页后重新点击一次。");
         setLoading(false);
         return;
       }
 
       setPost(data as BlogPost);
+      setMsg("");
       setLoading(false);
     };
 
     void load();
+    const { data: sub } = supabase.auth.onAuthStateChange(() => {
+      void load();
+    });
+
+    return () => sub.subscription.unsubscribe();
   }, [slug]);
 
   if (loading) {
