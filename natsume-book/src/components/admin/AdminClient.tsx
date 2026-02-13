@@ -306,11 +306,14 @@ export default function AdminClient() {
                 <div className="flex items-center gap-2 rounded-xl border border-emerald-200 bg-emerald-50 px-2 py-1">
                   {profile?.avatar_url ? (
                     // eslint-disable-next-line @next/next/no-img-element
-                    <img src={profile.avatar_url} alt={nickname || fallbackNickname(user)} className="h-7 w-7 rounded-full object-cover" />
+                    <img src={profile.avatar_url} alt={nickname || fallbackNickname(user)} className="h-8 w-8 rounded-full object-cover" />
                   ) : (
-                    <div className="flex h-7 w-7 items-center justify-center rounded-full bg-amber-200 text-xs text-amber-800">{(nickname || fallbackNickname(user)).slice(0, 1)}</div>
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-amber-200 text-xs text-amber-800">{(nickname || fallbackNickname(user)).slice(0, 1)}</div>
                   )}
-                  <span className="text-xs text-emerald-800">{nickname || fallbackNickname(user)}</span>
+                  <div className="leading-tight">
+                    <p className="text-xs font-medium text-emerald-800">{nickname || fallbackNickname(user)}</p>
+                    <p className="text-[11px] text-emerald-700">{user.email}</p>
+                  </div>
                 </div>
                 <button onClick={switchAccount} className="rounded-xl border border-zinc-300 px-3 py-2 text-sm">切换账号</button>
               </div>
