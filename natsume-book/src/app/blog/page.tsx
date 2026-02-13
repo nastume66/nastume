@@ -1,4 +1,5 @@
 import BlogListClient from "@/components/blog/BlogListClient";
+import BlogAuthEntryCard from "@/components/blog/BlogAuthEntryCard";
 
 export const dynamic = "force-dynamic";
 
@@ -8,10 +9,7 @@ export default function BlogPage() {
       <h1 className="text-3xl font-bold text-zinc-900 dark:text-zinc-100">我的专栏</h1>
       <p className="mt-2 text-zinc-600 dark:text-zinc-400">你可以在后台自定义栏目并发布自己的内容。</p>
 
-      <div className="mt-6 rounded-2xl border border-amber-200 bg-white p-4 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
-        <p className="text-sm text-zinc-700 dark:text-zinc-300">想直接写博客？现在可以从这里进入后台编辑。</p>
-        <a href="/admin" className="mt-2 inline-block text-sm font-medium text-amber-700 hover:text-amber-800 dark:text-amber-400">去登录并写作 →</a>
-      </div>
+      <BlogAuthEntryCard />
 
       <BlogListClient />
     </div>
