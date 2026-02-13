@@ -18,9 +18,27 @@
     "image": "/images/episode-3.jpg"
   },
   {
-    "season": "第四季+",
-    "year": "2012-至今",
-    "highlights": ["羁绊深化", "更多温柔故事", "剧场版拓展"],
+    "season": "第四季",
+    "year": "2012",
+    "highlights": ["羁绊深化", "更多温柔故事", "友人帐的重量"],
     "image": "/images/episode-4.jpg"
+  },
+  {
+    "season": "第五季",
+    "year": "2016",
+    "highlights": ["重逢与告别", "守护的意义", "心愿被听见"],
+    "image": "/images/episode-5.jpg"
+  },
+  {
+    "season": "第六季",
+    "year": "2017",
+    "highlights": ["旧友新缘", "名字与归处", "温柔延续"],
+    "image": "/images/episode-6.jpg"
+  },
+  {
+    "season": "第七季",
+    "year": "2024",
+    "highlights": ["再会的春天", "日常中的治愈", "人与妖的牵绊"],
+    "image": "/images/episode-7.jpg"
   }
 ]
