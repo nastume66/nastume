@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import seasons from "@/data/episodes.json";
 
-type Episode = { no: number; title: string };
+type Episode = { no: number; title: string; titleZh?: string };
 type Season = {
   season: string;
   year: string;
@@ -91,9 +91,10 @@ export default function EpisodesPage() {
             <button
               key={ep.no}
               onClick={() => setActiveEpisode(ep.no)}
-              className={`rounded-lg border px-2 py-2 text-xs ${activeEpisode === ep.no ? "border-amber-500 bg-amber-100 text-amber-800" : "border-zinc-200 bg-white text-zinc-700 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-300"}`}
+              className={`rounded-lg border px-2 py-2 text-left text-xs ${activeEpisode === ep.no ? "border-amber-500 bg-amber-100 text-amber-800" : "border-zinc-200 bg-white text-zinc-700 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-300"}`}
             >
-              {String(ep.no).padStart(2, "0")} · {ep.title}
+              <div>{String(ep.no).padStart(2, "0")} · {ep.title}</div>
+              <div className="mt-1 text-[11px] opacity-80">{ep.titleZh || `第${String(ep.no).padStart(2, "0")}话`}</div>
             </button>
           ))}
         </div>
@@ -103,6 +104,9 @@ export default function EpisodesPage() {
         <h3 className="text-base font-semibold text-zinc-900 dark:text-zinc-100">
           {currentSeason.season} · 第{String(activeEpisode).padStart(2, "0")}话 观后感
         </h3>
+        <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
+          原题：{currentSeason.episodes.find((e) => e.no === activeEpisode)?.title} ｜ 译名：{currentSeason.episodes.find((e) => e.no === activeEpisode)?.titleZh || `第${String(activeEpisode).padStart(2, "0")}话`}
+        </p>
         <textarea
           value={note}
           onChange={(e) => setNote(e.target.value)}
