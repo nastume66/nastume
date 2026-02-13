@@ -23,24 +23,36 @@ export default function BlogDetailClient({ slug }: { slug: string }) {
       const { data: authData } = await supabase.auth.getSession();
       const uid = authData.session?.user?.id;
 
-      if (!uid) {
-        setPost(null);
-        setMsg("请先到后台登录后查看文章。若你刚登录，请刷新一次本页。");
-        setLoading(false);
-        return;
+      let data: BlogPost | null = null;
+      let error: { message: string } | null = null;
+
+      if (uid) {
+        const owned = await supabase
+          .from("posts")
+          .select("*")
+          .eq("slug", slug)
+          .eq("status", "published")
+          .eq("author_id", uid)
+          .maybeSingle();
+        data = (owned.data as BlogPost | null) ?? null;
+        error = owned.error ? { message: owned.error.message } : null;
       }
 
-      const { data, error } = await supabase
-        .from("posts")
-        .select("*")
-        .eq("slug", slug)
-        .eq("status", "published")
-        .eq("author_id", uid)
-        .maybeSingle();
+      // fallback: if session not restored in time, still allow reading by slug
+      if (!data) {
+        const fallback = await supabase
+          .from("posts")
+          .select("*")
+          .eq("slug", slug)
+          .eq("status", "published")
+          .maybeSingle();
+        data = (fallback.data as BlogPost | null) ?? null;
+        error = fallback.error ? { message: fallback.error.message } : error;
+      }
 
       if (error || !data) {
         setPost(null);
-        setMsg("没找到这篇文章，可能已删除或你当前账号无权限查看。\n可回到专栏页后重新点击一次。");
+        setMsg("没找到这篇文章，可能是链接 slug 不一致。你回后台点一次“编辑”后再保存，我来帮你自动修复。\n也可以回专栏页重新点一次。");
         setLoading(false);
         return;
       }
