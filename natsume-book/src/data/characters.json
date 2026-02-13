@@ -106,5 +106,86 @@
     "emoji": "🦋",
     "color": "from-fuchsia-100 to-pink-100",
     "image": "https://cdn.myanimelist.net/images/characters/7/55192.jpg"
+  },
+  {
+    "name": "柊",
+    "role": "式神",
+    "note": "名取的式神，冷静克制。",
+    "detail": "常协助名取处理除妖事务，性格寡言但判断稳健。",
+    "emoji": "🕯️",
+    "color": "from-stone-100 to-neutral-200",
+    "image": "https://cdn.myanimelist.net/images/characters/16/158901.jpg"
+  },
+  {
+    "name": "子狐",
+    "role": "妖怪",
+    "note": "害羞又真诚的小妖怪。",
+    "detail": "把夏目当作重要朋友，偶尔会变成人类孩子来找他。",
+    "emoji": "🦊",
+    "color": "from-amber-50 to-orange-100",
+    "image": "https://cdn.myanimelist.net/images/characters/6/160259.jpg"
+  },
+  {
+    "name": "三筱",
+    "role": "妖怪",
+    "note": "体型巨大，气势很强。",
+    "detail": "实力强大的妖怪，认可夏目后在关键时刻多次援手。",
+    "emoji": "🐂",
+    "color": "from-indigo-50 to-slate-200",
+    "image": "https://cdn.myanimelist.net/images/characters/11/121639.jpg"
+  },
+  {
+    "name": "笹田纯",
+    "role": "同学",
+    "note": "班长气质，行动力很强。",
+    "detail": "对灵异话题充满好奇，常主动参与并推动班级活动。",
+    "emoji": "🎀",
+    "color": "from-rose-50 to-pink-100",
+    "image": "https://cdn.myanimelist.net/images/characters/4/33411.jpg"
+  },
+  {
+    "name": "一目中级妖怪",
+    "role": "妖怪",
+    "note": "中级妖怪组成员之一。",
+    "detail": "与同伴常在夏目周围出没，偶尔吵闹但本性不坏。",
+    "emoji": "👁️",
+    "color": "from-lime-50 to-emerald-100",
+    "image": "https://cdn.myanimelist.net/images/characters/14/121636.jpg"
+  },
+  {
+    "name": "河童",
+    "role": "妖怪",
+    "note": "单纯耿直，重情义。",
+    "detail": "曾受夏目帮助，因此对夏目怀有朴素而真挚的感激。",
+    "emoji": "💧",
+    "color": "from-cyan-50 to-teal-100",
+    "image": "https://cdn.myanimelist.net/images/characters/12/127607.jpg"
+  },
+  {
+    "name": "加奈",
+    "role": "妖怪",
+    "note": "寻找归途的漂泊者。",
+    "detail": "在旅途中与夏目有过交集，故事带着淡淡的哀伤感。",
+    "emoji": "🌫️",
+    "color": "from-slate-50 to-gray-200",
+    "image": "https://cdn.myanimelist.net/images/characters/16/121638.jpg"
+  },
+  {
+    "name": "赤金",
+    "role": "妖怪",
+    "note": "出场虽短，却有辨识度。",
+    "detail": "属于作品中的支线妖怪角色，设定与氛围感都很鲜明。",
+    "emoji": "🪙",
+    "color": "from-yellow-50 to-amber-200",
+    "image": "https://cdn.myanimelist.net/images/characters/14/100108.jpg"
+  },
+  {
+    "name": "猿面",
+    "role": "妖怪",
+    "note": "个性古怪，存在感强。",
+    "detail": "出现在零散单元回中，强化了《友人帐》群像的丰富层次。",
+    "emoji": "🎭",
+    "color": "from-violet-50 to-purple-100",
+    "image": "https://cdn.myanimelist.net/images/characters/15/209947.jpg"
   }
 ]
