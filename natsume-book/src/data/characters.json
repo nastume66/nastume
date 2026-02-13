@@ -171,15 +171,6 @@
     "image": "https://cdn.myanimelist.net/images/characters/8/150677.jpg"
   },
   {
-    "name": "菱垣",
-    "role": "妖怪",
-    "note": "早期围绕友人帐展开的妖怪之一。",
-    "detail": "与“归还名字”主线直接相关，比冷门支线更贴近核心叙事。",
-    "emoji": "📜",
-    "color": "from-yellow-50 to-amber-200",
-    "image": "https://cdn.myanimelist.net/images/characters/3/122099.jpg"
-  },
-  {
     "name": "牛头青鬼",
     "role": "妖怪",
     "note": "中级妖怪组成员，辨识度很高。",
@@ -189,18 +180,9 @@
     "image": "https://cdn.myanimelist.net/images/characters/13/516183.jpg"
   },
   {
-    "name": "葵",
-    "role": "妖怪",
-    "note": "对应 Asagi（アサギ）。",
-    "detail": "原为御影神麾下的琴师妖怪，患病后离开森林，在同伴帮助下仍希望再次奏响琴音。",
-    "emoji": "🌸",
-    "color": "from-rose-50 to-fuchsia-100",
-    "image": "https://cdn.myanimelist.net/images/characters/3/33409.jpg"
-  },
-  {
     "name": "中级妖怪",
     "role": "妖怪",
-    "note": "对应 一目中级妖怪（Hitotsume no Chuukyuu Youkai）。",
+    "note": "常在夏目身边出没的老熟妖。",
     "detail": "常与同伴一起行动，是夏目周边最有辨识度的中级妖怪之一。",
     "emoji": "👁️",
     "color": "from-lime-50 to-emerald-100",
@@ -209,7 +191,7 @@
   {
     "name": "河童",
     "role": "妖怪",
-    "note": "对应 Kappa（河童）。",
+    "note": "单纯耿直，记恩也重情。",
     "detail": "曾在路边濒临干涸，被夏目救下后心怀感激，是《友人帐》里典型的温情妖怪角色。",
     "emoji": "💧",
     "color": "from-cyan-50 to-teal-100",
@@ -218,7 +200,7 @@
   {
     "name": "小胡子",
     "role": "妖怪",
-    "note": "对应 ちょびひげ（Chobi-hige）。",
+    "note": "外形滑稽，却很有存在感。",
     "detail": "在《续 夏目友人帐》中登场的妖怪，外形特征是小胡子，和夏目有直接互动。",
     "emoji": "🧔",
     "color": "from-sky-50 to-cyan-100",
@@ -227,7 +209,7 @@
   {
     "name": "红峰",
     "role": "妖怪",
-    "note": "对应 紅峰（Benio）。",
+    "note": "和斑有旧识，气场不弱。",
     "detail": "斑（猫咪老师）的旧识妖怪角色，在《友人帐》支线中有出场。",
     "emoji": "🟥",
     "color": "from-red-50 to-orange-100",
@@ -236,7 +218,7 @@
   {
     "name": "狸追",
     "role": "妖怪",
-    "note": "对应 リオウ（Riou）。",
+    "note": "森林之主，性格高傲却重情。",
     "detail": "森林之主级别的妖怪，曾与人类建立关系，在相关单元故事中具有核心地位。",
     "emoji": "🦝",
     "color": "from-amber-50 to-yellow-100",
