@@ -2,43 +2,99 @@
   {
     "season": "第一季",
     "year": "2008",
+    "tone": "spring",
     "highlights": ["初遇猫咪老师", "友人帐的秘密", "归还名字的开始"],
-    "image": "/images/episode-1.jpg"
+    "image": "/images/episode-1.jpg",
+    "episodes": [
+      { "no": 1, "title": "第01话" }, { "no": 2, "title": "第02话" }, { "no": 3, "title": "第03话" },
+      { "no": 4, "title": "第04话" }, { "no": 5, "title": "第05话" }, { "no": 6, "title": "第06话" },
+      { "no": 7, "title": "第07话" }, { "no": 8, "title": "第08话" }, { "no": 9, "title": "第09话" },
+      { "no": 10, "title": "第10话" }, { "no": 11, "title": "第11话" }, { "no": 12, "title": "第12话" },
+      { "no": 13, "title": "第13话" }
+    ]
   },
   {
     "season": "第二季",
     "year": "2009",
+    "tone": "summer",
     "highlights": ["人与妖之间", "夏目的成长", "更深的羁绊"],
-    "image": "/images/episode-2.jpg"
+    "image": "/images/episode-2.jpg",
+    "episodes": [
+      { "no": 1, "title": "第01话" }, { "no": 2, "title": "第02话" }, { "no": 3, "title": "第03话" },
+      { "no": 4, "title": "第04话" }, { "no": 5, "title": "第05话" }, { "no": 6, "title": "第06话" },
+      { "no": 7, "title": "第07话" }, { "no": 8, "title": "第08话" }, { "no": 9, "title": "第09话" },
+      { "no": 10, "title": "第10话" }, { "no": 11, "title": "第11话" }, { "no": 12, "title": "第12话" },
+      { "no": 13, "title": "第13话" }
+    ]
   },
   {
     "season": "第三季",
     "year": "2011",
+    "tone": "autumn",
     "highlights": ["过去与现在", "新妖怪登场", "温柔延续"],
-    "image": "/images/episode-3.jpg"
+    "image": "/images/episode-3.jpg",
+    "episodes": [
+      { "no": 1, "title": "第01话" }, { "no": 2, "title": "第02话" }, { "no": 3, "title": "第03话" },
+      { "no": 4, "title": "第04话" }, { "no": 5, "title": "第05话" }, { "no": 6, "title": "第06话" },
+      { "no": 7, "title": "第07话" }, { "no": 8, "title": "第08话" }, { "no": 9, "title": "第09话" },
+      { "no": 10, "title": "第10话" }, { "no": 11, "title": "第11话" }, { "no": 12, "title": "第12话" },
+      { "no": 13, "title": "第13话" }
+    ]
   },
   {
     "season": "第四季",
     "year": "2012",
+    "tone": "winter",
     "highlights": ["羁绊深化", "更多温柔故事", "友人帐的重量"],
-    "image": "/images/episode-4.jpg"
+    "image": "/images/episode-4.jpg",
+    "episodes": [
+      { "no": 1, "title": "第01话" }, { "no": 2, "title": "第02话" }, { "no": 3, "title": "第03话" },
+      { "no": 4, "title": "第04话" }, { "no": 5, "title": "第05话" }, { "no": 6, "title": "第06话" },
+      { "no": 7, "title": "第07话" }, { "no": 8, "title": "第08话" }, { "no": 9, "title": "第09话" },
+      { "no": 10, "title": "第10话" }, { "no": 11, "title": "第11话" }, { "no": 12, "title": "第12话" },
+      { "no": 13, "title": "第13话" }
+    ]
   },
   {
     "season": "第五季",
     "year": "2016",
+    "tone": "spring",
     "highlights": ["重逢与告别", "守护的意义", "心愿被听见"],
-    "image": "/images/episode-5.jpg"
+    "image": "/images/episode-5.jpg",
+    "episodes": [
+      { "no": 1, "title": "第01话" }, { "no": 2, "title": "第02话" }, { "no": 3, "title": "第03话" },
+      { "no": 4, "title": "第04话" }, { "no": 5, "title": "第05话" }, { "no": 6, "title": "第06话" },
+      { "no": 7, "title": "第07话" }, { "no": 8, "title": "第08话" }, { "no": 9, "title": "第09话" },
+      { "no": 10, "title": "第10话" }, { "no": 11, "title": "第11话" }, { "no": 12, "title": "特别篇 其一" },
+      { "no": 13, "title": "特别篇 其二" }
+    ]
   },
   {
     "season": "第六季",
     "year": "2017",
+    "tone": "summer",
     "highlights": ["旧友新缘", "名字与归处", "温柔延续"],
-    "image": "/images/episode-6.jpg"
+    "image": "/images/episode-6.jpg",
+    "episodes": [
+      { "no": 1, "title": "第01话" }, { "no": 2, "title": "第02话" }, { "no": 3, "title": "第03话" },
+      { "no": 4, "title": "第04话" }, { "no": 5, "title": "第05话" }, { "no": 6, "title": "第06话" },
+      { "no": 7, "title": "第07话" }, { "no": 8, "title": "第08话" }, { "no": 9, "title": "第09话" },
+      { "no": 10, "title": "第10话" }, { "no": 11, "title": "第11话" }, { "no": 12, "title": "特别篇 其一" },
+      { "no": 13, "title": "特别篇 其二" }
+    ]
   },
   {
     "season": "第七季",
     "year": "2024",
+    "tone": "autumn",
     "highlights": ["再会的春天", "日常中的治愈", "人与妖的牵绊"],
-    "image": "/images/episode-7.jpg"
+    "image": "/images/episode-7.jpg",
+    "episodes": [
+      { "no": 1, "title": "第01话" }, { "no": 2, "title": "第02话" }, { "no": 3, "title": "第03话" },
+      { "no": 4, "title": "第04话" }, { "no": 5, "title": "第05话" }, { "no": 6, "title": "第06话" },
+      { "no": 7, "title": "第07话" }, { "no": 8, "title": "第08话" }, { "no": 9, "title": "第09话" },
+      { "no": 10, "title": "第10话" }, { "no": 11, "title": "第11话" }, { "no": 12, "title": "第12话" },
+      { "no": 13, "title": "特别篇" }
+    ]
   }
 ]
