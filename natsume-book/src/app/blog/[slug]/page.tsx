@@ -2,7 +2,14 @@ import BlogDetailClient from "@/components/blog/BlogDetailClient";
 
 export const dynamic = "force-dynamic";
 
-export default async function BlogDetail({ params }: { params: Promise<{ slug: string }> }) {
+export default async function BlogDetail({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ slug: string }>;
+  searchParams: Promise<{ pid?: string }>;
+}) {
   const { slug } = await params;
-  return <BlogDetailClient slug={slug} />;
+  const { pid } = await searchParams;
+  return <BlogDetailClient slug={slug} pid={pid} />;
 }

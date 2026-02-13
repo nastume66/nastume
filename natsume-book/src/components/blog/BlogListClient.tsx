@@ -126,7 +126,7 @@ export default function BlogListClient() {
                     <span key={tag} className="rounded-full bg-amber-100 px-2 py-1 text-xs text-amber-700 dark:bg-zinc-800 dark:text-zinc-300">{tag}</span>
                   ))}
                 </div>
-                <Link href={`/blog/${post.slug}`} className="mt-4 inline-block text-sm font-medium text-amber-700 hover:text-amber-800 dark:text-amber-400">阅读全文 →</Link>
+                <Link href={`/blog/${post.slug}?pid=${post.id}`} className="mt-4 inline-block text-sm font-medium text-amber-700 hover:text-amber-800 dark:text-amber-400">阅读全文 →</Link>
               </article>
             );
           })

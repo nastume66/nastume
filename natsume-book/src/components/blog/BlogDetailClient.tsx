@@ -5,7 +5,7 @@ import Link from "next/link";
 import { getSupabaseClient, BlogPost } from "@/lib/supabase";
 import MarkdownContent from "@/components/blog/MarkdownContent";
 
-export default function BlogDetailClient({ slug }: { slug: string }) {
+export default function BlogDetailClient({ slug, pid }: { slug: string; pid?: string }) {
   const [post, setPost] = useState<BlogPost | null>(null);
   const [loading, setLoading] = useState(true);
   const [msg, setMsg] = useState("正在加载文章...");
@@ -26,7 +26,20 @@ export default function BlogDetailClient({ slug }: { slug: string }) {
       let data: BlogPost | null = null;
       let error: { message: string } | null = null;
 
-      if (uid) {
+      // 1) strongest path: fetch by explicit post id from list link
+      if (pid) {
+        const byId = await supabase
+          .from("posts")
+          .select("*")
+          .eq("id", pid)
+          .eq("status", "published")
+          .maybeSingle();
+        data = (byId.data as BlogPost | null) ?? null;
+        error = byId.error ? { message: byId.error.message } : null;
+      }
+
+      // 2) fallback by slug + current owner
+      if (!data && uid) {
         const owned = await supabase
           .from("posts")
           .select("*")
@@ -35,10 +48,10 @@ export default function BlogDetailClient({ slug }: { slug: string }) {
           .eq("author_id", uid)
           .maybeSingle();
         data = (owned.data as BlogPost | null) ?? null;
-        error = owned.error ? { message: owned.error.message } : null;
+        error = owned.error ? { message: owned.error.message } : error;
       }
 
-      // fallback: if session not restored in time, still allow reading by slug
+      // 3) final fallback by slug
       if (!data) {
         const fallback = await supabase
           .from("posts")
@@ -68,7 +81,7 @@ export default function BlogDetailClient({ slug }: { slug: string }) {
     });
 
     return () => sub.subscription.unsubscribe();
-  }, [slug]);
+  }, [slug, pid]);
 
   if (loading) {
     return <div className="mx-auto max-w-3xl px-4 py-12 text-sm text-zinc-500">{msg}</div>;
