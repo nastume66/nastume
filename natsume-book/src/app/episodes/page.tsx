@@ -56,6 +56,7 @@ export default function EpisodesPage() {
   const [nickname, setNickname] = useState("");
   const [avatarUrl, setAvatarUrl] = useState("");
   const [isSavingProfile, setIsSavingProfile] = useState(false);
+  const [isUploadingAvatar, setIsUploadingAvatar] = useState(false);
 
   const [note, setNote] = useState("");
   const [isSaving, setIsSaving] = useState(false);
@@ -122,6 +123,30 @@ export default function EpisodesPage() {
 
     setIsSavingProfile(false);
     setMsg(error ? `资料保存失败：${error.message}` : "✅ 昵称/头像已保存");
+  };
+
+  const uploadAvatar = async (file: File | null) => {
+    if (!supabase || !user || !file) return;
+    setIsUploadingAvatar(true);
+    setMsg("");
+
+    const ext = file.name.split(".").pop() || "png";
+    const path = `avatars/${user.id}-${Date.now()}.${ext}`;
+    const { error } = await supabase.storage.from("blog-images").upload(path, file, {
+      cacheControl: "3600",
+      upsert: false,
+    });
+
+    if (error) {
+      setIsUploadingAvatar(false);
+      setMsg(`头像上传失败：${error.message}`);
+      return;
+    }
+
+    const publicUrl = supabase.storage.from("blog-images").getPublicUrl(path).data.publicUrl;
+    setAvatarUrl(publicUrl);
+    setIsUploadingAvatar(false);
+    setMsg("✅ 头像已上传，记得点“保存昵称/头像”");
   };
 
   const loadPublicReviews = async () => {
@@ -311,12 +336,21 @@ export default function EpisodesPage() {
                 placeholder="你的昵称（公开短评显示）"
                 className="rounded-xl border border-zinc-200 p-2 text-sm dark:border-zinc-700 dark:bg-zinc-950"
               />
-              <input
-                value={avatarUrl}
-                onChange={(e) => setAvatarUrl(e.target.value)}
-                placeholder="头像链接（可选）"
-                className="rounded-xl border border-zinc-200 p-2 text-sm dark:border-zinc-700 dark:bg-zinc-950"
-              />
+              <div className="space-y-2">
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => uploadAvatar(e.target.files?.[0] || null)}
+                  className="w-full rounded-xl border border-zinc-200 p-2 text-sm dark:border-zinc-700 dark:bg-zinc-950"
+                />
+                <input
+                  value={avatarUrl}
+                  onChange={(e) => setAvatarUrl(e.target.value)}
+                  placeholder="或粘贴头像链接（可选）"
+                  className="w-full rounded-xl border border-zinc-200 p-2 text-sm dark:border-zinc-700 dark:bg-zinc-950"
+                />
+                {isUploadingAvatar ? <p className="text-xs text-zinc-500">头像上传中...</p> : null}
+              </div>
             </div>
             <button
               onClick={saveMyProfile}
