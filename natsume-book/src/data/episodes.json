@@ -3,24 +3,24 @@
     "season": "第一季",
     "year": "2008",
     "highlights": ["初遇猫咪老师", "友人帐的秘密", "归还名字的开始"],
-    "image": "https://cdn.myanimelist.net/images/anime/1681/108439l.jpg"
+    "image": "/images/episode-1.jpg"
   },
   {
     "season": "第二季",
     "year": "2009",
     "highlights": ["人与妖之间", "夏目的成长", "更深的羁绊"],
-    "image": "https://cdn.myanimelist.net/images/anime/4/79738l.jpg"
+    "image": "/images/episode-2.jpg"
   },
   {
     "season": "第三季",
     "year": "2011",
     "highlights": ["过去与现在", "新妖怪登场", "温柔延续"],
-    "image": "https://cdn.myanimelist.net/images/anime/8/82394l.jpg"
+    "image": "/images/episode-3.jpg"
   },
   {
     "season": "第四季+",
     "year": "2012-至今",
     "highlights": ["羁绊深化", "更多温柔故事", "剧场版拓展"],
-    "image": "https://cdn.myanimelist.net/images/anime/3/37449l.jpg"
+    "image": "/images/episode-4.jpg"
   }
 ]
