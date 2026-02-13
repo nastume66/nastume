@@ -2,7 +2,9 @@
 
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
+import type { User } from "@supabase/supabase-js";
 import seasons from "@/data/episodes.json";
+import { getSupabaseClient } from "@/lib/supabase";
 
 type Episode = { no: number; title: string; titleZh?: string };
 type Season = {
@@ -12,6 +14,12 @@ type Season = {
   highlights: string[];
   image?: string;
   episodes: Episode[];
+};
+
+type PublicReview = {
+  id: string;
+  content: string;
+  created_at: string;
 };
 
 const seasonList = seasons as Season[];
@@ -24,31 +32,205 @@ const toneClass: Record<string, string> = {
 };
 
 export default function EpisodesPage() {
+  const supabase = useMemo(() => getSupabaseClient(), []);
+
   const [activeSeason, setActiveSeason] = useState(seasonList[0].season);
   const [activeEpisode, setActiveEpisode] = useState<number>(1);
+
+  const [email, setEmail] = useState("");
+  const [user, setUser] = useState<User | null>(null);
+  const [isSendingLogin, setIsSendingLogin] = useState(false);
+
   const [note, setNote] = useState("");
+  const [isSaving, setIsSaving] = useState(false);
+  const [isPublishing, setIsPublishing] = useState(false);
+  const [publicReviews, setPublicReviews] = useState<PublicReview[]>([]);
+  const [hasMyPublicReview, setHasMyPublicReview] = useState(false);
+  const [msg, setMsg] = useState("");
 
   const currentSeason = useMemo(
     () => seasonList.find((s) => s.season === activeSeason) || seasonList[0],
     [activeSeason]
   );
 
-  const noteKey = `${activeSeason}-${activeEpisode}`;
+  const currentEpisode = useMemo(
+    () => currentSeason.episodes.find((e) => e.no === activeEpisode),
+    [currentSeason, activeEpisode]
+  );
 
   useEffect(() => {
-    const old = localStorage.getItem(`ep-note:${noteKey}`) || "";
-    setNote(old);
-  }, [noteKey]);
+    if (!supabase) return;
 
-  const saveNote = () => {
-    localStorage.setItem(`ep-note:${noteKey}`, note);
-    alert("已保存这集观后感 ✅");
+    supabase.auth.getSession().then(({ data }) => {
+      setUser(data.session?.user ?? null);
+    });
+
+    const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => sub.subscription.unsubscribe();
+  }, [supabase]);
+
+  const loadPublicReviews = async () => {
+    if (!supabase) return;
+    const { data } = await supabase
+      .from("episode_reviews")
+      .select("id, content, created_at")
+      .eq("season", activeSeason)
+      .eq("episode_no", activeEpisode)
+      .order("created_at", { ascending: false })
+      .limit(30);
+
+    setPublicReviews((data || []) as PublicReview[]);
+  };
+
+  const loadMyPrivateNote = async () => {
+    if (!supabase || !user) {
+      setNote("");
+      return;
+    }
+
+    const { data } = await supabase
+      .from("episode_notes")
+      .select("content")
+      .eq("author_id", user.id)
+      .eq("season", activeSeason)
+      .eq("episode_no", activeEpisode)
+      .maybeSingle();
+
+    setNote(data?.content || "");
+  };
+
+  const loadMyPublicFlag = async () => {
+    if (!supabase || !user) {
+      setHasMyPublicReview(false);
+      return;
+    }
+
+    const { data } = await supabase
+      .from("episode_reviews")
+      .select("id")
+      .eq("author_id", user.id)
+      .eq("season", activeSeason)
+      .eq("episode_no", activeEpisode)
+      .maybeSingle();
+
+    setHasMyPublicReview(Boolean(data?.id));
+  };
+
+  useEffect(() => {
+    void loadPublicReviews();
+    void loadMyPrivateNote();
+    void loadMyPublicFlag();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeSeason, activeEpisode, user?.id]);
+
+  const sendLoginLink = async () => {
+    if (!supabase || !email.trim()) return;
+    setIsSendingLogin(true);
+    setMsg("");
+
+    const redirectBase = process.env.NEXT_PUBLIC_SITE_URL || window.location.origin;
+    const { error } = await supabase.auth.signInWithOtp({
+      email: email.trim(),
+      options: { emailRedirectTo: `${redirectBase}/episodes` },
+    });
+
+    setIsSendingLogin(false);
+    setMsg(error ? `登录失败：${error.message}` : "✅ 登录链接已发送，请去邮箱确认");
+  };
+
+  const savePrivateNote = async () => {
+    if (!supabase || !user) return setMsg("请先登录后保存");
+    setIsSaving(true);
+    setMsg("");
+
+    const { error } = await supabase.from("episode_notes").upsert(
+      {
+        author_id: user.id,
+        season: activeSeason,
+        episode_no: activeEpisode,
+        content: note.trim(),
+      },
+      { onConflict: "author_id,season,episode_no" }
+    );
+
+    setIsSaving(false);
+    setMsg(error ? `保存失败：${error.message}` : "✅ 私密观后感已保存");
+  };
+
+  const publishReview = async () => {
+    if (!supabase || !user) return setMsg("请先登录后发布");
+    if (!note.trim()) return setMsg("先写点内容再发布吧");
+
+    setIsPublishing(true);
+    setMsg("");
+
+    const { error } = await supabase.from("episode_reviews").upsert(
+      {
+        author_id: user.id,
+        season: activeSeason,
+        episode_no: activeEpisode,
+        content: note.trim(),
+      },
+      { onConflict: "author_id,season,episode_no" }
+    );
+
+    setIsPublishing(false);
+    if (error) {
+      setMsg(`发布失败：${error.message}`);
+      return;
+    }
+
+    setMsg("✅ 已发布为公开短评");
+    await loadPublicReviews();
+    await loadMyPublicFlag();
+  };
+
+  const withdrawReview = async () => {
+    if (!supabase || !user) return setMsg("请先登录后操作");
+
+    const { error } = await supabase
+      .from("episode_reviews")
+      .delete()
+      .eq("author_id", user.id)
+      .eq("season", activeSeason)
+      .eq("episode_no", activeEpisode);
+
+    setMsg(error ? `撤回失败：${error.message}` : "已撤回公开短评");
+    await loadPublicReviews();
+    await loadMyPublicFlag();
   };
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-12">
       <h1 className="text-3xl font-bold text-zinc-900 dark:text-zinc-100">剧集档案</h1>
       <p className="mt-2 text-zinc-600 dark:text-zinc-400">按季度浏览、点集记录观后感，也可以把每集当作小日记。</p>
+
+      <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50/60 p-4 text-sm text-zinc-700">
+        <p>观后感已升级为「私密（账号可见）+ 公开短评（手动发布）」双层模式，支持跨设备同步。</p>
+        {!user ? (
+          <div className="mt-3 flex gap-2">
+            <input
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="输入邮箱获取登录链接"
+              className="w-full rounded-xl border border-zinc-200 p-2 text-sm dark:border-zinc-700 dark:bg-zinc-950"
+            />
+            <button
+              onClick={sendLoginLink}
+              disabled={isSendingLogin}
+              className="rounded-xl bg-amber-600 px-3 py-2 text-white disabled:opacity-60"
+            >
+              {isSendingLogin ? "发送中..." : "登录"}
+            </button>
+          </div>
+        ) : (
+          <p className="mt-2 text-xs text-emerald-700">✅ 已登录：{user.email}</p>
+        )}
+        {msg ? <p className="mt-2 text-xs text-zinc-600">{msg}</p> : null}
+      </div>
 
       <div className="mt-6 flex flex-wrap gap-2">
         {seasonList.map((s) => (
@@ -93,7 +275,9 @@ export default function EpisodesPage() {
               onClick={() => setActiveEpisode(ep.no)}
               className={`rounded-lg border px-2 py-2 text-left text-xs ${activeEpisode === ep.no ? "border-amber-500 bg-amber-100 text-amber-800" : "border-zinc-200 bg-white text-zinc-700 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-300"}`}
             >
-              <div>{String(ep.no).padStart(2, "0")} · {ep.title}</div>
+              <div>
+                {String(ep.no).padStart(2, "0")} · {ep.title}
+              </div>
               <div className="mt-1 text-[11px] opacity-80">{ep.titleZh || `第${String(ep.no).padStart(2, "0")}话`}</div>
             </button>
           ))}
@@ -102,28 +286,50 @@ export default function EpisodesPage() {
 
       <section className="mt-6 rounded-2xl border border-amber-200 bg-white p-5 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
         <h3 className="text-base font-semibold text-zinc-900 dark:text-zinc-100">
-          {currentSeason.season} · 第{String(activeEpisode).padStart(2, "0")}话 观后感
+          {currentSeason.season} · 第{String(activeEpisode).padStart(2, "0")}话 私密观后感
         </h3>
         <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
-          原题：{currentSeason.episodes.find((e) => e.no === activeEpisode)?.title} ｜ 译名：{currentSeason.episodes.find((e) => e.no === activeEpisode)?.titleZh || `第${String(activeEpisode).padStart(2, "0")}话`}
+          原题：{currentEpisode?.title} ｜ 译名：{currentEpisode?.titleZh || `第${String(activeEpisode).padStart(2, "0")}话`}
         </p>
         <textarea
           value={note}
           onChange={(e) => setNote(e.target.value)}
-          placeholder="写下这一集带给你的感受..."
-          className="mt-3 min-h-40 w-full rounded-xl border border-zinc-200 p-3 text-sm dark:border-zinc-700 dark:bg-zinc-950"
+          placeholder={user ? "写下这一集带给你的感受..." : "登录后可写私密观后感"}
+          disabled={!user}
+          className="mt-3 min-h-40 w-full rounded-xl border border-zinc-200 p-3 text-sm disabled:bg-zinc-100 disabled:text-zinc-500 dark:border-zinc-700 dark:bg-zinc-950"
         />
-        <div className="mt-3 flex gap-2">
-          <button onClick={saveNote} className="rounded-xl bg-amber-600 px-4 py-2 text-sm text-white">保存观后感</button>
-          <button
-            onClick={() => {
-              setNote("");
-              localStorage.removeItem(`ep-note:${noteKey}`);
-            }}
-            className="rounded-xl border border-zinc-200 px-4 py-2 text-sm"
-          >
-            清空本集
+        <div className="mt-3 flex flex-wrap gap-2">
+          <button onClick={savePrivateNote} disabled={!user || isSaving} className="rounded-xl bg-amber-600 px-4 py-2 text-sm text-white disabled:opacity-60">
+            {isSaving ? "保存中..." : "保存私密观后感"}
           </button>
+          <button
+            onClick={publishReview}
+            disabled={!user || isPublishing}
+            className="rounded-xl border border-zinc-300 px-4 py-2 text-sm disabled:opacity-60"
+          >
+            {isPublishing ? "发布中..." : "发布为公开短评"}
+          </button>
+          {hasMyPublicReview ? (
+            <button onClick={withdrawReview} disabled={!user} className="rounded-xl border border-rose-300 px-4 py-2 text-sm text-rose-600">
+              撤回公开
+            </button>
+          ) : null}
+        </div>
+      </section>
+
+      <section className="mt-6 rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+        <h3 className="text-base font-semibold text-zinc-900 dark:text-zinc-100">本集公开短评</h3>
+        <div className="mt-3 space-y-3">
+          {publicReviews.length === 0 ? (
+            <p className="text-sm text-zinc-500">还没有公开短评。</p>
+          ) : (
+            publicReviews.map((r) => (
+              <article key={r.id} className="rounded-xl border border-zinc-200 p-3 dark:border-zinc-700">
+                <p className="text-sm leading-7 text-zinc-700 dark:text-zinc-300">{r.content}</p>
+                <p className="mt-2 text-xs text-zinc-400">{new Date(r.created_at).toLocaleString()}</p>
+              </article>
+            ))
+          )}
         </div>
       </section>
     </div>
