@@ -187,5 +187,59 @@
     "emoji": "🐃",
     "color": "from-violet-50 to-purple-100",
     "image": "https://cdn.myanimelist.net/images/characters/13/516183.jpg"
+  },
+  {
+    "name": "葵",
+    "role": "妖怪",
+    "note": "你点名要加回的角色。",
+    "detail": "对应 Asagi 角色条目，补回角色卡并保留独立展示。",
+    "emoji": "🌸",
+    "color": "from-rose-50 to-fuchsia-100",
+    "image": "https://cdn.myanimelist.net/images/characters/3/33409.jpg"
+  },
+  {
+    "name": "中级妖怪",
+    "role": "妖怪",
+    "note": "夏目身边常见的中级妖怪组。",
+    "detail": "补回一目中级妖怪卡，恢复你之前习惯的角色名单。",
+    "emoji": "👁️",
+    "color": "from-lime-50 to-emerald-100",
+    "image": "https://cdn.myanimelist.net/images/characters/14/121636.jpg"
+  },
+  {
+    "name": "河童",
+    "role": "妖怪",
+    "note": "单纯耿直，重情义。",
+    "detail": "补回河童角色卡，保持经典单元角色完整。",
+    "emoji": "💧",
+    "color": "from-cyan-50 to-teal-100",
+    "image": "https://cdn.myanimelist.net/images/characters/12/127607.jpg"
+  },
+  {
+    "name": "小胡子",
+    "role": "妖怪",
+    "note": "你指定新增的角色名。",
+    "detail": "对应 Mikuri 条目，按你习惯的中文名单独展示。",
+    "emoji": "🐟",
+    "color": "from-sky-50 to-cyan-100",
+    "image": "https://cdn.myanimelist.net/images/characters/7/122103.jpg"
+  },
+  {
+    "name": "红峰",
+    "role": "妖怪",
+    "note": "你指定新增的角色名。",
+    "detail": "对应 Akagane 条目，按你的命名加入角色卡。",
+    "emoji": "🟥",
+    "color": "from-red-50 to-orange-100",
+    "image": "https://cdn.myanimelist.net/images/characters/14/100108.jpg"
+  },
+  {
+    "name": "狸追",
+    "role": "妖怪",
+    "note": "你指定新增的角色名。",
+    "detail": "对应 Karikage 条目，作为独立角色卡加入。",
+    "emoji": "🦝",
+    "color": "from-amber-50 to-yellow-100",
+    "image": "https://cdn.myanimelist.net/images/characters/12/121844.jpg"
   }
 ]
