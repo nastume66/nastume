@@ -18,8 +18,15 @@ type Season = {
 
 type PublicReview = {
   id: string;
+  author_id: string;
   content: string;
   created_at: string;
+};
+
+type PublicProfile = {
+  id: string;
+  nickname: string | null;
+  avatar_url: string | null;
 };
 
 const seasonList = seasons as Season[];
@@ -31,6 +38,11 @@ const toneClass: Record<string, string> = {
   winter: "from-slate-50 to-zinc-50 border-slate-200",
 };
 
+function fallbackNickname(user: User | null) {
+  if (!user?.email) return "友人";
+  return user.email.split("@")[0] || "友人";
+}
+
 export default function EpisodesPage() {
   const supabase = useMemo(() => getSupabaseClient(), []);
 
@@ -41,10 +53,15 @@ export default function EpisodesPage() {
   const [user, setUser] = useState<User | null>(null);
   const [isSendingLogin, setIsSendingLogin] = useState(false);
 
+  const [nickname, setNickname] = useState("");
+  const [avatarUrl, setAvatarUrl] = useState("");
+  const [isSavingProfile, setIsSavingProfile] = useState(false);
+
   const [note, setNote] = useState("");
   const [isSaving, setIsSaving] = useState(false);
   const [isPublishing, setIsPublishing] = useState(false);
   const [publicReviews, setPublicReviews] = useState<PublicReview[]>([]);
+  const [profilesMap, setProfilesMap] = useState<Record<string, PublicProfile>>({});
   const [hasMyPublicReview, setHasMyPublicReview] = useState(false);
   const [msg, setMsg] = useState("");
 
@@ -72,17 +89,70 @@ export default function EpisodesPage() {
     return () => sub.subscription.unsubscribe();
   }, [supabase]);
 
+  const loadMyProfile = async () => {
+    if (!supabase || !user) {
+      setNickname("");
+      setAvatarUrl("");
+      return;
+    }
+
+    const { data } = await supabase
+      .from("user_profiles")
+      .select("nickname, avatar_url")
+      .eq("id", user.id)
+      .maybeSingle();
+
+    setNickname(data?.nickname || fallbackNickname(user));
+    setAvatarUrl(data?.avatar_url || "");
+  };
+
+  const saveMyProfile = async () => {
+    if (!supabase || !user) return;
+    setIsSavingProfile(true);
+    setMsg("");
+
+    const { error } = await supabase.from("user_profiles").upsert(
+      {
+        id: user.id,
+        nickname: nickname.trim() || fallbackNickname(user),
+        avatar_url: avatarUrl.trim() || null,
+      },
+      { onConflict: "id" }
+    );
+
+    setIsSavingProfile(false);
+    setMsg(error ? `资料保存失败：${error.message}` : "✅ 昵称/头像已保存");
+  };
+
   const loadPublicReviews = async () => {
     if (!supabase) return;
     const { data } = await supabase
       .from("episode_reviews")
-      .select("id, content, created_at")
+      .select("id, author_id, content, created_at")
       .eq("season", activeSeason)
       .eq("episode_no", activeEpisode)
       .order("created_at", { ascending: false })
       .limit(30);
 
-    setPublicReviews((data || []) as PublicReview[]);
+    const reviews = (data || []) as PublicReview[];
+    setPublicReviews(reviews);
+
+    const ids = [...new Set(reviews.map((r) => r.author_id).filter(Boolean))];
+    if (!ids.length) {
+      setProfilesMap({});
+      return;
+    }
+
+    const { data: profiles } = await supabase
+      .from("user_profiles")
+      .select("id, nickname, avatar_url")
+      .in("id", ids);
+
+    const map: Record<string, PublicProfile> = {};
+    (profiles || []).forEach((p) => {
+      map[p.id] = p as PublicProfile;
+    });
+    setProfilesMap(map);
   };
 
   const loadMyPrivateNote = async () => {
@@ -125,6 +195,11 @@ export default function EpisodesPage() {
     void loadMyPublicFlag();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeSeason, activeEpisode, user?.id]);
+
+  useEffect(() => {
+    void loadMyProfile();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user?.id]);
 
   const sendLoginLink = async () => {
     if (!supabase || !email.trim()) return;
@@ -227,7 +302,30 @@ export default function EpisodesPage() {
             </button>
           </div>
         ) : (
-          <p className="mt-2 text-xs text-emerald-700">✅ 已登录：{user.email}</p>
+          <div className="mt-3 space-y-2">
+            <p className="text-xs text-emerald-700">✅ 已登录：{user.email}</p>
+            <div className="grid gap-2 md:grid-cols-2">
+              <input
+                value={nickname}
+                onChange={(e) => setNickname(e.target.value)}
+                placeholder="你的昵称（公开短评显示）"
+                className="rounded-xl border border-zinc-200 p-2 text-sm dark:border-zinc-700 dark:bg-zinc-950"
+              />
+              <input
+                value={avatarUrl}
+                onChange={(e) => setAvatarUrl(e.target.value)}
+                placeholder="头像链接（可选）"
+                className="rounded-xl border border-zinc-200 p-2 text-sm dark:border-zinc-700 dark:bg-zinc-950"
+              />
+            </div>
+            <button
+              onClick={saveMyProfile}
+              disabled={isSavingProfile}
+              className="rounded-xl border border-zinc-300 px-3 py-1.5 text-xs disabled:opacity-60"
+            >
+              {isSavingProfile ? "保存中..." : "保存昵称/头像"}
+            </button>
+          </div>
         )}
         {msg ? <p className="mt-2 text-xs text-zinc-600">{msg}</p> : null}
       </div>
@@ -323,12 +421,28 @@ export default function EpisodesPage() {
           {publicReviews.length === 0 ? (
             <p className="text-sm text-zinc-500">还没有公开短评。</p>
           ) : (
-            publicReviews.map((r) => (
-              <article key={r.id} className="rounded-xl border border-zinc-200 p-3 dark:border-zinc-700">
-                <p className="text-sm leading-7 text-zinc-700 dark:text-zinc-300">{r.content}</p>
-                <p className="mt-2 text-xs text-zinc-400">{new Date(r.created_at).toLocaleString()}</p>
-              </article>
-            ))
+            publicReviews.map((r) => {
+              const profile = profilesMap[r.author_id];
+              const displayName = profile?.nickname?.trim() || "友人";
+              const avatar = profile?.avatar_url || "";
+              return (
+                <article key={r.id} className="rounded-xl border border-zinc-200 p-3 dark:border-zinc-700">
+                  <div className="mb-2 flex items-center gap-2">
+                    {avatar ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={avatar} alt={displayName} className="h-7 w-7 rounded-full object-cover" />
+                    ) : (
+                      <div className="flex h-7 w-7 items-center justify-center rounded-full bg-amber-200 text-xs text-amber-800">
+                        {displayName.slice(0, 1)}
+                      </div>
+                    )}
+                    <span className="text-xs font-medium text-zinc-700 dark:text-zinc-300">{displayName}</span>
+                  </div>
+                  <p className="text-sm leading-7 text-zinc-700 dark:text-zinc-300">{r.content}</p>
+                  <p className="mt-2 text-xs text-zinc-400">{new Date(r.created_at).toLocaleString()}</p>
+                </article>
+              );
+            })
           )}
         </div>
       </section>
