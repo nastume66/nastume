@@ -90,55 +90,68 @@
     "episodes": [
       {
         "no": 1,
-        "title": "奪われた友人帳"
+        "title": "奪われた友人帳",
+        "titleZh": "第01话"
       },
       {
         "no": 2,
-        "title": "春に溶ける"
+        "title": "春に溶ける",
+        "titleZh": "第02话"
       },
       {
         "no": 3,
-        "title": "妖怪退治 湯けむり行"
+        "title": "妖怪退治 湯けむり行",
+        "titleZh": "第03话"
       },
       {
         "no": 4,
-        "title": "雛、孵る"
+        "title": "雛、孵る",
+        "titleZh": "第04话"
       },
       {
         "no": 5,
-        "title": "約束の樹"
+        "title": "約束の樹",
+        "titleZh": "第05话"
       },
       {
         "no": 6,
-        "title": "少女の陣"
+        "title": "少女の陣",
+        "titleZh": "第06话"
       },
       {
         "no": 7,
-        "title": "呼んではならぬ"
+        "title": "呼んではならぬ",
+        "titleZh": "第07话"
       },
       {
         "no": 8,
-        "title": "不死の想い"
+        "title": "不死の想い",
+        "titleZh": "第08话"
       },
       {
         "no": 9,
-        "title": "桜並木の彼"
+        "title": "桜並木の彼",
+        "titleZh": "第09话"
       },
       {
         "no": 10,
-        "title": "仮家"
+        "title": "仮家",
+        "titleZh": "第10话"
       },
       {
         "no": 11,
-        "title": "呪術師の会"
+        "title": "呪術師の会",
+        "titleZh": "第11话"
       },
       {
         "no": 12,
-        "title": "廃屋の少年"
+        "title": "廃屋の少年",
+        "titleZh": "第12话"
       },
       {
         "no": 13,
-        "title": "人と妖"
+        "title": "人と妖",
+        "titleZh": "第13话"
       }
     ]
   },
@@ -155,55 +168,68 @@
     "episodes": [
       {
         "no": 1,
-        "title": "妖しきものの名"
+        "title": "妖しきものの名",
+        "titleZh": "第01话"
       },
       {
         "no": 2,
-        "title": "浮春の郷"
+        "title": "浮春の郷",
+        "titleZh": "第02话"
       },
       {
         "no": 3,
-        "title": "偽りの友人"
+        "title": "偽りの友人",
+        "titleZh": "第03话"
       },
       {
         "no": 4,
-        "title": "幼き日々に"
+        "title": "幼き日々に",
+        "titleZh": "第04话"
       },
       {
         "no": 5,
-        "title": "蔵にひそむもの"
+        "title": "蔵にひそむもの",
+        "titleZh": "第05话"
       },
       {
         "no": 6,
-        "title": "人ならぬもの"
+        "title": "人ならぬもの",
+        "titleZh": "第06话"
       },
       {
         "no": 7,
-        "title": "祓い屋"
+        "title": "祓い屋",
+        "titleZh": "第07话"
       },
       {
         "no": 8,
-        "title": "子狐のとけい"
+        "title": "子狐のとけい",
+        "titleZh": "第08话"
       },
       {
         "no": 9,
-        "title": "秋風切って"
+        "title": "秋風切って",
+        "titleZh": "第09话"
       },
       {
         "no": 10,
-        "title": "割れた鏡"
+        "title": "割れた鏡",
+        "titleZh": "第10话"
       },
       {
         "no": 11,
-        "title": "映すもの"
+        "title": "映すもの",
+        "titleZh": "第11话"
       },
       {
         "no": 12,
-        "title": "帰る場所"
+        "title": "帰る場所",
+        "titleZh": "第12话"
       },
       {
         "no": 13,
-        "title": "夏目遊戯帳"
+        "title": "夏目遊戯帳",
+        "titleZh": "第13话"
       }
     ]
   },
@@ -220,55 +246,68 @@
     "episodes": [
       {
         "no": 1,
-        "title": "とらわれた夏目"
+        "title": "とらわれた夏目",
+        "titleZh": "第01话"
       },
       {
         "no": 2,
-        "title": "東方の森"
+        "title": "東方の森",
+        "titleZh": "第02话"
       },
       {
         "no": 3,
-        "title": "小さきもの"
+        "title": "小さきもの",
+        "titleZh": "第03话"
       },
       {
         "no": 4,
-        "title": "代答"
+        "title": "代答",
+        "titleZh": "第04话"
       },
       {
         "no": 5,
-        "title": "過ぎし日の君に"
+        "title": "過ぎし日の君に",
+        "titleZh": "第05话"
       },
       {
         "no": 6,
-        "title": "硝子のむこう"
+        "title": "硝子のむこう",
+        "titleZh": "第06话"
       },
       {
         "no": 7,
-        "title": "人と妖の間で"
+        "title": "人と妖の間で",
+        "titleZh": "第07话"
       },
       {
         "no": 8,
-        "title": "惑いし頃に"
+        "title": "惑いし頃に",
+        "titleZh": "第08话"
       },
       {
         "no": 9,
-        "title": "月分祭"
+        "title": "月分祭",
+        "titleZh": "第09话"
       },
       {
         "no": 10,
-        "title": "祀られた神様"
+        "title": "祀られた神様",
+        "titleZh": "第10话"
       },
       {
         "no": 11,
-        "title": "一枚の写真"
+        "title": "一枚の写真",
+        "titleZh": "第11话"
       },
       {
         "no": 12,
-        "title": "記憶の扉"
+        "title": "記憶の扉",
+        "titleZh": "第12话"
       },
       {
         "no": 13,
-        "title": "遠き家路"
+        "title": "遠き家路",
+        "titleZh": "第13话"
       }
     ]
   },
@@ -285,47 +324,58 @@
     "episodes": [
       {
         "no": 1,
-        "title": "変わらぬ姿"
+        "title": "変わらぬ姿",
+        "titleZh": "第01话"
       },
       {
         "no": 2,
-        "title": "悪戯な雨"
+        "title": "悪戯な雨",
+        "titleZh": "第02话"
       },
       {
         "no": 3,
-        "title": "祓い屋からの手紙"
+        "title": "祓い屋からの手紙",
+        "titleZh": "第03话"
       },
       {
         "no": 4,
-        "title": "連鎖の陰"
+        "title": "連鎖の陰",
+        "titleZh": "第04话"
       },
       {
         "no": 5,
-        "title": "結んではいけない"
+        "title": "結んではいけない",
+        "titleZh": "第05话"
       },
       {
         "no": 6,
-        "title": "音無しの谷"
+        "title": "音無しの谷",
+        "titleZh": "第06话"
       },
       {
         "no": 7,
-        "title": "遠い祭り火"
+        "title": "遠い祭り火",
+        "titleZh": "第07话"
       },
       {
         "no": 8,
-        "title": "歪みなき世界"
+        "title": "歪みなき世界",
+        "titleZh": "第08话"
       },
       {
         "no": 9,
-        "title": "険しきをゆく"
+        "title": "険しきをゆく",
+        "titleZh": "第09话"
       },
       {
         "no": 10,
-        "title": "塔子と滋"
+        "title": "塔子と滋",
+        "titleZh": "第10话"
       },
       {
         "no": 11,
-        "title": "儚き者へ"
+        "title": "儚き者へ",
+        "titleZh": "第11话"
       }
     ]
   },
@@ -342,47 +392,58 @@
     "episodes": [
       {
         "no": 1,
-        "title": "つきひぐい"
+        "title": "つきひぐい",
+        "titleZh": "第01话"
       },
       {
         "no": 2,
-        "title": "明日咲く"
+        "title": "明日咲く",
+        "titleZh": "第02话"
       },
       {
         "no": 3,
-        "title": "二体さま"
+        "title": "二体さま",
+        "titleZh": "第03话"
       },
       {
         "no": 4,
-        "title": "違える瞳"
+        "title": "違える瞳",
+        "titleZh": "第04话"
       },
       {
         "no": 5,
-        "title": "縛られしもの"
+        "title": "縛られしもの",
+        "titleZh": "第05话"
       },
       {
         "no": 6,
-        "title": "西村と北本"
+        "title": "西村と北本",
+        "titleZh": "第06话"
       },
       {
         "no": 7,
-        "title": "ゴモチの恩人"
+        "title": "ゴモチの恩人",
+        "titleZh": "第07话"
       },
       {
         "no": 8,
-        "title": "いつかくる日"
+        "title": "いつかくる日",
+        "titleZh": "第08话"
       },
       {
         "no": 9,
-        "title": "ながれゆくは"
+        "title": "ながれゆくは",
+        "titleZh": "第09话"
       },
       {
         "no": 10,
-        "title": "閉ざされた部屋"
+        "title": "閉ざされた部屋",
+        "titleZh": "第10话"
       },
       {
         "no": 11,
-        "title": "大切なモノ"
+        "title": "大切なモノ",
+        "titleZh": "第11话"
       }
     ]
   },
@@ -399,55 +460,68 @@
     "episodes": [
       {
         "no": 1,
-        "title": "破片は 愁う"
+        "title": "破片は 愁う",
+        "titleZh": "第01话"
       },
       {
         "no": 2,
-        "title": "いつかの庭"
+        "title": "いつかの庭",
+        "titleZh": "第02话"
       },
       {
         "no": 3,
-        "title": "とおかんや"
+        "title": "とおかんや",
+        "titleZh": "第03话"
       },
       {
         "no": 4,
-        "title": "頁の奥"
+        "title": "頁の奥",
+        "titleZh": "第04话"
       },
       {
         "no": 5,
-        "title": "ちょびの宝物"
+        "title": "ちょびの宝物",
+        "titleZh": "第05话"
       },
       {
         "no": 6,
-        "title": "廃駅・ふたつの輪"
+        "title": "廃駅・ふたつの輪",
+        "titleZh": "第06话"
       },
       {
         "no": 7,
-        "title": "苦手なふたり"
+        "title": "苦手なふたり",
+        "titleZh": "第07话"
       },
       {
         "no": 8,
-        "title": "月夜の夏目"
+        "title": "月夜の夏目",
+        "titleZh": "第08话"
       },
       {
         "no": 9,
-        "title": "儀式を阻む者"
+        "title": "儀式を阻む者",
+        "titleZh": "第09话"
       },
       {
         "no": 10,
-        "title": "約束の残る家"
+        "title": "約束の残る家",
+        "titleZh": "第10话"
       },
       {
         "no": 11,
-        "title": "名前を教えて"
+        "title": "名前を教えて",
+        "titleZh": "第11话"
       },
       {
         "no": 12,
-        "title": "夢路より"
+        "title": "夢路より",
+        "titleZh": "第12话"
       },
       {
         "no": 13,
-        "title": "伸ばした手は"
+        "title": "伸ばした手は",
+        "titleZh": "第13话"
       }
     ]
   }
