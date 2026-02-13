@@ -292,6 +292,7 @@ export default function EpisodesPage() {
               email={user.email}
               avatarUrl={avatarUrl}
               subtitle="已登录"
+              variant="inline"
             />
 
             <p className="text-xs text-zinc-500">

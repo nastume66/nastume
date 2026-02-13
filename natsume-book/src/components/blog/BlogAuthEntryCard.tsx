@@ -46,7 +46,7 @@ export default function BlogAuthEntryCard() {
     <div className="mt-6 rounded-2xl border border-amber-200 bg-white p-4 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
       {email ? (
         <>
-          <UserIdentityCard name={displayName} email={email} avatarUrl={profile?.avatar_url} />
+          <UserIdentityCard name={displayName} email={email} avatarUrl={profile?.avatar_url} variant="inline" />
           <Link href="/admin" className="mt-3 inline-block text-sm font-medium text-emerald-700 hover:text-emerald-800 dark:text-emerald-400">
             去后台继续写作 →
           </Link>
