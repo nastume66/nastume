@@ -30,7 +30,7 @@ export default function Home() {
           <h1 className="text-3xl font-bold leading-tight text-zinc-900 md:text-5xl dark:text-zinc-100">夏目友人帐 · 友人之庭</h1>
           <p className="mt-5 max-w-2xl text-sm leading-7 text-zinc-700 md:text-base md:leading-8 dark:text-zinc-300">
             一个温柔的小站，记录《夏目友人帐》的角色、剧集和治愈瞬间。
-            现在是第二版基础框架，后续可继续加图集、时间线和互动功能。
+            愿你每次路过这里，都能捡回一点平静与勇气。
           </p>
 
           <div className="mt-8 grid gap-3 md:grid-cols-3">
