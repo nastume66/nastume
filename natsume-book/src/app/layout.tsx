@@ -44,9 +44,9 @@ const nav = [
   { href: "/characters", label: "角色" },
   { href: "/episodes", label: "剧集" },
   { href: "/guestbook", label: "友人帐" },
-  { href: "/blog", label: "博客" },
-  { href: "/changelog", label: "日志" },
-  { href: "/admin", label: "管理" },
+  { href: "/blog", label: "专栏" },
+  { href: "/changelog", label: "足迹" },
+  { href: "/admin", label: "后台" },
 ];
 
 export default function RootLayout({

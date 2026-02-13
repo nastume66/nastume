@@ -17,6 +17,15 @@ export type BlogPost = {
   tags: string[];
   status: "draft" | "published";
   author_id?: string;
+  category_id?: string | null;
   created_at: string;
   updated_at: string;
+};
+
+export type BlogCategory = {
+  id: string;
+  name: string;
+  slug: string;
+  author_id: string;
+  created_at: string;
 };
