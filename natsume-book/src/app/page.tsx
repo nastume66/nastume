@@ -14,10 +14,10 @@ export default function Home() {
 
         <div className="mb-6 overflow-hidden rounded-2xl border border-amber-200 bg-white shadow-sm dark:border-zinc-800 dark:bg-zinc-900/80">
           <Image
-            src="https://cdn.myanimelist.net/images/anime/1681/108439l.jpg"
-            alt="夏目友人帐 横幅"
-            width={1200}
-            height={420}
+            src="/images/home-hero.jpg"
+            alt="夏目与斑 首页插图"
+            width={1422}
+            height={800}
             className="h-56 w-full object-cover object-center md:h-72"
           />
         </div>
