@@ -5,6 +5,11 @@ import { getSupabaseClient, BlogCategory, BlogPost } from "@/lib/supabase";
 import type { User } from "@supabase/supabase-js";
 import RichTextEditor from "@/components/admin/RichTextEditor";
 
+type Profile = {
+  nickname: string | null;
+  avatar_url: string | null;
+};
+
 type EditorState = {
   id?: string;
   title: string;
@@ -38,6 +43,27 @@ export default function AdminClient() {
   const [user, setUser] = useState<User | null>(null);
   const [isSendingLogin, setIsSendingLogin] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [profile, setProfile] = useState<Profile | null>(null);
+  const [nickname, setNickname] = useState("");
+  const [avatarUrl, setAvatarUrl] = useState("");
+  const [isSavingProfile, setIsSavingProfile] = useState(false);
+  const [isUploadingAvatar, setIsUploadingAvatar] = useState(false);
+
+  const fallbackNickname = (u: User | null) => (u?.email ? u.email.split("@")[0] || "友人" : "友人");
+
+  const loadProfile = async (uid?: string, currentUser?: User | null) => {
+    if (!supabase || !uid) {
+      setProfile(null);
+      setNickname("");
+      setAvatarUrl("");
+      return;
+    }
+    const { data } = await supabase.from("user_profiles").select("nickname,avatar_url").eq("id", uid).maybeSingle();
+    const p = (data as Profile | null) ?? null;
+    setProfile(p);
+    setNickname(p?.nickname || fallbackNickname(currentUser || null));
+    setAvatarUrl(p?.avatar_url || "");
+  };
 
   const loadCategories = async (uid?: string) => {
     if (!supabase || !uid) return;
@@ -73,17 +99,19 @@ export default function AdminClient() {
     supabase.auth.getSession().then(({ data }) => {
       const current = data.session?.user ?? null;
       setUser(current);
-      setMsg(current ? `已登录：${current.email}` : "请先点击登录邮箱链接完成认证");
+      setMsg(current ? "已登录" : "请先点击登录邮箱链接完成认证");
       void loadPosts(current?.id);
       void loadCategories(current?.id);
+      void loadProfile(current?.id, current);
     });
 
     const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
       const current = session?.user ?? null;
       setUser(current);
-      setMsg(current ? `已登录：${current.email}` : "请先点击登录邮箱链接完成认证");
+      setMsg(current ? "已登录" : "请先点击登录邮箱链接完成认证");
       void loadPosts(current?.id);
       void loadCategories(current?.id);
+      void loadProfile(current?.id, current);
     });
 
     return () => sub.subscription.unsubscribe();
@@ -114,7 +142,40 @@ export default function AdminClient() {
     setPosts([]);
     setCategories([]);
     setEditor(emptyEditor);
+    setProfile(null);
+    setNickname("");
+    setAvatarUrl("");
     setMsg("已退出登录，可输入新邮箱切换账号");
+  };
+
+  const saveProfile = async () => {
+    if (!supabase || !user) return;
+    setIsSavingProfile(true);
+    const { error } = await supabase.from("user_profiles").upsert(
+      {
+        id: user.id,
+        nickname: nickname.trim() || fallbackNickname(user),
+        avatar_url: avatarUrl.trim() || null,
+      },
+      { onConflict: "id" }
+    );
+    setIsSavingProfile(false);
+    if (error) return setMsg(`资料保存失败：${error.message}`);
+    setMsg("✅ 昵称/头像已保存");
+    await loadProfile(user.id, user);
+  };
+
+  const uploadAvatar = async (file: File | null) => {
+    if (!supabase || !user || !file) return;
+    setIsUploadingAvatar(true);
+    const ext = file.name.split(".").pop() || "png";
+    const path = `avatars/${user.id}-${Date.now()}.${ext}`;
+    const { error } = await supabase.storage.from("blog-images").upload(path, file, { cacheControl: "3600", upsert: false });
+    setIsUploadingAvatar(false);
+    if (error) return setMsg(`头像上传失败：${error.message}`);
+    const publicUrl = supabase.storage.from("blog-images").getPublicUrl(path).data.publicUrl;
+    setAvatarUrl(publicUrl);
+    setMsg("✅ 头像已上传，点“保存资料”生效");
   };
 
   const createCategory = async () => {
@@ -240,11 +301,41 @@ export default function AdminClient() {
             <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">{msg}</p>
           </div>
           <div className="flex w-full gap-2 md:w-auto md:min-w-[520px]">
-            <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="你的邮箱" className="w-full rounded-xl border border-zinc-200 p-2 text-sm dark:border-zinc-700 dark:bg-zinc-950" />
-            <button onClick={login} disabled={isSendingLogin} className="rounded-xl bg-amber-600 px-3 py-2 text-sm text-white disabled:opacity-60">{isSendingLogin ? "发送中..." : "登录"}</button>
-            {user ? <button onClick={switchAccount} className="rounded-xl border border-zinc-300 px-3 py-2 text-sm">切换账号</button> : null}
+            {user ? (
+              <div className="flex w-full items-center justify-end gap-2">
+                <div className="flex items-center gap-2 rounded-xl border border-emerald-200 bg-emerald-50 px-2 py-1">
+                  {profile?.avatar_url ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={profile.avatar_url} alt={nickname || fallbackNickname(user)} className="h-7 w-7 rounded-full object-cover" />
+                  ) : (
+                    <div className="flex h-7 w-7 items-center justify-center rounded-full bg-amber-200 text-xs text-amber-800">{(nickname || fallbackNickname(user)).slice(0, 1)}</div>
+                  )}
+                  <span className="text-xs text-emerald-800">{nickname || fallbackNickname(user)}</span>
+                </div>
+                <button onClick={switchAccount} className="rounded-xl border border-zinc-300 px-3 py-2 text-sm">切换账号</button>
+              </div>
+            ) : (
+              <>
+                <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="你的邮箱" className="w-full rounded-xl border border-zinc-200 p-2 text-sm dark:border-zinc-700 dark:bg-zinc-950" />
+                <button onClick={login} disabled={isSendingLogin} className="rounded-xl bg-amber-600 px-3 py-2 text-sm text-white disabled:opacity-60">{isSendingLogin ? "发送中..." : "登录"}</button>
+              </>
+            )}
           </div>
         </div>
+
+        {user ? (
+          <div className="mt-4 rounded-xl border border-zinc-200 p-3 dark:border-zinc-700">
+            <p className="text-sm font-medium">个人资料（博客/观后感共用）</p>
+            <div className="mt-2 grid gap-2 md:grid-cols-2">
+              <input value={nickname} onChange={(e) => setNickname(e.target.value)} placeholder="昵称" className="w-full rounded-xl border border-zinc-200 p-2 text-sm dark:border-zinc-700 dark:bg-zinc-950" />
+              <div className="space-y-2">
+                <input type="file" accept="image/*" onChange={(e) => uploadAvatar(e.target.files?.[0] || null)} className="w-full rounded-xl border border-zinc-200 p-2 text-sm dark:border-zinc-700 dark:bg-zinc-950" />
+                {isUploadingAvatar ? <p className="text-xs text-zinc-500">头像上传中...</p> : null}
+              </div>
+            </div>
+            <button onClick={saveProfile} disabled={isSavingProfile} className="mt-2 rounded-xl border border-zinc-300 px-3 py-2 text-xs disabled:opacity-60">{isSavingProfile ? "保存中..." : "保存资料"}</button>
+          </div>
+        ) : null}
 
         <div className="mt-4 rounded-xl border border-zinc-200 p-3 dark:border-zinc-700">
           <p className="text-sm font-medium">栏目管理（支持重命名 + 拖拽排序）</p>
