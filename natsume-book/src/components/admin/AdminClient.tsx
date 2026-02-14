@@ -199,6 +199,9 @@ export default function AdminClient() {
 
   const deleteCategory = async (id: string) => {
     if (!supabase || !user) return;
+    const target = categories.find((c) => c.id === id);
+    if (!window.confirm(`确认删除栏目「${target?.name || "未命名"}」吗？该栏目下文章会变为未分类。`)) return;
+
     const { error } = await supabase.from("categories").delete().eq("id", id).eq("author_id", user.id);
     if (error) return setMsg(`❌ 删除栏目失败，请稍后重试（${error.message}）`);
     await loadCategories(user.id);
@@ -290,6 +293,9 @@ export default function AdminClient() {
 
   const remove = async (id: string) => {
     if (!supabase || !user) return;
+    const target = posts.find((p) => p.id === id);
+    if (!window.confirm(`确认删除文章「${target?.title || "未命名"}」吗？删除后不可恢复。`)) return;
+
     const { error } = await supabase.from("posts").delete().eq("id", id).eq("author_id", user.id);
     setMsg(error ? `❌ 删除失败，请稍后重试（${error.message}）` : "✅ 已删除");
     if (!error) await loadPosts(user.id);
