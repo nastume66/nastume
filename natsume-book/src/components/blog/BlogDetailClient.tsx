@@ -12,7 +12,7 @@ export default function BlogDetailClient({ slug, pid }: { slug: string; pid?: st
   const [post, setPost] = useState<BlogPost | null>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(Boolean(supabase));
-  const [msg, setMsg] = useState(supabase ? "正在加载文章..." : "未配置 Supabase。");
+  const [msg, setMsg] = useState(supabase ? "正在加载文章..." : "暂时无法连接数据服务，请稍后再试。");
 
   useEffect(() => {
     if (!supabase) return;
@@ -64,7 +64,7 @@ export default function BlogDetailClient({ slug, pid }: { slug: string; pid?: st
 
       if (error || !data) {
         setPost(null);
-        setMsg("没找到这篇文章，可能是链接 slug 不一致。你回后台点一次“编辑”后再保存，我来帮你自动修复。\n也可以回专栏页重新点一次。");
+        setMsg("没找到这篇文章，可能是链接已失效。请返回专栏重新打开，或去后台保存一次后再试。");
         setLoading(false);
         return;
       }

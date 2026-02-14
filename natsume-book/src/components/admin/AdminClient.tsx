@@ -85,7 +85,7 @@ export default function AdminClient() {
       .order("updated_at", { ascending: false });
 
     if (error) {
-      setMsg(`读取文章失败：${error.message}（请执行 supabase/author-migration.sql + categories-migration.sql）`);
+      setMsg(`读取文章失败，请稍后重试（${error.message}）`);
       return;
     }
     setPosts((data || []) as BlogPost[]);
@@ -93,7 +93,7 @@ export default function AdminClient() {
 
   useEffect(() => {
     if (!supabase) {
-      setMsg("未连接 Supabase：请先配置环境变量并重新部署");
+      setMsg("暂时无法连接数据服务，请稍后再试。");
       return;
     }
 
@@ -121,7 +121,7 @@ export default function AdminClient() {
 
   const login = async () => {
     if (!email.trim()) return setMsg("请先输入邮箱地址");
-    if (!supabase) return setMsg("未检测到 Supabase 环境变量，请检查 NEXT_PUBLIC_SUPABASE_URL / ANON_KEY");
+    if (!supabase) return setMsg("暂时无法连接数据服务，请稍后再试。");
 
     try {
       setIsSendingLogin(true);
@@ -131,7 +131,7 @@ export default function AdminClient() {
         email: email.trim(),
         options: { emailRedirectTo: `${redirectBase}/admin` },
       });
-      setMsg(error ? `登录失败：${error.message}` : "✅ 登录链接已发送到邮箱");
+      setMsg(error ? `登录失败，请稍后重试（${error.message}）` : "✅ 登录链接已发送到邮箱");
     } finally {
       setIsSendingLogin(false);
     }
@@ -162,7 +162,7 @@ export default function AdminClient() {
       { onConflict: "id" }
     );
     setIsSavingProfile(false);
-    if (error) return setMsg(`资料保存失败：${error.message}`);
+    if (error) return setMsg(`资料保存失败，请稍后重试（${error.message}）`);
     setMsg("✅ 昵称/头像已保存");
     await loadProfile(user.id, user);
   };
@@ -174,7 +174,7 @@ export default function AdminClient() {
     const path = `avatars/${user.id}-${Date.now()}.${ext}`;
     const { error } = await supabase.storage.from("blog-images").upload(path, file, { cacheControl: "3600", upsert: false });
     setIsUploadingAvatar(false);
-    if (error) return setMsg(`头像上传失败：${error.message}`);
+    if (error) return setMsg(`头像上传失败，请稍后重试（${error.message}）`);
     const publicUrl = supabase.storage.from("blog-images").getPublicUrl(path).data.publicUrl;
     setAvatarUrl(publicUrl);
     setMsg("✅ 头像已上传，点“保存资料”生效");
@@ -190,7 +190,7 @@ export default function AdminClient() {
       author_id: user.id,
       sort_order: nextOrder,
     });
-    if (error) return setMsg(`创建栏目失败：${error.message}`);
+    if (error) return setMsg(`创建栏目失败，请稍后重试（${error.message}）`);
     setNewCategoryName("");
     await loadCategories(user.id);
     setMsg("✅ 栏目已创建");
@@ -199,7 +199,7 @@ export default function AdminClient() {
   const deleteCategory = async (id: string) => {
     if (!supabase || !user) return;
     const { error } = await supabase.from("categories").delete().eq("id", id).eq("author_id", user.id);
-    if (error) return setMsg(`删除栏目失败：${error.message}`);
+    if (error) return setMsg(`删除栏目失败，请稍后重试（${error.message}）`);
     await loadCategories(user.id);
     setMsg("✅ 栏目已删除");
   };
@@ -214,7 +214,7 @@ export default function AdminClient() {
       .update({ name: nextName, slug: nextSlug })
       .eq("id", category.id)
       .eq("author_id", user.id);
-    if (error) return setMsg(`重命名失败：${error.message}`);
+    if (error) return setMsg(`重命名失败，请稍后重试（${error.message}）`);
     await loadCategories(user.id);
     setMsg("✅ 栏目已重命名");
   };
@@ -248,7 +248,7 @@ export default function AdminClient() {
       const path = `blog/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
       const { error } = await supabase.storage.from("blog-images").upload(path, file, { cacheControl: "3600", upsert: false });
       if (error) {
-        setMsg(`上传失败：${error.message}`);
+        setMsg(`上传失败，请稍后重试（${error.message}）`);
         return [];
       }
       urls.push(supabase.storage.from("blog-images").getPublicUrl(path).data.publicUrl);
@@ -278,7 +278,7 @@ export default function AdminClient() {
         ? await supabase.from("posts").update(payload).eq("id", editor.id)
         : await supabase.from("posts").insert(payload);
 
-      if (error) return setMsg(`保存失败：${error.message}`);
+      if (error) return setMsg(`保存失败，请稍后重试（${error.message}）`);
       setMsg("✅ 已保存");
       setEditor(emptyEditor);
       await loadPosts(user.id);
@@ -290,7 +290,7 @@ export default function AdminClient() {
   const remove = async (id: string) => {
     if (!supabase || !user) return;
     const { error } = await supabase.from("posts").delete().eq("id", id).eq("author_id", user.id);
-    setMsg(error ? `删除失败：${error.message}` : "✅ 已删除");
+    setMsg(error ? `删除失败，请稍后重试（${error.message}）` : "✅ 已删除");
     if (!error) await loadPosts(user.id);
   };
 

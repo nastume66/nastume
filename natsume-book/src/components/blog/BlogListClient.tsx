@@ -47,7 +47,7 @@ export default function BlogListClient() {
 
       if (postsRes.error) {
         setPosts([]);
-        setStateText(`加载失败：${postsRes.error.message}`);
+        setStateText("文章加载失败，请稍后重试。");
         return;
       }
 

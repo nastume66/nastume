@@ -37,7 +37,7 @@ export default function GuestbookClient() {
       const supabase = getSupabaseClient();
 
       if (!supabase) {
-        setError("未检测到数据库配置，当前环境无法跨设备同步。");
+        setError("暂时无法连接数据服务，请稍后再试。");
         setLoading(false);
         return;
       }
@@ -49,7 +49,7 @@ export default function GuestbookClient() {
         .limit(100);
 
       if (error) {
-        setError("留言读取失败，请稍后重试。");
+        setError("留言加载失败，请稍后重试。");
       } else {
         setMessages(
           (data ?? []).map((item) => ({
@@ -115,7 +115,7 @@ export default function GuestbookClient() {
 
     const supabase = getSupabaseClient();
     if (!supabase) {
-      setError("未检测到数据库配置，当前环境无法跨设备同步。");
+      setError("暂时无法连接数据服务，请稍后再试。");
       return;
     }
 

@@ -197,7 +197,7 @@ export default function EpisodesPage() {
     });
 
     setIsSendingLogin(false);
-    setMsg(error ? `登录失败：${error.message}` : "✅ 登录链接已发送，请去邮箱确认");
+    setMsg(error ? `登录失败，请稍后重试（${error.message}）` : "✅ 登录链接已发送，请去邮箱确认");
   };
 
   const savePrivateNote = async () => {
@@ -216,7 +216,7 @@ export default function EpisodesPage() {
     );
 
     setIsSaving(false);
-    setMsg(error ? `保存失败：${error.message}` : "✅ 私密观后感已保存");
+    setMsg(error ? `保存失败，请稍后重试（${error.message}）` : "✅ 私密观后感已保存");
   };
 
   const publishReview = async () => {
@@ -238,7 +238,7 @@ export default function EpisodesPage() {
 
     setIsPublishing(false);
     if (error) {
-      setMsg(`发布失败：${error.message}`);
+      setMsg(`发布失败，请稍后重试（${error.message}）`);
       return;
     }
 
@@ -257,7 +257,7 @@ export default function EpisodesPage() {
       .eq("season", activeSeason)
       .eq("episode_no", activeEpisode);
 
-    setMsg(error ? `撤回失败：${error.message}` : "✅ 已撤回公开短评");
+    setMsg(error ? `撤回失败，请稍后重试（${error.message}）` : "✅ 已撤回公开短评");
     await loadPublicReviews();
     await loadMyPublicFlag();
   };
