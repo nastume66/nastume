@@ -37,7 +37,7 @@ export default function GuestbookClient() {
       const supabase = getSupabaseClient();
 
       if (!supabase) {
-        setError("暂时无法连接数据服务，请稍后再试。");
+        setError("❌ 暂时无法连接数据服务，请稍后再试。");
         setLoading(false);
         return;
       }
@@ -49,7 +49,7 @@ export default function GuestbookClient() {
         .limit(100);
 
       if (error) {
-        setError("留言加载失败，请稍后重试。");
+        setError("❌ 留言加载失败，请稍后重试。");
       } else {
         setMessages(
           (data ?? []).map((item) => ({
@@ -115,7 +115,7 @@ export default function GuestbookClient() {
 
     const supabase = getSupabaseClient();
     if (!supabase) {
-      setError("暂时无法连接数据服务，请稍后再试。");
+      setError("❌ 暂时无法连接数据服务，请稍后再试。");
       return;
     }
 
@@ -137,7 +137,7 @@ export default function GuestbookClient() {
       .single();
 
     if (error || !data) {
-      setError("留言发布失败，请稍后重试。");
+      setError("❌ 留言发布失败，请稍后重试。");
       setSaving(false);
       return;
     }
@@ -202,7 +202,7 @@ export default function GuestbookClient() {
             disabled={saving}
             className="rounded-xl bg-amber-600 px-4 py-2 text-sm font-medium text-white hover:bg-amber-700 disabled:cursor-not-allowed disabled:opacity-60"
           >
-            {saving ? "提交中..." : "发布留言"}
+            {saving ? "⏳ 提交中..." : "发布留言"}
           </button>
         </div>
       </form>

@@ -197,7 +197,7 @@ export default function EpisodesPage() {
     });
 
     setIsSendingLogin(false);
-    setMsg(error ? `登录失败，请稍后重试（${error.message}）` : "✅ 登录链接已发送，请去邮箱确认");
+    setMsg(error ? `❌ 登录失败，请稍后重试（${error.message}）` : "✅ 登录链接已发送，请去邮箱确认");
   };
 
   const savePrivateNote = async () => {
@@ -216,7 +216,7 @@ export default function EpisodesPage() {
     );
 
     setIsSaving(false);
-    setMsg(error ? `保存失败，请稍后重试（${error.message}）` : "✅ 私密观后感已保存");
+    setMsg(error ? `❌ 保存失败，请稍后重试（${error.message}）` : "✅ 私密观后感已保存");
   };
 
   const publishReview = async () => {
@@ -238,7 +238,7 @@ export default function EpisodesPage() {
 
     setIsPublishing(false);
     if (error) {
-      setMsg(`发布失败，请稍后重试（${error.message}）`);
+      setMsg(`❌ 发布失败，请稍后重试（${error.message}）`);
       return;
     }
 
@@ -257,7 +257,7 @@ export default function EpisodesPage() {
       .eq("season", activeSeason)
       .eq("episode_no", activeEpisode);
 
-    setMsg(error ? `撤回失败，请稍后重试（${error.message}）` : "✅ 已撤回公开短评");
+    setMsg(error ? `❌ 撤回失败，请稍后重试（${error.message}）` : "✅ 已撤回公开短评");
     await loadPublicReviews();
     await loadMyPublicFlag();
   };
@@ -282,7 +282,7 @@ export default function EpisodesPage() {
               disabled={isSendingLogin}
               className="rounded-xl bg-amber-600 px-3 py-2 text-white disabled:opacity-60"
             >
-              {isSendingLogin ? "发送中..." : "发送登录链接"}
+              {isSendingLogin ? "⏳ 发送中..." : "发送登录链接"}
             </button>
           </div>
         ) : (
@@ -372,14 +372,14 @@ export default function EpisodesPage() {
         />
         <div className="mt-3 flex flex-wrap gap-2">
           <button onClick={savePrivateNote} disabled={!user || isSaving} className="rounded-xl bg-amber-600 px-4 py-2 text-sm text-white disabled:opacity-60">
-            {isSaving ? "保存中..." : "保存私密观后感"}
+            {isSaving ? "⏳ 保存中..." : "保存私密观后感"}
           </button>
           <button
             onClick={publishReview}
             disabled={!user || isPublishing}
             className="rounded-xl border border-zinc-300 px-4 py-2 text-sm disabled:opacity-60"
           >
-            {isPublishing ? "发布中..." : "发布为公开短评"}
+            {isPublishing ? "⏳ 发布中..." : "发布为公开短评"}
           </button>
           {hasMyPublicReview ? (
             <button onClick={withdrawReview} disabled={!user} className="rounded-xl border border-rose-300 px-4 py-2 text-sm text-rose-600">

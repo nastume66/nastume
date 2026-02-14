@@ -85,7 +85,7 @@ export default function AdminClient() {
       .order("updated_at", { ascending: false });
 
     if (error) {
-      setMsg(`读取文章失败，请稍后重试（${error.message}）`);
+      setMsg(`❌ 读取文章失败，请稍后重试（${error.message}）`);
       return;
     }
     setPosts((data || []) as BlogPost[]);
@@ -93,14 +93,14 @@ export default function AdminClient() {
 
   useEffect(() => {
     if (!supabase) {
-      setMsg("暂时无法连接数据服务，请稍后再试。");
+      setMsg("❌ 暂时无法连接数据服务，请稍后再试。");
       return;
     }
 
     supabase.auth.getSession().then(({ data }) => {
       const current = data.session?.user ?? null;
       setUser(current);
-      setMsg(current ? "已登录" : "请先登录后台，内容将按当前账号管理。");
+      setMsg(current ? "✅ 已登录" : "请先登录后台，内容将按当前账号管理。");
       void loadPosts(current?.id);
       void loadCategories(current?.id);
       void loadProfile(current?.id, current);
@@ -109,7 +109,7 @@ export default function AdminClient() {
     const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
       const current = session?.user ?? null;
       setUser(current);
-      setMsg(current ? "已登录" : "请先登录后台，内容将按当前账号管理。");
+      setMsg(current ? "✅ 已登录" : "请先登录后台，内容将按当前账号管理。");
       void loadPosts(current?.id);
       void loadCategories(current?.id);
       void loadProfile(current?.id, current);
@@ -121,17 +121,17 @@ export default function AdminClient() {
 
   const login = async () => {
     if (!email.trim()) return setMsg("请先输入邮箱地址");
-    if (!supabase) return setMsg("暂时无法连接数据服务，请稍后再试。");
+    if (!supabase) return setMsg("❌ 暂时无法连接数据服务，请稍后再试。");
 
     try {
       setIsSendingLogin(true);
-      setMsg("正在发送登录链接...");
+      setMsg("⏳ 正在发送登录链接...");
       const redirectBase = process.env.NEXT_PUBLIC_SITE_URL || window.location.origin;
       const { error } = await supabase.auth.signInWithOtp({
         email: email.trim(),
         options: { emailRedirectTo: `${redirectBase}/admin` },
       });
-      setMsg(error ? `登录失败，请稍后重试（${error.message}）` : "✅ 登录链接已发送到邮箱");
+      setMsg(error ? `❌ 登录失败，请稍后重试（${error.message}）` : "✅ 登录链接已发送到邮箱");
     } finally {
       setIsSendingLogin(false);
     }
@@ -162,7 +162,7 @@ export default function AdminClient() {
       { onConflict: "id" }
     );
     setIsSavingProfile(false);
-    if (error) return setMsg(`资料保存失败，请稍后重试（${error.message}）`);
+    if (error) return setMsg(`❌ 资料保存失败，请稍后重试（${error.message}）`);
     setMsg("✅ 昵称/头像已保存");
     await loadProfile(user.id, user);
   };
@@ -174,7 +174,7 @@ export default function AdminClient() {
     const path = `avatars/${user.id}-${Date.now()}.${ext}`;
     const { error } = await supabase.storage.from("blog-images").upload(path, file, { cacheControl: "3600", upsert: false });
     setIsUploadingAvatar(false);
-    if (error) return setMsg(`头像上传失败，请稍后重试（${error.message}）`);
+    if (error) return setMsg(`❌ 头像上传失败，请稍后重试（${error.message}）`);
     const publicUrl = supabase.storage.from("blog-images").getPublicUrl(path).data.publicUrl;
     setAvatarUrl(publicUrl);
     setMsg("✅ 头像已上传，点“保存资料”生效");
@@ -190,7 +190,7 @@ export default function AdminClient() {
       author_id: user.id,
       sort_order: nextOrder,
     });
-    if (error) return setMsg(`创建栏目失败，请稍后重试（${error.message}）`);
+    if (error) return setMsg(`❌ 创建栏目失败，请稍后重试（${error.message}）`);
     setNewCategoryName("");
     await loadCategories(user.id);
     setMsg("✅ 栏目已创建");
@@ -199,7 +199,7 @@ export default function AdminClient() {
   const deleteCategory = async (id: string) => {
     if (!supabase || !user) return;
     const { error } = await supabase.from("categories").delete().eq("id", id).eq("author_id", user.id);
-    if (error) return setMsg(`删除栏目失败，请稍后重试（${error.message}）`);
+    if (error) return setMsg(`❌ 删除栏目失败，请稍后重试（${error.message}）`);
     await loadCategories(user.id);
     setMsg("✅ 栏目已删除");
   };
@@ -214,7 +214,7 @@ export default function AdminClient() {
       .update({ name: nextName, slug: nextSlug })
       .eq("id", category.id)
       .eq("author_id", user.id);
-    if (error) return setMsg(`重命名失败，请稍后重试（${error.message}）`);
+    if (error) return setMsg(`❌ 重命名失败，请稍后重试（${error.message}）`);
     await loadCategories(user.id);
     setMsg("✅ 栏目已重命名");
   };
@@ -248,7 +248,7 @@ export default function AdminClient() {
       const path = `blog/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
       const { error } = await supabase.storage.from("blog-images").upload(path, file, { cacheControl: "3600", upsert: false });
       if (error) {
-        setMsg(`上传失败，请稍后重试（${error.message}）`);
+        setMsg(`❌ 上传失败，请稍后重试（${error.message}）`);
         return [];
       }
       urls.push(supabase.storage.from("blog-images").getPublicUrl(path).data.publicUrl);
@@ -278,7 +278,7 @@ export default function AdminClient() {
         ? await supabase.from("posts").update(payload).eq("id", editor.id)
         : await supabase.from("posts").insert(payload);
 
-      if (error) return setMsg(`保存失败，请稍后重试（${error.message}）`);
+      if (error) return setMsg(`❌ 保存失败，请稍后重试（${error.message}）`);
       setMsg("✅ 已保存");
       setEditor(emptyEditor);
       await loadPosts(user.id);
@@ -290,7 +290,7 @@ export default function AdminClient() {
   const remove = async (id: string) => {
     if (!supabase || !user) return;
     const { error } = await supabase.from("posts").delete().eq("id", id).eq("author_id", user.id);
-    setMsg(error ? `删除失败，请稍后重试（${error.message}）` : "✅ 已删除");
+    setMsg(error ? `❌ 删除失败，请稍后重试（${error.message}）` : "✅ 已删除");
     if (!error) await loadPosts(user.id);
   };
 
@@ -316,7 +316,7 @@ export default function AdminClient() {
             ) : (
               <>
                 <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="你的邮箱" className="w-full rounded-xl border border-zinc-200 p-2 text-sm dark:border-zinc-700 dark:bg-zinc-950" />
-                <button onClick={login} disabled={isSendingLogin} className="rounded-xl bg-amber-600 px-3 py-2 text-sm text-white disabled:opacity-60">{isSendingLogin ? "发送中..." : "发送登录链接"}</button>
+                <button onClick={login} disabled={isSendingLogin} className="rounded-xl bg-amber-600 px-3 py-2 text-sm text-white disabled:opacity-60">{isSendingLogin ? "⏳ 发送中..." : "发送登录链接"}</button>
               </>
             )}
           </div>
@@ -332,7 +332,7 @@ export default function AdminClient() {
                 {isUploadingAvatar ? <p className="text-xs text-zinc-500">头像上传中...</p> : null}
               </div>
             </div>
-            <button onClick={saveProfile} disabled={isSavingProfile} className="mt-2 rounded-xl border border-zinc-300 px-3 py-2 text-xs disabled:opacity-60">{isSavingProfile ? "保存中..." : "保存资料"}</button>
+            <button onClick={saveProfile} disabled={isSavingProfile} className="mt-2 rounded-xl border border-zinc-300 px-3 py-2 text-xs disabled:opacity-60">{isSavingProfile ? "⏳ 保存中..." : "保存资料"}</button>
           </div>
         ) : null}
 
@@ -384,7 +384,7 @@ export default function AdminClient() {
           </select>
 
           <div className="flex gap-2">
-            <button onClick={save} disabled={isSaving || !user} className="rounded-xl bg-amber-600 px-4 py-2 text-sm text-white disabled:opacity-60">{isSaving ? "保存中..." : "保存文章"}</button>
+            <button onClick={save} disabled={isSaving || !user} className="rounded-xl bg-amber-600 px-4 py-2 text-sm text-white disabled:opacity-60">{isSaving ? "⏳ 保存中..." : "保存文章"}</button>
             <button onClick={() => setEditor(emptyEditor)} className="rounded-xl border border-zinc-200 px-4 py-2 text-sm">清空</button>
           </div>
         </div>
