@@ -32,15 +32,8 @@ export default function GuestbookClient() {
   const [profileAvatar, setProfileAvatar] = useState("");
   const [lastSubmitAt, setLastSubmitAt] = useState<number>(0);
   const [keyword, setKeyword] = useState("");
-  const [likedIds, setLikedIds] = useState<string[]>(() => {
-    if (typeof window === "undefined") return [];
-    try {
-      const saved = localStorage.getItem("guestbook-liked-ids");
-      return saved ? (JSON.parse(saved) as string[]) : [];
-    } catch {
-      return [];
-    }
-  });
+  const [likedIds, setLikedIds] = useState<string[]>([]);
+  const [likeCounts, setLikeCounts] = useState<Record<string, number>>({});
 
   useEffect(() => {
     const load = async () => {
@@ -120,6 +113,38 @@ export default function GuestbookClient() {
     [messages]
   );
 
+  const getGuestKey = () => {
+    if (typeof window === "undefined") return "";
+    const key = localStorage.getItem("guestbook-user-key");
+    if (key) return key;
+    const next = crypto.randomUUID();
+    localStorage.setItem("guestbook-user-key", next);
+    return next;
+  };
+
+  const loadLikes = async (ids: string[]) => {
+    const supabase = getSupabaseClient();
+    if (!supabase || ids.length === 0) {
+      setLikeCounts({});
+      setLikedIds([]);
+      return;
+    }
+
+    const key = getGuestKey();
+    const [countRes, likedRes] = await Promise.all([
+      supabase.from("guestbook_likes").select("message_id").in("message_id", ids),
+      supabase.from("guestbook_likes").select("message_id").eq("user_key", key).in("message_id", ids),
+    ]);
+
+    const counts: Record<string, number> = {};
+    (countRes.data || []).forEach((row) => {
+      const id = row.message_id as string;
+      counts[id] = (counts[id] || 0) + 1;
+    });
+    setLikeCounts(counts);
+    setLikedIds(((likedRes.data || []).map((x) => x.message_id as string)) || []);
+  };
+
   const filtered = useMemo(() => {
     const k = keyword.trim().toLowerCase();
     if (!k) return sorted;
@@ -129,13 +154,25 @@ export default function GuestbookClient() {
     });
   }, [sorted, keyword]);
 
-  const toggleLike = (id: string) => {
-    setLikedIds((prev) => {
-      const next = prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id];
-      localStorage.setItem("guestbook-liked-ids", JSON.stringify(next));
-      return next;
-    });
+  const toggleLike = async (id: string) => {
+    const supabase = getSupabaseClient();
+    if (!supabase) return;
+
+    const key = getGuestKey();
+    const liked = likedIds.includes(id);
+    if (liked) {
+      await supabase.from("guestbook_likes").delete().eq("message_id", id).eq("user_key", key);
+    } else {
+      await supabase.from("guestbook_likes").insert({ message_id: id, user_key: key });
+    }
+
+    await loadLikes(sorted.map((m) => m.id));
   };
+
+  useEffect(() => {
+    void loadLikes(sorted.map((m) => m.id));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sorted.length]);
 
   const renderHighlighted = (content: string) => {
     const k = keyword.trim();
@@ -306,10 +343,10 @@ export default function GuestbookClient() {
                   <p className="text-xs text-zinc-400">{new Date(msg.createdAt).toLocaleString()}</p>
                   <button
                     type="button"
-                    onClick={() => toggleLike(msg.id)}
+                    onClick={() => void toggleLike(msg.id)}
                     className={`text-xs ${likedIds.includes(msg.id) ? "text-rose-500" : "text-zinc-500 hover:text-rose-500"}`}
                   >
-                    {likedIds.includes(msg.id) ? "❤️ 已赞" : "🤍 点赞"}
+                    {likedIds.includes(msg.id) ? "❤️ 已赞" : "🤍 点赞"} {likeCounts[msg.id] || 0}
                   </button>
                 </div>
               </article>
