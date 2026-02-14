@@ -4,6 +4,7 @@ import Link from "next/link";
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import type { User } from "@supabase/supabase-js";
 import { getSupabaseClient } from "@/lib/supabase";
+import StatusText from "@/components/common/StatusText";
 
 type Message = {
   id: string;
@@ -207,7 +208,7 @@ export default function GuestbookClient() {
         </div>
       </form>
 
-      {error ? <p className="mt-3 text-sm text-rose-600">{error}</p> : null}
+      <StatusText message={error} className="mt-3 text-sm" />
 
       <div className="mt-5 space-y-3">
         {loading ? (

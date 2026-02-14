@@ -6,6 +6,7 @@ import type { User } from "@supabase/supabase-js";
 import seasons from "@/data/episodes.json";
 import { getSupabaseClient } from "@/lib/supabase";
 import UserIdentityCard from "@/components/common/UserIdentityCard";
+import StatusText from "@/components/common/StatusText";
 
 type Episode = { no: number; title: string; titleZh?: string };
 type Season = {
@@ -301,7 +302,7 @@ export default function EpisodesPage() {
             </p>
           </div>
         )}
-        {msg ? <p className="mt-2 text-xs text-zinc-600">{msg}</p> : null}
+        <StatusText message={msg} className="mt-2" />
       </div>
 
       <div className="mt-6 flex flex-wrap gap-2">

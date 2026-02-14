@@ -5,6 +5,7 @@ import { getSupabaseClient, BlogCategory, BlogPost } from "@/lib/supabase";
 import type { User } from "@supabase/supabase-js";
 import RichTextEditor from "@/components/admin/RichTextEditor";
 import UserIdentityCard from "@/components/common/UserIdentityCard";
+import StatusText from "@/components/common/StatusText";
 
 type Profile = {
   nickname: string | null;
@@ -300,7 +301,7 @@ export default function AdminClient() {
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <div>
             <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">内容后台（可自定义栏目）</h2>
-            <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">{msg}</p>
+            <StatusText message={msg} className="mt-1" />
           </div>
           <div className="flex w-full gap-2 md:w-auto md:min-w-[520px]">
             {user ? (
