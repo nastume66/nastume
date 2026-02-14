@@ -31,6 +31,16 @@ export default function GuestbookClient() {
   const [profileNickname, setProfileNickname] = useState("");
   const [profileAvatar, setProfileAvatar] = useState("");
   const [lastSubmitAt, setLastSubmitAt] = useState<number>(0);
+  const [keyword, setKeyword] = useState("");
+  const [likedIds, setLikedIds] = useState<string[]>(() => {
+    if (typeof window === "undefined") return [];
+    try {
+      const saved = localStorage.getItem("guestbook-liked-ids");
+      return saved ? (JSON.parse(saved) as string[]) : [];
+    } catch {
+      return [];
+    }
+  });
 
   useEffect(() => {
     const load = async () => {
@@ -109,6 +119,37 @@ export default function GuestbookClient() {
     () => [...messages].sort((a, b) => +new Date(b.createdAt) - +new Date(a.createdAt)),
     [messages]
   );
+
+  const filtered = useMemo(() => {
+    const k = keyword.trim().toLowerCase();
+    if (!k) return sorted;
+    return sorted.filter((m) => {
+      const n = (m.nickname || "友人").toLowerCase();
+      return m.text.toLowerCase().includes(k) || n.includes(k);
+    });
+  }, [sorted, keyword]);
+
+  const toggleLike = (id: string) => {
+    setLikedIds((prev) => {
+      const next = prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id];
+      localStorage.setItem("guestbook-liked-ids", JSON.stringify(next));
+      return next;
+    });
+  };
+
+  const renderHighlighted = (content: string) => {
+    const k = keyword.trim();
+    if (!k) return content;
+    const escaped = k.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const parts = content.split(new RegExp(`(${escaped})`, "ig"));
+    return parts.map((part, idx) =>
+      part.toLowerCase() === k.toLowerCase() ? (
+        <mark key={`${part}-${idx}`} className="rounded bg-amber-200 px-0.5 text-zinc-800">{part}</mark>
+      ) : (
+        <span key={`${part}-${idx}`}>{part}</span>
+      )
+    );
+  };
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -230,13 +271,24 @@ export default function GuestbookClient() {
 
       <StatusText message={error} className="mt-3 text-sm" />
 
+      <div className="mt-4">
+        <input
+          value={keyword}
+          onChange={(e) => setKeyword(e.target.value)}
+          placeholder="按关键词/昵称过滤留言"
+          className="w-full rounded-xl border border-zinc-200 p-2 text-sm dark:border-zinc-700 dark:bg-zinc-950"
+        />
+      </div>
+
       <div className="mt-5 space-y-3">
         {loading ? (
           <p className="rounded-xl border border-dashed border-zinc-300 p-4 text-sm text-zinc-500">正在加载留言...</p>
-        ) : sorted.length === 0 ? (
-          <p className="rounded-xl border border-dashed border-zinc-300 p-4 text-sm text-zinc-500">还没有留言，来写第一条吧。</p>
+        ) : filtered.length === 0 ? (
+          <p className="rounded-xl border border-dashed border-zinc-300 p-4 text-sm text-zinc-500">
+            {keyword.trim() ? "没有匹配的留言，换个关键词试试。" : "还没有留言，来写第一条吧。"}
+          </p>
         ) : (
-          sorted.map((msg) => {
+          filtered.map((msg) => {
             const displayName = msg.nickname?.trim() || "友人";
             return (
               <article key={msg.id} className="rounded-xl border border-zinc-200 bg-white p-4 shadow-sm">
@@ -247,10 +299,19 @@ export default function GuestbookClient() {
                   ) : (
                     <div className="flex h-6 w-6 items-center justify-center rounded-full bg-amber-200 text-[10px] text-amber-800">{displayName.slice(0, 1)}</div>
                   )}
-                  <span className="text-xs text-zinc-600">{displayName}</span>
+                  <span className="text-xs text-zinc-600">{renderHighlighted(displayName)}</span>
                 </div>
-                <p className="text-sm leading-7 text-zinc-700">{msg.text}</p>
-                <p className="mt-2 text-xs text-zinc-400">{new Date(msg.createdAt).toLocaleString()}</p>
+                <p className="text-sm leading-7 text-zinc-700">{renderHighlighted(msg.text)}</p>
+                <div className="mt-2 flex items-center justify-between">
+                  <p className="text-xs text-zinc-400">{new Date(msg.createdAt).toLocaleString()}</p>
+                  <button
+                    type="button"
+                    onClick={() => toggleLike(msg.id)}
+                    className={`text-xs ${likedIds.includes(msg.id) ? "text-rose-500" : "text-zinc-500 hover:text-rose-500"}`}
+                  >
+                    {likedIds.includes(msg.id) ? "❤️ 已赞" : "🤍 点赞"}
+                  </button>
+                </div>
               </article>
             );
           })
