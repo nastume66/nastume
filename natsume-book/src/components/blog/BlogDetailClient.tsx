@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { getSupabaseClient, BlogPost } from "@/lib/supabase";
 import MarkdownContent from "@/components/blog/MarkdownContent";
@@ -8,18 +8,14 @@ import MarkdownContent from "@/components/blog/MarkdownContent";
 type Profile = { nickname: string | null; avatar_url: string | null };
 
 export default function BlogDetailClient({ slug, pid }: { slug: string; pid?: string }) {
+  const supabase = useMemo(() => getSupabaseClient(), []);
   const [post, setPost] = useState<BlogPost | null>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [msg, setMsg] = useState("正在加载文章...");
+  const [loading, setLoading] = useState(Boolean(supabase));
+  const [msg, setMsg] = useState(supabase ? "正在加载文章..." : "未配置 Supabase。");
 
   useEffect(() => {
-    const supabase = getSupabaseClient();
-    if (!supabase) {
-      setMsg("未配置 Supabase。");
-      setLoading(false);
-      return;
-    }
+    if (!supabase) return;
 
     const load = async () => {
       setLoading(true);
@@ -90,7 +86,7 @@ export default function BlogDetailClient({ slug, pid }: { slug: string; pid?: st
     });
 
     return () => sub.subscription.unsubscribe();
-  }, [slug, pid]);
+  }, [slug, pid, supabase]);
 
   if (loading) {
     return <div className="mx-auto max-w-3xl px-4 py-12 text-sm text-zinc-500">{msg}</div>;

@@ -3,18 +3,12 @@
 import { useEffect, useState } from "react";
 
 export default function ThemeToggle() {
-  const [dark, setDark] = useState(false);
-  const [ready, setReady] = useState(false);
+  const [dark, setDark] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return localStorage.getItem("natsume-theme") === "dark";
+  });
 
   useEffect(() => {
-    const saved = localStorage.getItem("natsume-theme");
-    const enabled = saved === "dark";
-    setDark(enabled);
-    setReady(true);
-  }, []);
-
-  useEffect(() => {
-    if (!ready) return;
     const root = document.documentElement;
     if (dark) {
       root.classList.add("dark");
@@ -23,7 +17,7 @@ export default function ThemeToggle() {
       root.classList.remove("dark");
       localStorage.setItem("natsume-theme", "light");
     }
-  }, [dark, ready]);
+  }, [dark]);
 
   const resetToLight = () => {
     localStorage.removeItem("natsume-theme");

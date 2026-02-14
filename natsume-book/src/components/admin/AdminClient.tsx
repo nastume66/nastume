@@ -116,6 +116,7 @@ export default function AdminClient() {
     });
 
     return () => sub.subscription.unsubscribe();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [supabase]);
 
   const login = async () => {

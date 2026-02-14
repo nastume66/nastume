@@ -38,6 +38,7 @@ export default function BlogAuthEntryCard() {
     });
 
     return () => sub.subscription.unsubscribe();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [supabase]);
 
   const displayName = profile?.nickname?.trim() || (email ? email.split("@")[0] : "友人");
