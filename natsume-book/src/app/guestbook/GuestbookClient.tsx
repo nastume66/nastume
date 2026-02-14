@@ -202,7 +202,7 @@ export default function GuestbookClient() {
             disabled={saving}
             className="rounded-xl bg-amber-600 px-4 py-2 text-sm font-medium text-white hover:bg-amber-700 disabled:cursor-not-allowed disabled:opacity-60"
           >
-            {saving ? "发送中..." : "留言"}
+            {saving ? "提交中..." : "发布留言"}
           </button>
         </div>
       </form>

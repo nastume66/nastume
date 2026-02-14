@@ -257,7 +257,7 @@ export default function EpisodesPage() {
       .eq("season", activeSeason)
       .eq("episode_no", activeEpisode);
 
-    setMsg(error ? `撤回失败：${error.message}` : "已撤回公开短评");
+    setMsg(error ? `撤回失败：${error.message}` : "✅ 已撤回公开短评");
     await loadPublicReviews();
     await loadMyPublicFlag();
   };
@@ -282,7 +282,7 @@ export default function EpisodesPage() {
               disabled={isSendingLogin}
               className="rounded-xl bg-amber-600 px-3 py-2 text-white disabled:opacity-60"
             >
-              {isSendingLogin ? "发送中..." : "登录"}
+              {isSendingLogin ? "发送中..." : "发送登录链接"}
             </button>
           </div>
         ) : (

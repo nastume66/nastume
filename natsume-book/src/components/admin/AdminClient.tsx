@@ -125,7 +125,7 @@ export default function AdminClient() {
 
     try {
       setIsSendingLogin(true);
-      setMsg("正在发送登录邮件...");
+      setMsg("正在发送登录链接...");
       const redirectBase = process.env.NEXT_PUBLIC_SITE_URL || window.location.origin;
       const { error } = await supabase.auth.signInWithOtp({
         email: email.trim(),
@@ -147,7 +147,7 @@ export default function AdminClient() {
     setProfile(null);
     setNickname("");
     setAvatarUrl("");
-    setMsg("已退出登录，可输入新邮箱切换账号");
+    setMsg("✅ 已退出登录，可输入新邮箱切换账号");
   };
 
   const saveProfile = async () => {
@@ -201,7 +201,7 @@ export default function AdminClient() {
     const { error } = await supabase.from("categories").delete().eq("id", id).eq("author_id", user.id);
     if (error) return setMsg(`删除栏目失败：${error.message}`);
     await loadCategories(user.id);
-    setMsg("栏目已删除");
+    setMsg("✅ 栏目已删除");
   };
 
   const renameCategory = async (category: BlogCategory) => {
@@ -290,7 +290,7 @@ export default function AdminClient() {
   const remove = async (id: string) => {
     if (!supabase || !user) return;
     const { error } = await supabase.from("posts").delete().eq("id", id).eq("author_id", user.id);
-    setMsg(error ? `删除失败：${error.message}` : "已删除");
+    setMsg(error ? `删除失败：${error.message}` : "✅ 已删除");
     if (!error) await loadPosts(user.id);
   };
 
@@ -316,7 +316,7 @@ export default function AdminClient() {
             ) : (
               <>
                 <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="你的邮箱" className="w-full rounded-xl border border-zinc-200 p-2 text-sm dark:border-zinc-700 dark:bg-zinc-950" />
-                <button onClick={login} disabled={isSendingLogin} className="rounded-xl bg-amber-600 px-3 py-2 text-sm text-white disabled:opacity-60">{isSendingLogin ? "发送中..." : "登录"}</button>
+                <button onClick={login} disabled={isSendingLogin} className="rounded-xl bg-amber-600 px-3 py-2 text-sm text-white disabled:opacity-60">{isSendingLogin ? "发送中..." : "发送登录链接"}</button>
               </>
             )}
           </div>
