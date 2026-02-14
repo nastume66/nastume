@@ -40,7 +40,7 @@ export default function AdminClient() {
   const [newCategoryName, setNewCategoryName] = useState("");
   const [draggingCategoryId, setDraggingCategoryId] = useState<string | null>(null);
   const [editor, setEditor] = useState<EditorState>(emptyEditor);
-  const [msg, setMsg] = useState("请先登录后台");
+  const [msg, setMsg] = useState("请先登录后台，内容将按当前账号管理。");
   const [user, setUser] = useState<User | null>(null);
   const [isSendingLogin, setIsSendingLogin] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
@@ -100,7 +100,7 @@ export default function AdminClient() {
     supabase.auth.getSession().then(({ data }) => {
       const current = data.session?.user ?? null;
       setUser(current);
-      setMsg(current ? "已登录" : "请先点击登录邮箱链接完成认证");
+      setMsg(current ? "已登录" : "请先登录后台，内容将按当前账号管理。");
       void loadPosts(current?.id);
       void loadCategories(current?.id);
       void loadProfile(current?.id, current);
@@ -109,7 +109,7 @@ export default function AdminClient() {
     const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
       const current = session?.user ?? null;
       setUser(current);
-      setMsg(current ? "已登录" : "请先点击登录邮箱链接完成认证");
+      setMsg(current ? "已登录" : "请先登录后台，内容将按当前账号管理。");
       void loadPosts(current?.id);
       void loadCategories(current?.id);
       void loadProfile(current?.id, current);

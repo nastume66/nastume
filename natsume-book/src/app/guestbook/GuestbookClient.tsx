@@ -211,9 +211,9 @@ export default function GuestbookClient() {
 
       <div className="mt-5 space-y-3">
         {loading ? (
-          <p className="rounded-xl border border-dashed border-zinc-300 p-4 text-sm text-zinc-500">留言加载中...</p>
+          <p className="rounded-xl border border-dashed border-zinc-300 p-4 text-sm text-zinc-500">正在加载留言...</p>
         ) : sorted.length === 0 ? (
-          <p className="rounded-xl border border-dashed border-zinc-300 p-4 text-sm text-zinc-500">还没有留言，写下第一条吧。</p>
+          <p className="rounded-xl border border-dashed border-zinc-300 p-4 text-sm text-zinc-500">还没有留言，来写第一条吧。</p>
         ) : (
           sorted.map((msg) => {
             const displayName = msg.nickname?.trim() || "友人";

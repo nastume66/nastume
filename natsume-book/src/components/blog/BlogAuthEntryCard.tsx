@@ -54,7 +54,7 @@ export default function BlogAuthEntryCard() {
         </>
       ) : (
         <>
-          <p className="text-sm text-zinc-700 dark:text-zinc-300">想直接写博客？现在可以从这里进入后台编辑。</p>
+          <p className="text-sm text-zinc-700 dark:text-zinc-300">请先登录后台，专栏会按当前账号展示与管理。</p>
           <Link href="/admin" className="mt-2 inline-block text-sm font-medium text-amber-700 hover:text-amber-800 dark:text-amber-400">
             去登录并写作 →
           </Link>

@@ -31,7 +31,7 @@ export default function BlogListClient() {
       if (!uid) {
         setPosts([]);
         setCategories([]);
-        setStateText("请先到后台登录，博客列表将显示当前登录账号的文章。");
+        setStateText("请先登录后台，专栏会按当前账号展示。");
         return;
       }
 
@@ -53,7 +53,7 @@ export default function BlogListClient() {
 
       setPosts((postsRes.data || []) as Post[]);
       setCategories((catRes.data || []) as BlogCategory[]);
-      setStateText((postsRes.data || []).length === 0 ? "当前账号还没有已发布文章。" : "");
+      setStateText((postsRes.data || []).length === 0 ? "你还没有已发布文章，去后台发第一篇吧。" : "");
 
       const profileRes = await supabase.from("user_profiles").select("nickname,avatar_url").eq("id", uid).maybeSingle();
       setProfile((profileRes.data as Profile | null) ?? null);
@@ -117,7 +117,7 @@ export default function BlogListClient() {
 
       <div className="mt-6 space-y-4">
         {filtered.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-zinc-300 p-6 text-sm text-zinc-500 dark:border-zinc-700 dark:text-zinc-400">{stateText || "没有匹配的文章，换个关键词试试。"}</div>
+          <div className="rounded-2xl border border-dashed border-zinc-300 p-6 text-sm text-zinc-500 dark:border-zinc-700 dark:text-zinc-400">{stateText || "没有匹配内容，换个关键词试试。"}</div>
         ) : (
           filtered.map((post) => {
             const categoryName = post.category_id ? categoryMap[post.category_id] : "未分类";

@@ -366,7 +366,7 @@ export default function EpisodesPage() {
         <textarea
           value={note}
           onChange={(e) => setNote(e.target.value)}
-          placeholder={user ? "写下这一集带给你的感受..." : "登录后可写私密观后感"}
+          placeholder={user ? "写下这一集带给你的感受..." : "登录后可写私密观后感并发布公开短评"}
           disabled={!user}
           className="mt-3 min-h-40 w-full rounded-xl border border-zinc-200 p-3 text-sm disabled:bg-zinc-100 disabled:text-zinc-500 dark:border-zinc-700 dark:bg-zinc-950"
         />
@@ -393,7 +393,7 @@ export default function EpisodesPage() {
         <h3 className="text-base font-semibold text-zinc-900 dark:text-zinc-100">本集公开短评</h3>
         <div className="mt-3 space-y-3">
           {publicReviews.length === 0 ? (
-            <p className="text-sm text-zinc-500">还没有公开短评。</p>
+            <p className="text-sm text-zinc-500">这集还没有公开短评，来写第一条吧。</p>
           ) : (
             publicReviews.map((r) => {
               const profile = profilesMap[r.author_id];
