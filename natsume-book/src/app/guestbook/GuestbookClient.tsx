@@ -30,6 +30,7 @@ export default function GuestbookClient() {
   const [user, setUser] = useState<User | null>(null);
   const [profileNickname, setProfileNickname] = useState("");
   const [profileAvatar, setProfileAvatar] = useState("");
+  const [lastSubmitAt, setLastSubmitAt] = useState<number>(0);
 
   useEffect(() => {
     const load = async () => {
@@ -114,6 +115,24 @@ export default function GuestbookClient() {
     const value = text.trim();
     if (!value || saving) return;
 
+    if (value.length < 4) {
+      setError("❌ 留言至少 4 个字再发送。");
+      return;
+    }
+
+    const now = Date.now();
+    if (now - lastSubmitAt < 10_000) {
+      setError("❌ 发送太快了，请 10 秒后再试。");
+      return;
+    }
+
+    const normalized = value.replace(/\s+/g, "").toLowerCase();
+    const hasRecentDuplicate = messages.slice(0, 20).some((m) => m.text.replace(/\s+/g, "").toLowerCase() === normalized);
+    if (hasRecentDuplicate) {
+      setError("❌ 检测到重复留言，换一句新的吧。");
+      return;
+    }
+
     const supabase = getSupabaseClient();
     if (!supabase) {
       setError("❌ 暂时无法连接数据服务，请稍后再试。");
@@ -154,6 +173,7 @@ export default function GuestbookClient() {
     setMessages((prev) => [msg, ...prev].slice(0, 100));
     setText("");
     if (!user) setNicknameInput("");
+    setLastSubmitAt(Date.now());
     setSaving(false);
   };
 
