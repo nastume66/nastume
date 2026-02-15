@@ -24,7 +24,7 @@
   </style>
 </head>
 <body>
-  <div class="tip">点击放烟花；按 M 切换“小马烟花”专场（多图案+音效）</div>
+  <div class="tip">小马专场：点击可在鼠标位置再放一只小马烟花</div>
   <canvas id="c"></canvas>
 
   <script>
@@ -35,7 +35,7 @@
     const particles = [];
     const rockets = [];
     const trails = [];
-    let horseMode = false;
+    // pony show mode enabled by default
 
     let audioCtx = null;
     function ensureAudio() {
@@ -271,7 +271,7 @@
       rockets.push(new Rocket(x, y));
     }
 
-    function launchPonyShape() {
+    function launchPonyShape(cx = window.innerWidth / 2, cy = window.innerHeight * 0.35) {
       // 简化小马轮廓（像素画）
       const pattern = [
         [0,0,0,0,1,1,1,0,0,0,0,0,0],
@@ -286,8 +286,8 @@
         [1,0,0,0,0,1,0,0,1,0,0,0,1],
       ];
       const gap = 18;
-      const startX = window.innerWidth / 2 - (pattern[0].length * gap) / 2;
-      const startY = window.innerHeight * 0.26;
+      const startX = cx - (pattern[0].length * gap) / 2;
+      const startY = cy - (pattern.length * gap) / 2;
 
       pattern.forEach((row, r) => {
         row.forEach((cell, c) => {
@@ -299,26 +299,17 @@
       });
     }
 
-    window.addEventListener("click", (e) => launch(e.clientX, e.clientY));
-    window.addEventListener("keydown", (e) => {
-      if (e.key.toLowerCase() === "m") {
-        horseMode = !horseMode;
-      }
-    });
+    window.addEventListener("click", (e) => launchPonyShape(e.clientX, e.clientY));
 
+    // 小马专场：自动在中间定时绽放
     setInterval(() => {
-      if (horseMode) launchPonyShape();
-      else launch();
-    }, 700);
-
-    setInterval(() => {
-      if (horseMode) launchPonyShape();
-    }, 5200);
+      launchPonyShape();
+    }, 3600);
 
     function drawFestivalText() {
       const t = performance.now() * 0.001;
       const glow = 0.65 + Math.sin(t * 2.2) * 0.2;
-      const text = horseMode ? "🐴 小马烟花模式 · ON" : "🐴 马年快乐 🧧";
+      const text = "🐴 小马烟花专场 🧧";
       ctx.save();
       ctx.textAlign = "center";
       ctx.font = "bold 42px system-ui, -apple-system, Segoe UI, sans-serif";
@@ -328,6 +319,8 @@
       ctx.fillText(text, window.innerWidth / 2, 74);
       ctx.restore();
     }
+
+    launchPonyShape();
 
     function animate() {
       ctx.fillStyle = "rgba(0,0,0,0.18)";
