@@ -137,6 +137,7 @@
         this.vy = rand(-12, -9);
         this.targetY = targetY;
         this.color = `hsl(${rand(0,360)},100%,65%)`;
+        this.shape = ["burst", "ring", "heart", "star"][Math.floor(rand(0, 4))];
         this.done = false;
       }
       update() {
@@ -159,15 +160,39 @@
         playExplosionSound();
         const count = Math.floor(rand(70, 130));
         const hue = rand(0, 360);
-        for (let i = 0; i < count; i++) {
-          const angle = rand(0, Math.PI * 2);
-          const speed = rand(1.2, 6.4);
-          particles.push(new Particle(
-            this.x, this.y,
-            Math.cos(angle) * speed,
-            Math.sin(angle) * speed,
-            `hsl(${hue + rand(-22,22)},100%,${rand(48,72)}%)`
-          ));
+
+        if (this.shape === "ring") {
+          for (let i = 0; i < count; i++) {
+            const angle = (i / count) * Math.PI * 2;
+            const speed = rand(3.2, 5.2);
+            particles.push(new Particle(this.x, this.y, Math.cos(angle) * speed, Math.sin(angle) * speed, `hsl(${hue + rand(-12,12)},100%,${rand(52,72)}%)`));
+          }
+        } else if (this.shape === "heart") {
+          for (let i = 0; i < count; i++) {
+            const t = (i / count) * Math.PI * 2;
+            const sx = 16 * Math.pow(Math.sin(t), 3);
+            const sy = -(13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));
+            const scale = rand(0.18, 0.24);
+            particles.push(new Particle(this.x, this.y, sx * scale, sy * scale, `hsl(${hue + rand(-8,8)},100%,${rand(55,75)}%)`));
+          }
+        } else if (this.shape === "star") {
+          for (let i = 0; i < count; i++) {
+            const angle = rand(0, Math.PI * 2);
+            const spike = Math.abs(Math.cos(5 * angle));
+            const speed = 1.6 + spike * rand(3.5, 5.5);
+            particles.push(new Particle(this.x, this.y, Math.cos(angle) * speed, Math.sin(angle) * speed, `hsl(${hue + rand(-20,20)},100%,${rand(50,74)}%)`));
+          }
+        } else {
+          for (let i = 0; i < count; i++) {
+            const angle = rand(0, Math.PI * 2);
+            const speed = rand(1.2, 6.4);
+            particles.push(new Particle(
+              this.x, this.y,
+              Math.cos(angle) * speed,
+              Math.sin(angle) * speed,
+              `hsl(${hue + rand(-22,22)},100%,${rand(48,72)}%)`
+            ));
+          }
         }
 
         // glitter layer for sparkle effect
@@ -226,9 +251,24 @@
     window.addEventListener("click", (e) => launch(e.clientX, e.clientY));
     setInterval(() => launch(), 700);
 
+    function drawFestivalText() {
+      const t = performance.now() * 0.001;
+      const glow = 0.65 + Math.sin(t * 2.2) * 0.2;
+      const text = "🐴 马年快乐 🧧";
+      ctx.save();
+      ctx.textAlign = "center";
+      ctx.font = "bold 42px system-ui, -apple-system, Segoe UI, sans-serif";
+      ctx.shadowBlur = 24;
+      ctx.shadowColor = `rgba(255,180,80,${glow})`;
+      ctx.fillStyle = "rgba(255,230,170,0.95)";
+      ctx.fillText(text, window.innerWidth / 2, 74);
+      ctx.restore();
+    }
+
     function animate() {
       ctx.fillStyle = "rgba(0,0,0,0.18)";
       ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+      drawFestivalText();
 
       for (let i = trails.length - 1; i >= 0; i--) {
         trails[i].update();
