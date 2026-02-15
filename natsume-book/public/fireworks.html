@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fireworks</title>
+  <style>
+    html, body {
+      margin: 0;
+      height: 100%;
+      overflow: hidden;
+      background: radial-gradient(circle at bottom, #10142a 0%, #05060d 60%, #000 100%);
+    }
+    canvas { display: block; }
+    .tip {
+      position: fixed;
+      left: 12px;
+      top: 10px;
+      color: #fff;
+      font: 14px/1.4 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      opacity: 0.8;
+      user-select: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="tip">点击任意位置放烟花（自动也会播放）</div>
+  <canvas id="c"></canvas>
+
+  <script>
+    const canvas = document.getElementById("c");
+    const ctx = canvas.getContext("2d");
+    let w, h;
+
+    const particles = [];
+    const rockets = [];
+
+    function resize() {
+      w = canvas.width = window.innerWidth * devicePixelRatio;
+      h = canvas.height = window.innerHeight * devicePixelRatio;
+      canvas.style.width = window.innerWidth + "px";
+      canvas.style.height = window.innerHeight + "px";
+      ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+    }
+    window.addEventListener("resize", resize);
+    resize();
+
+    function rand(min, max) { return Math.random() * (max - min) + min; }
+
+    class Rocket {
+      constructor(x, targetY) {
+        this.x = x;
+        this.y = window.innerHeight;
+        this.vx = rand(-0.8, 0.8);
+        this.vy = rand(-12, -9);
+        this.targetY = targetY;
+        this.color = `hsl(${rand(0,360)},100%,65%)`;
+        this.done = false;
+      }
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        this.vy += 0.08;
+        if (this.y <= this.targetY || this.vy > -1) {
+          this.explode();
+          this.done = true;
+        }
+      }
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, 2, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+      }
+      explode() {
+        const count = Math.floor(rand(60, 120));
+        const hue = rand(0, 360);
+        for (let i = 0; i < count; i++) {
+          const angle = rand(0, Math.PI * 2);
+          const speed = rand(1, 6);
+          particles.push(new Particle(
+            this.x, this.y,
+            Math.cos(angle) * speed,
+            Math.sin(angle) * speed,
+            `hsl(${hue + rand(-20,20)},100%,${rand(45,70)}%)`
+          ));
+        }
+      }
+    }
+
+    class Particle {
+      constructor(x, y, vx, vy, color) {
+        this.x = x; this.y = y;
+        this.vx = vx; this.vy = vy;
+        this.life = rand(50, 90);
+        this.alpha = 1;
+        this.color = color;
+        this.size = rand(1.5, 3.2);
+      }
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        this.vy += 0.05;
+        this.vx *= 0.99;
+        this.vy *= 0.99;
+        this.life--;
+        this.alpha = Math.max(this.life / 90, 0);
+      }
+      draw() {
+        ctx.globalAlpha = this.alpha;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+        ctx.globalAlpha = 1;
+      }
+      get dead() { return this.life <= 0; }
+    }
+
+    function launch(x = rand(80, window.innerWidth - 80), y = rand(100, window.innerHeight * 0.55)) {
+      rockets.push(new Rocket(x, y));
+    }
+
+    window.addEventListener("click", (e) => launch(e.clientX, e.clientY));
+    setInterval(() => launch(), 700);
+
+    function animate() {
+      ctx.fillStyle = "rgba(0,0,0,0.18)";
+      ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+
+      for (let i = rockets.length - 1; i >= 0; i--) {
+        rockets[i].update();
+        rockets[i].draw();
+        if (rockets[i].done) rockets.splice(i, 1);
+      }
+
+      for (let i = particles.length - 1; i >= 0; i--) {
+        particles[i].update();
+        particles[i].draw();
+        if (particles[i].dead) particles.splice(i, 1);
+      }
+
+      requestAnimationFrame(animate);
+    }
+    animate();
+  </script>
+</body>
+</html>
