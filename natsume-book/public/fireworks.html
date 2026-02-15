@@ -24,7 +24,7 @@
   </style>
 </head>
 <body>
-  <div class="tip">点击任意位置放烟花（自动也会播放，已含音效）</div>
+  <div class="tip">点击放烟花（圆环/爱心/星星/螺旋等多图案，含音效）</div>
   <canvas id="c"></canvas>
 
   <script>
@@ -137,7 +137,7 @@
         this.vy = rand(-12, -9);
         this.targetY = targetY;
         this.color = `hsl(${rand(0,360)},100%,65%)`;
-        this.shape = ["burst", "ring", "heart", "star"][Math.floor(rand(0, 4))];
+        this.shape = ["burst", "ring", "heart", "star", "doubleRing", "spiral", "willow", "starburst"][Math.floor(rand(0, 8))];
         this.done = false;
       }
       update() {
@@ -167,6 +167,12 @@
             const speed = rand(3.2, 5.2);
             particles.push(new Particle(this.x, this.y, Math.cos(angle) * speed, Math.sin(angle) * speed, `hsl(${hue + rand(-12,12)},100%,${rand(52,72)}%)`));
           }
+        } else if (this.shape === "doubleRing") {
+          for (let i = 0; i < count; i++) {
+            const angle = (i / count) * Math.PI * 2;
+            const speed = i % 2 === 0 ? rand(2.2, 3.2) : rand(4.8, 6.2);
+            particles.push(new Particle(this.x, this.y, Math.cos(angle) * speed, Math.sin(angle) * speed, `hsl(${hue + rand(-18,18)},100%,${rand(52,74)}%)`));
+          }
         } else if (this.shape === "heart") {
           for (let i = 0; i < count; i++) {
             const t = (i / count) * Math.PI * 2;
@@ -175,12 +181,28 @@
             const scale = rand(0.18, 0.24);
             particles.push(new Particle(this.x, this.y, sx * scale, sy * scale, `hsl(${hue + rand(-8,8)},100%,${rand(55,75)}%)`));
           }
-        } else if (this.shape === "star") {
+        } else if (this.shape === "star" || this.shape === "starburst") {
           for (let i = 0; i < count; i++) {
             const angle = rand(0, Math.PI * 2);
-            const spike = Math.abs(Math.cos(5 * angle));
-            const speed = 1.6 + spike * rand(3.5, 5.5);
+            const spikes = this.shape === "starburst" ? 8 : 5;
+            const spike = Math.abs(Math.cos(spikes * angle));
+            const speed = 1.4 + spike * rand(4.2, 6.4);
             particles.push(new Particle(this.x, this.y, Math.cos(angle) * speed, Math.sin(angle) * speed, `hsl(${hue + rand(-20,20)},100%,${rand(50,74)}%)`));
+          }
+        } else if (this.shape === "spiral") {
+          for (let i = 0; i < count; i++) {
+            const t = (i / count) * Math.PI * 6;
+            const speed = 0.7 + (i / count) * 5.5;
+            particles.push(new Particle(this.x, this.y, Math.cos(t) * speed, Math.sin(t) * speed, `hsl(${hue + i * 0.8},100%,${rand(50,72)}%)`));
+          }
+        } else if (this.shape === "willow") {
+          for (let i = 0; i < count; i++) {
+            const angle = rand(0, Math.PI * 2);
+            const speed = rand(1.2, 4.5);
+            const p = new Particle(this.x, this.y, Math.cos(angle) * speed, Math.sin(angle) * speed * 0.55, `hsl(${hue + rand(-14,14)},100%,${rand(58,78)}%)`);
+            p.life = rand(80, 130);
+            p.maxLife = p.life;
+            particles.push(p);
           }
         } else {
           for (let i = 0; i < count; i++) {
