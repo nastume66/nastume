@@ -24,7 +24,7 @@
   </style>
 </head>
 <body>
-  <div class="tip">点击放烟花（圆环/爱心/星星/螺旋等多图案，含音效）</div>
+  <div class="tip">点击放烟花；按 M 切换“马字烟花”专场（多图案+音效）</div>
   <canvas id="c"></canvas>
 
   <script>
@@ -35,6 +35,7 @@
     const particles = [];
     const rockets = [];
     const trails = [];
+    let horseMode = false;
 
     let audioCtx = null;
     function ensureAudio() {
@@ -270,13 +271,50 @@
       rockets.push(new Rocket(x, y));
     }
 
+    function launchHorseCharacter() {
+      const pattern = [
+        [1,1,1,1,0,0,1,0,0,1],
+        [0,0,1,0,0,1,0,1,0,1],
+        [0,0,1,0,1,0,0,0,1,0],
+        [1,1,1,1,0,1,1,1,1,0],
+        [0,0,1,0,0,1,0,0,1,0],
+        [0,0,1,0,0,1,0,0,1,0],
+        [0,0,1,0,0,0,1,1,0,0],
+      ];
+      const gap = 22;
+      const startX = window.innerWidth / 2 - (pattern[0].length * gap) / 2;
+      const startY = window.innerHeight * 0.28;
+
+      pattern.forEach((row, r) => {
+        row.forEach((cell, c) => {
+          if (!cell) return;
+          const x = startX + c * gap + rand(-3, 3);
+          const y = startY + r * gap + rand(-3, 3);
+          setTimeout(() => launch(x, y), (r * row.length + c) * 28);
+        });
+      });
+    }
+
     window.addEventListener("click", (e) => launch(e.clientX, e.clientY));
-    setInterval(() => launch(), 700);
+    window.addEventListener("keydown", (e) => {
+      if (e.key.toLowerCase() === "m") {
+        horseMode = !horseMode;
+      }
+    });
+
+    setInterval(() => {
+      if (horseMode) launchHorseCharacter();
+      else launch();
+    }, 700);
+
+    setInterval(() => {
+      if (horseMode) launchHorseCharacter();
+    }, 5200);
 
     function drawFestivalText() {
       const t = performance.now() * 0.001;
       const glow = 0.65 + Math.sin(t * 2.2) * 0.2;
-      const text = "🐴 马年快乐 🧧";
+      const text = horseMode ? "🐴 马字烟花模式 · ON" : "🐴 马年快乐 🧧";
       ctx.save();
       ctx.textAlign = "center";
       ctx.font = "bold 42px system-ui, -apple-system, Segoe UI, sans-serif";
