@@ -24,7 +24,7 @@
   </style>
 </head>
 <body>
-  <div class="tip">点击放烟花；按 M 切换“马字烟花”专场（多图案+音效）</div>
+  <div class="tip">点击放烟花；按 M 切换“小马烟花”专场（多图案+音效）</div>
   <canvas id="c"></canvas>
 
   <script>
@@ -271,26 +271,30 @@
       rockets.push(new Rocket(x, y));
     }
 
-    function launchHorseCharacter() {
+    function launchPonyShape() {
+      // 简化小马轮廓（像素画）
       const pattern = [
-        [1,1,1,1,0,0,1,0,0,1],
-        [0,0,1,0,0,1,0,1,0,1],
-        [0,0,1,0,1,0,0,0,1,0],
-        [1,1,1,1,0,1,1,1,1,0],
-        [0,0,1,0,0,1,0,0,1,0],
-        [0,0,1,0,0,1,0,0,1,0],
-        [0,0,1,0,0,0,1,1,0,0],
+        [0,0,0,0,1,1,1,0,0,0,0,0,0],
+        [0,0,0,1,1,1,1,1,0,0,0,0,0],
+        [0,0,1,1,1,1,1,1,1,0,0,0,0],
+        [0,0,1,1,1,1,1,1,1,1,1,0,0],
+        [0,1,1,1,1,1,1,1,1,1,1,1,0],
+        [0,1,1,1,1,1,1,1,1,1,1,1,0],
+        [0,0,0,1,1,1,1,1,1,0,0,0,0],
+        [0,0,1,0,0,1,0,0,1,0,1,0,0],
+        [0,1,0,0,0,1,0,0,1,0,0,1,0],
+        [1,0,0,0,0,1,0,0,1,0,0,0,1],
       ];
-      const gap = 22;
+      const gap = 18;
       const startX = window.innerWidth / 2 - (pattern[0].length * gap) / 2;
-      const startY = window.innerHeight * 0.28;
+      const startY = window.innerHeight * 0.26;
 
       pattern.forEach((row, r) => {
         row.forEach((cell, c) => {
           if (!cell) return;
-          const x = startX + c * gap + rand(-3, 3);
-          const y = startY + r * gap + rand(-3, 3);
-          setTimeout(() => launch(x, y), (r * row.length + c) * 28);
+          const x = startX + c * gap + rand(-2.5, 2.5);
+          const y = startY + r * gap + rand(-2.5, 2.5);
+          setTimeout(() => launch(x, y), (r * row.length + c) * 22);
         });
       });
     }
@@ -303,18 +307,18 @@
     });
 
     setInterval(() => {
-      if (horseMode) launchHorseCharacter();
+      if (horseMode) launchPonyShape();
       else launch();
     }, 700);
 
     setInterval(() => {
-      if (horseMode) launchHorseCharacter();
+      if (horseMode) launchPonyShape();
     }, 5200);
 
     function drawFestivalText() {
       const t = performance.now() * 0.001;
       const glow = 0.65 + Math.sin(t * 2.2) * 0.2;
-      const text = horseMode ? "🐴 马字烟花模式 · ON" : "🐴 马年快乐 🧧";
+      const text = horseMode ? "🐴 小马烟花模式 · ON" : "🐴 马年快乐 🧧";
       ctx.save();
       ctx.textAlign = "center";
       ctx.font = "bold 42px system-ui, -apple-system, Segoe UI, sans-serif";
