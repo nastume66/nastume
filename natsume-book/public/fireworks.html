@@ -34,6 +34,7 @@
 
     const particles = [];
     const rockets = [];
+    const trails = [];
 
     let audioCtx = null;
     function ensureAudio() {
@@ -62,7 +63,7 @@
       const ctxA = ensureAudio();
       const now = ctxA.currentTime;
 
-      const bufferSize = ctxA.sampleRate * 0.35;
+      const bufferSize = ctxA.sampleRate * 0.4;
       const buffer = ctxA.createBuffer(1, bufferSize, ctxA.sampleRate);
       const data = buffer.getChannelData(0);
       for (let i = 0; i < bufferSize; i++) {
@@ -73,15 +74,27 @@
       const filter = ctxA.createBiquadFilter();
       const gain = ctxA.createGain();
       filter.type = "lowpass";
-      filter.frequency.setValueAtTime(1400, now);
+      filter.frequency.setValueAtTime(1600, now);
       gain.gain.setValueAtTime(0.0001, now);
-      gain.gain.exponentialRampToValueAtTime(0.22, now + 0.01);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.35);
-
+      gain.gain.exponentialRampToValueAtTime(0.24, now + 0.01);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.4);
       noise.buffer = buffer;
       noise.connect(filter).connect(gain).connect(ctxA.destination);
       noise.start(now);
-      noise.stop(now + 0.36);
+      noise.stop(now + 0.41);
+
+      // secondary crackle layer for more realistic burst
+      const crack = ctxA.createOscillator();
+      const crackGain = ctxA.createGain();
+      crack.type = "triangle";
+      crack.frequency.setValueAtTime(rand(120, 180), now);
+      crack.frequency.exponentialRampToValueAtTime(rand(40, 70), now + 0.22);
+      crackGain.gain.setValueAtTime(0.0001, now + 0.01);
+      crackGain.gain.exponentialRampToValueAtTime(0.07, now + 0.04);
+      crackGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.24);
+      crack.connect(crackGain).connect(ctxA.destination);
+      crack.start(now + 0.01);
+      crack.stop(now + 0.25);
     }
 
     function resize() {
@@ -96,6 +109,26 @@
 
     function rand(min, max) { return Math.random() * (max - min) + min; }
 
+    class Trail {
+      constructor(x, y, color) {
+        this.x = x;
+        this.y = y;
+        this.life = 20;
+        this.color = color;
+      }
+      update() { this.life--; }
+      draw() {
+        const a = Math.max(this.life / 20, 0);
+        ctx.globalAlpha = a;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, 1.6, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+        ctx.globalAlpha = 1;
+      }
+      get dead() { return this.life <= 0; }
+    }
+
     class Rocket {
       constructor(x, targetY) {
         this.x = x;
@@ -107,6 +140,7 @@
         this.done = false;
       }
       update() {
+        trails.push(new Trail(this.x, this.y, this.color));
         this.x += this.vx;
         this.y += this.vy;
         this.vy += 0.08;
@@ -117,47 +151,64 @@
       }
       draw() {
         ctx.beginPath();
-        ctx.arc(this.x, this.y, 2, 0, Math.PI * 2);
+        ctx.arc(this.x, this.y, 2.2, 0, Math.PI * 2);
         ctx.fillStyle = this.color;
         ctx.fill();
       }
       explode() {
         playExplosionSound();
-        const count = Math.floor(rand(60, 120));
+        const count = Math.floor(rand(70, 130));
         const hue = rand(0, 360);
         for (let i = 0; i < count; i++) {
           const angle = rand(0, Math.PI * 2);
-          const speed = rand(1, 6);
+          const speed = rand(1.2, 6.4);
           particles.push(new Particle(
             this.x, this.y,
             Math.cos(angle) * speed,
             Math.sin(angle) * speed,
-            `hsl(${hue + rand(-20,20)},100%,${rand(45,70)}%)`
+            `hsl(${hue + rand(-22,22)},100%,${rand(48,72)}%)`
+          ));
+        }
+
+        // glitter layer for sparkle effect
+        const sparkCount = Math.floor(rand(20, 45));
+        for (let i = 0; i < sparkCount; i++) {
+          const angle = rand(0, Math.PI * 2);
+          const speed = rand(0.6, 3.6);
+          particles.push(new Particle(
+            this.x, this.y,
+            Math.cos(angle) * speed,
+            Math.sin(angle) * speed,
+            `hsl(${hue + rand(-10,10)},100%,85%)`,
+            true
           ));
         }
       }
     }
 
     class Particle {
-      constructor(x, y, vx, vy, color) {
+      constructor(x, y, vx, vy, color, spark = false) {
         this.x = x; this.y = y;
         this.vx = vx; this.vy = vy;
-        this.life = rand(50, 90);
+        this.life = spark ? rand(25, 50) : rand(55, 95);
+        this.maxLife = this.life;
         this.alpha = 1;
         this.color = color;
-        this.size = rand(1.5, 3.2);
+        this.size = spark ? rand(0.8, 1.8) : rand(1.4, 3.1);
+        this.spark = spark;
       }
       update() {
         this.x += this.vx;
         this.y += this.vy;
-        this.vy += 0.05;
-        this.vx *= 0.99;
-        this.vy *= 0.99;
+        this.vy += this.spark ? 0.03 : 0.05;
+        this.vx *= 0.988;
+        this.vy *= 0.988;
         this.life--;
-        this.alpha = Math.max(this.life / 90, 0);
+        this.alpha = Math.max(this.life / this.maxLife, 0);
       }
       draw() {
-        ctx.globalAlpha = this.alpha;
+        const flicker = this.spark ? rand(0.4, 1) : rand(0.75, 1);
+        ctx.globalAlpha = this.alpha * flicker;
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         ctx.fillStyle = this.color;
@@ -178,6 +229,12 @@
     function animate() {
       ctx.fillStyle = "rgba(0,0,0,0.18)";
       ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+
+      for (let i = trails.length - 1; i >= 0; i--) {
+        trails[i].update();
+        trails[i].draw();
+        if (trails[i].dead) trails.splice(i, 1);
+      }
 
       for (let i = rockets.length - 1; i >= 0; i--) {
         rockets[i].update();
