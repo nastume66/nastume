@@ -24,7 +24,7 @@
   </style>
 </head>
 <body>
-  <div class="tip">点击任意位置放烟花（自动也会播放）</div>
+  <div class="tip">点击任意位置放烟花（自动也会播放，已含音效）</div>
   <canvas id="c"></canvas>
 
   <script>
@@ -34,6 +34,55 @@
 
     const particles = [];
     const rockets = [];
+
+    let audioCtx = null;
+    function ensureAudio() {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (audioCtx.state === "suspended") audioCtx.resume();
+      return audioCtx;
+    }
+
+    function playLaunchSound() {
+      const ctxA = ensureAudio();
+      const now = ctxA.currentTime;
+      const osc = ctxA.createOscillator();
+      const gain = ctxA.createGain();
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(220, now);
+      osc.frequency.exponentialRampToValueAtTime(520, now + 0.12);
+      gain.gain.setValueAtTime(0.0001, now);
+      gain.gain.exponentialRampToValueAtTime(0.08, now + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.14);
+      osc.connect(gain).connect(ctxA.destination);
+      osc.start(now);
+      osc.stop(now + 0.15);
+    }
+
+    function playExplosionSound() {
+      const ctxA = ensureAudio();
+      const now = ctxA.currentTime;
+
+      const bufferSize = ctxA.sampleRate * 0.35;
+      const buffer = ctxA.createBuffer(1, bufferSize, ctxA.sampleRate);
+      const data = buffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) {
+        data[i] = (Math.random() * 2 - 1) * (1 - i / bufferSize);
+      }
+
+      const noise = ctxA.createBufferSource();
+      const filter = ctxA.createBiquadFilter();
+      const gain = ctxA.createGain();
+      filter.type = "lowpass";
+      filter.frequency.setValueAtTime(1400, now);
+      gain.gain.setValueAtTime(0.0001, now);
+      gain.gain.exponentialRampToValueAtTime(0.22, now + 0.01);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.35);
+
+      noise.buffer = buffer;
+      noise.connect(filter).connect(gain).connect(ctxA.destination);
+      noise.start(now);
+      noise.stop(now + 0.36);
+    }
 
     function resize() {
       w = canvas.width = window.innerWidth * devicePixelRatio;
@@ -73,6 +122,7 @@
         ctx.fill();
       }
       explode() {
+        playExplosionSound();
         const count = Math.floor(rand(60, 120));
         const hue = rand(0, 360);
         for (let i = 0; i < count; i++) {
@@ -118,6 +168,7 @@
     }
 
     function launch(x = rand(80, window.innerWidth - 80), y = rand(100, window.innerHeight * 0.55)) {
+      playLaunchSound();
       rockets.push(new Rocket(x, y));
     }
 
