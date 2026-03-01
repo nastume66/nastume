@@ -1,0 +1,1006 @@
+<html><head><meta charset="utf-8"><style>body{font-family:-apple-system,Segoe UI,Arial;padding:28px;line-height:1.5}code{background:#f5f5f5;padding:1px 4px;border-radius:4px}h1,h2{page-break-after:avoid}p{margin:6px 0}</style></head><body>
+<h1>OpenClaw 中文文档导航版（目录+摘要）</h1>
+<br>
+<blockquote>说明：基于 `docs/zh-CN` 自动生成。正文原文汇编见同目录 `OpenClaw-zhCN-原文汇编.*`。</blockquote>
+<br>
+<p>• 文档总数（md/mdx）：**311**</p>
+<br>
+<h2>目录总览</h2>
+<p>• automation (8)</p>
+<p>• channels (28)</p>
+<p>• cli (41)</p>
+<p>• concepts (28)</p>
+<p>• debug (1)</p>
+<p>• diagnostics (1)</p>
+<p>• experiments (6)</p>
+<p>• gateway (29)</p>
+<p>• help (7)</p>
+<p>• install (19)</p>
+<p>• nodes (9)</p>
+<p>• platforms (27)</p>
+<p>• plugins (4)</p>
+<p>• providers (21)</p>
+<p>• refactor (5)</p>
+<p>• reference (24)</p>
+<p>• root (12)</p>
+<p>• security (1)</p>
+<p>• start (11)</p>
+<p>• tools (24)</p>
+<p>• web (5)</p>
+<br>
+<h2>automation</h2>
+<p>• **认证监控**</p>
+<p style="margin-left:24px">路径：`automation/auth-monitoring.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **定时任务（Gateway网关调度器）**</p>
+<p style="margin-left:24px">路径：`automation/cron-jobs.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **定时任务与心跳：何时使用哪种方式**</p>
+<p style="margin-left:24px">路径：`automation/cron-vs-heartbeat.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **Gmail Pub/Sub -> OpenClaw**</p>
+<p style="margin-left:24px">路径：`automation/gmail-pubsub.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **Hooks**</p>
+<p style="margin-left:24px">路径：`automation/hooks.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **投票**</p>
+<p style="margin-left:24px">路径：`automation/poll.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **自动化故障排查**</p>
+<p style="margin-left:24px">路径：`automation/troubleshooting.md`</p>
+<p style="margin-left:24px;color:#444">摘要：summary: 自动化故障排查：排查 cron 和 heartbeat 调度与投递问题</p>
+<p>• **Webhooks**</p>
+<p style="margin-left:24px">路径：`automation/webhook.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<br>
+<h2>channels</h2>
+<p>• **BlueBubbles（macOS REST）**</p>
+<p style="margin-left:24px">路径：`channels/bluebubbles.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **广播群组**</p>
+<p style="margin-left:24px">路径：`channels/broadcast-groups.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **渠道与路由**</p>
+<p style="margin-left:24px">路径：`channels/channel-routing.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **Discord（Bot API）**</p>
+<p style="margin-left:24px">路径：`channels/discord.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **飞书机器人**</p>
+<p style="margin-left:24px">路径：`channels/feishu.md`</p>
+<p style="margin-left:24px;color:#444">摘要：summary: "飞书机器人支持状态、功能和配置"</p>
+<p>• **Google Chat（Chat API）**</p>
+<p style="margin-left:24px">路径：`channels/googlechat.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **grammY 集成（Telegram Bot API）**</p>
+<p style="margin-left:24px">路径：`channels/grammy.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **群组消息（WhatsApp 网页渠道）**</p>
+<p style="margin-left:24px">路径：`channels/group-messages.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **群组**</p>
+<p style="margin-left:24px">路径：`channels/groups.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **iMessage (imsg)**</p>
+<p style="margin-left:24px">路径：`channels/imessage.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **聊天渠道**</p>
+<p style="margin-left:24px">路径：`channels/index.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **LINE（插件）**</p>
+<p style="margin-left:24px">路径：`channels/line.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **渠道位置解析**</p>
+<p style="margin-left:24px">路径：`channels/location.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **Matrix（插件）**</p>
+<p style="margin-left:24px">路径：`channels/matrix.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **Mattermost（插件）**</p>
+<p style="margin-left:24px">路径：`channels/mattermost.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **Microsoft Teams（插件）**</p>
+<p style="margin-left:24px">路径：`channels/msteams.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **Nextcloud Talk（插件）**</p>
+<p style="margin-left:24px">路径：`channels/nextcloud-talk.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **Nostr**</p>
+<p style="margin-left:24px">路径：`channels/nostr.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **配对**</p>
+<p style="margin-left:24px">路径：`channels/pairing.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **Signal (signal-cli)**</p>
+<p style="margin-left:24px">路径：`channels/signal.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **Slack**</p>
+<p style="margin-left:24px">路径：`channels/slack.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when: Setting up Slack or debugging Slack socket/HTTP mode</p>
+<p>• **Telegram（Bot API）**</p>
+<p style="margin-left:24px">路径：`channels/telegram.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **Tlon（插件）**</p>
+<p style="margin-left:24px">路径：`channels/tlon.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **渠道故障排除**</p>
+<p style="margin-left:24px">路径：`channels/troubleshooting.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **Twitch（插件）**</p>
+<p style="margin-left:24px">路径：`channels/twitch.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **WhatsApp（网页渠道）**</p>
+<p style="margin-left:24px">路径：`channels/whatsapp.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **Zalo (Bot API)**</p>
+<p style="margin-left:24px">路径：`channels/zalo.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **Zalo Personal（非官方）**</p>
+<p style="margin-left:24px">路径：`channels/zalouser.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<br>
+<h2>cli</h2>
+<p>• **acp**</p>
+<p style="margin-left:24px">路径：`cli/acp.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **`openclaw agent`**</p>
+<p style="margin-left:24px">路径：`cli/agent.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **`openclaw agents`**</p>
+<p style="margin-left:24px">路径：`cli/agents.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **`openclaw approvals`**</p>
+<p style="margin-left:24px">路径：`cli/approvals.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **`openclaw browser`**</p>
+<p style="margin-left:24px">路径：`cli/browser.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **`openclaw channels`**</p>
+<p style="margin-left:24px">路径：`cli/channels.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **`openclaw config`**</p>
+<p style="margin-left:24px">路径：`cli/config.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **`openclaw configure`**</p>
+<p style="margin-left:24px">路径：`cli/configure.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **`openclaw cron`**</p>
+<p style="margin-left:24px">路径：`cli/cron.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **`openclaw dashboard`**</p>
+<p style="margin-left:24px">路径：`cli/dashboard.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **`openclaw devices`**</p>
+<p style="margin-left:24px">路径：`cli/devices.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **`openclaw directory`**</p>
+<p style="margin-left:24px">路径：`cli/directory.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **`openclaw dns`**</p>
+<p style="margin-left:24px">路径：`cli/dns.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **`openclaw docs`**</p>
+<p style="margin-left:24px">路径：`cli/docs.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **`openclaw doctor`**</p>
+<p style="margin-left:24px">路径：`cli/doctor.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **Gateway 网关 CLI**</p>
+<p style="margin-left:24px">路径：`cli/gateway.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **`openclaw health`**</p>
+<p style="margin-left:24px">路径：`cli/health.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **`openclaw hooks`**</p>
+<p style="margin-left:24px">路径：`cli/hooks.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **CLI 参考**</p>
+<p style="margin-left:24px">路径：`cli/index.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **`openclaw logs`**</p>
+<p style="margin-left:24px">路径：`cli/logs.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **`openclaw memory`**</p>
+<p style="margin-left:24px">路径：`cli/memory.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **`openclaw message`**</p>
+<p style="margin-left:24px">路径：`cli/message.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **`openclaw models`**</p>
+<p style="margin-left:24px">路径：`cli/models.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **`openclaw node`**</p>
+<p style="margin-left:24px">路径：`cli/node.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **`openclaw nodes`**</p>
+<p style="margin-left:24px">路径：`cli/nodes.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **`openclaw onboard`**</p>
+<p style="margin-left:24px">路径：`cli/onboard.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **`openclaw pairing`**</p>
+<p style="margin-left:24px">路径：`cli/pairing.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **`openclaw plugins`**</p>
+<p style="margin-left:24px">路径：`cli/plugins.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **`openclaw reset`**</p>
+<p style="margin-left:24px">路径：`cli/reset.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **沙箱 CLI**</p>
+<p style="margin-left:24px">路径：`cli/sandbox.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when: You are managing sandbox containers or debugging sandbox/tool-policy behavior.</p>
+<p>• **`openclaw security`**</p>
+<p style="margin-left:24px">路径：`cli/security.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **`openclaw sessions`**</p>
+<p style="margin-left:24px">路径：`cli/sessions.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **`openclaw setup`**</p>
+<p style="margin-left:24px">路径：`cli/setup.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **`openclaw skills`**</p>
+<p style="margin-left:24px">路径：`cli/skills.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **`openclaw status`**</p>
+<p style="margin-left:24px">路径：`cli/status.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **`openclaw system`**</p>
+<p style="margin-left:24px">路径：`cli/system.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **`openclaw tui`**</p>
+<p style="margin-left:24px">路径：`cli/tui.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **`openclaw uninstall`**</p>
+<p style="margin-left:24px">路径：`cli/uninstall.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **`openclaw update`**</p>
+<p style="margin-left:24px">路径：`cli/update.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **`openclaw voicecall`**</p>
+<p style="margin-left:24px">路径：`cli/voicecall.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **`openclaw webhooks`**</p>
+<p style="margin-left:24px">路径：`cli/webhooks.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<br>
+<h2>concepts</h2>
+<p>• **智能体循环（OpenClaw）**</p>
+<p style="margin-left:24px">路径：`concepts/agent-loop.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **智能体工作区**</p>
+<p style="margin-left:24px">路径：`concepts/agent-workspace.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **智能体运行时 🤖**</p>
+<p style="margin-left:24px">路径：`concepts/agent.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **Gateway 网关架构**</p>
+<p style="margin-left:24px">路径：`concepts/architecture.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **上下文窗口与压缩**</p>
+<p style="margin-left:24px">路径：`concepts/compaction.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **上下文**</p>
+<p style="margin-left:24px">路径：`concepts/context.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **亮点**</p>
+<p style="margin-left:24px">路径：`concepts/features.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **Markdown 格式化**</p>
+<p style="margin-left:24px">路径：`concepts/markdown-formatting.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **记忆**</p>
+<p style="margin-left:24px">路径：`concepts/memory.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **消息**</p>
+<p style="margin-left:24px">路径：`concepts/messages.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **模型故障转移**</p>
+<p style="margin-left:24px">路径：`concepts/model-failover.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **模型提供商**</p>
+<p style="margin-left:24px">路径：`concepts/model-providers.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **模型 CLI**</p>
+<p style="margin-left:24px">路径：`concepts/models.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **多智能体路由**</p>
+<p style="margin-left:24px">路径：`concepts/multi-agent.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when: You want multiple isolated agents (workspaces + auth) in one gateway process.</p>
+<p>• **OAuth**</p>
+<p style="margin-left:24px">路径：`concepts/oauth.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **在线状态**</p>
+<p style="margin-left:24px">路径：`concepts/presence.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **命令队列（2026-01-16）**</p>
+<p style="margin-left:24px">路径：`concepts/queue.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **重试策略**</p>
+<p style="margin-left:24px">路径：`concepts/retry.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **会话剪枝**</p>
+<p style="margin-left:24px">路径：`concepts/session-pruning.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **会话工具**</p>
+<p style="margin-left:24px">路径：`concepts/session-tool.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **会话管理**</p>
+<p style="margin-left:24px">路径：`concepts/session.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **会话**</p>
+<p style="margin-left:24px">路径：`concepts/sessions.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **流式传输 + 分块**</p>
+<p style="margin-left:24px">路径：`concepts/streaming.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **系统提示词**</p>
+<p style="margin-left:24px">路径：`concepts/system-prompt.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **时区**</p>
+<p style="margin-left:24px">路径：`concepts/timezone.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **TypeBox 作为协议的事实来源**</p>
+<p style="margin-left:24px">路径：`concepts/typebox.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **输入指示器**</p>
+<p style="margin-left:24px">路径：`concepts/typing-indicators.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **使用量跟踪**</p>
+<p style="margin-left:24px">路径：`concepts/usage-tracking.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<br>
+<h2>debug</h2>
+<p>• **Node + tsx "\_\_name is not a function" 崩溃**</p>
+<p style="margin-left:24px">路径：`debug/node-issue.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<br>
+<h2>diagnostics</h2>
+<p>• **诊断标志**</p>
+<p style="margin-left:24px">路径：`diagnostics/flags.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<br>
+<h2>experiments</h2>
+<p>• **新手引导 + 配置协议**</p>
+<p style="margin-left:24px">路径：`experiments/onboarding-config-protocol.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when: Changing onboarding wizard steps or config schema endpoints</p>
+<p>• **Cron Add 加固 & Schema 对齐**</p>
+<p style="margin-left:24px">路径：`experiments/plans/cron-add-hardening.md`</p>
+<p style="margin-left:24px;color:#444">摘要：last_updated: "2026-01-05"</p>
+<p>• **Telegram 允许列表加固**</p>
+<p style="margin-left:24px">路径：`experiments/plans/group-policy-hardening.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **OpenResponses Gateway 网关集成计划**</p>
+<p style="margin-left:24px">路径：`experiments/plans/openresponses-gateway.md`</p>
+<p style="margin-left:24px;color:#444">摘要：last_updated: "2026-01-19"</p>
+<p>• **模型配置（探索）**</p>
+<p style="margin-left:24px">路径：`experiments/proposals/model-config.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **工作区记忆 v2（离线）：研究笔记**</p>
+<p style="margin-left:24px">路径：`experiments/research/memory.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<br>
+<h2>gateway</h2>
+<p>• **认证**</p>
+<p style="margin-left:24px">路径：`gateway/authentication.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **后台 Exec + Process 工具**</p>
+<p style="margin-left:24px">路径：`gateway/background-process.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **Bonjour / mDNS 设备发现**</p>
+<p style="margin-left:24px">路径：`gateway/bonjour.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **Bridge 协议（旧版节点传输）**</p>
+<p style="margin-left:24px">路径：`gateway/bridge-protocol.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **CLI 后端（回退运行时）**</p>
+<p style="margin-left:24px">路径：`gateway/cli-backends.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **配置示例**</p>
+<p style="margin-left:24px">路径：`gateway/configuration-examples.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **配置 🔧**</p>
+<p style="margin-left:24px">路径：`gateway/configuration.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **设备发现 & 传输协议**</p>
+<p style="margin-left:24px">路径：`gateway/discovery.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **Doctor**</p>
+<p style="margin-left:24px">路径：`gateway/doctor.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **Gateway 网关锁**</p>
+<p style="margin-left:24px">路径：`gateway/gateway-lock.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **健康检查（CLI）**</p>
+<p style="margin-left:24px">路径：`gateway/health.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **心跳（Gateway 网关）**</p>
+<p style="margin-left:24px">路径：`gateway/heartbeat.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **Gateway 网关服务运行手册**</p>
+<p style="margin-left:24px">路径：`gateway/index.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **本地模型**</p>
+<p style="margin-left:24px">路径：`gateway/local-models.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **日志**</p>
+<p style="margin-left:24px">路径：`gateway/logging.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **多 Gateway 网关（同一主机）**</p>
+<p style="margin-left:24px">路径：`gateway/multiple-gateways.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **核心规则**</p>
+<p style="margin-left:24px">路径：`gateway/network-model.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **OpenAI Chat Completions（HTTP）**</p>
+<p style="margin-left:24px">路径：`gateway/openai-http-api.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **OpenResponses API（HTTP）**</p>
+<p style="margin-left:24px">路径：`gateway/openresponses-http-api.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **Gateway 网关拥有的配对（选项 B）**</p>
+<p style="margin-left:24px">路径：`gateway/pairing.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **Gateway 网关协议（WebSocket）**</p>
+<p style="margin-left:24px">路径：`gateway/protocol.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **使用远程 Gateway 网关运行 OpenClaw.app**</p>
+<p style="margin-left:24px">路径：`gateway/remote-gateway-readme.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when: Connecting the macOS app to a remote gateway over SSH</p>
+<p>• **远程访问（SSH、隧道和 tailnet）**</p>
+<p style="margin-left:24px">路径：`gateway/remote.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **沙箱 vs 工具策略 vs 提权**</p>
+<p style="margin-left:24px">路径：`gateway/sandbox-vs-tool-policy-vs-elevated.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when: You hit 'sandbox jail' or see a tool/elevated refusal and want the exact config key to ch…</p>
+<p>• **沙箱隔离**</p>
+<p style="margin-left:24px">路径：`gateway/sandboxing.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when: You want a dedicated explanation of sandboxing or need to tune agents.defaults.sandbox.</p>
+<p>• **安全性 🔒**</p>
+<p style="margin-left:24px">路径：`gateway/security/index.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **Tailscale（Gateway 网关仪表盘）**</p>
+<p style="margin-left:24px">路径：`gateway/tailscale.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **工具调用（HTTP）**</p>
+<p style="margin-left:24px">路径：`gateway/tools-invoke-http-api.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **故障排除 🔧**</p>
+<p style="margin-left:24px">路径：`gateway/troubleshooting.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<br>
+<h2>help</h2>
+<p>• **调试**</p>
+<p style="margin-left:24px">路径：`help/debugging.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **环境变量**</p>
+<p style="margin-left:24px">路径：`help/environment.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **常见问题**</p>
+<p style="margin-left:24px">路径：`help/faq.md`</p>
+<p style="margin-left:24px;color:#444">摘要：summary: 关于 OpenClaw 安装、配置和使用的常见问题</p>
+<p>• **帮助**</p>
+<p style="margin-left:24px">路径：`help/index.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **脚本**</p>
+<p style="margin-left:24px">路径：`help/scripts.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **测试**</p>
+<p style="margin-left:24px">路径：`help/testing.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **故障排除**</p>
+<p style="margin-left:24px">路径：`help/troubleshooting.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<br>
+<h2>install</h2>
+<p>• **Ansible 安装**</p>
+<p style="margin-left:24px">路径：`install/ansible.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **Bun（实验性）**</p>
+<p style="margin-left:24px">路径：`install/bun.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **开发渠道**</p>
+<p style="margin-left:24px">路径：`install/development-channels.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **Docker（可选）**</p>
+<p style="margin-left:24px">路径：`install/docker.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **exe.dev**</p>
+<p style="margin-left:24px">路径：`install/exe-dev.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **Fly.io 部署**</p>
+<p style="margin-left:24px">路径：`install/fly.md`</p>
+<p style="margin-left:24px;color:#444">摘要：description: Deploy OpenClaw on Fly.io</p>
+<p>• **在 GCP Compute Engine 上运行 OpenClaw（Docker，生产 VPS 指南）**</p>
+<p style="margin-left:24px">路径：`install/gcp.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **在 Hetzner 上运行 OpenClaw（Docker，生产 VPS 指南）**</p>
+<p style="margin-left:24px">路径：`install/hetzner.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **安装**</p>
+<p style="margin-left:24px">路径：`install/index.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **安装器内部机制**</p>
+<p style="margin-left:24px">路径：`install/installer.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **在 macOS 虚拟机上运行 OpenClaw（沙箱隔离）**</p>
+<p style="margin-left:24px">路径：`install/macos-vm.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **将 OpenClaw 迁移到新机器**</p>
+<p style="margin-left:24px">路径：`install/migrating.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **Nix 安装**</p>
+<p style="margin-left:24px">路径：`install/nix.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **Node.js**</p>
+<p style="margin-left:24px">路径：`install/node.md`</p>
+<p style="margin-left:24px;color:#444">摘要：summary: Node.js 安装与配置（OpenClaw 版本要求、安装方式与 PATH 排错）</p>
+<p>• **如何开始**</p>
+<p style="margin-left:24px">路径：`install/northflank.mdx`</p>
+<p style="margin-left:24px;color:#444">摘要：title: 在 Northflank 上部署</p>
+<p>• **快速检查清单（新用户）**</p>
+<p style="margin-left:24px">路径：`install/railway.mdx`</p>
+<p style="margin-left:24px;color:#444">摘要：title: 在 Railway 上部署</p>
+<p>• **前提条件**</p>
+<p style="margin-left:24px">路径：`install/render.mdx`</p>
+<p style="margin-left:24px;color:#444">摘要：title: 在 Render 上部署</p>
+<p>• **卸载**</p>
+<p style="margin-left:24px">路径：`install/uninstall.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **更新**</p>
+<p style="margin-left:24px">路径：`install/updating.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<br>
+<h2>nodes</h2>
+<p>• **音频 / 语音消息 — 2026-01-17**</p>
+<p style="margin-left:24px">路径：`nodes/audio.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **相机捕获（智能体）**</p>
+<p style="margin-left:24px">路径：`nodes/camera.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **图像与媒体支持 — 2025-12-05**</p>
+<p style="margin-left:24px">路径：`nodes/images.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **节点**</p>
+<p style="margin-left:24px">路径：`nodes/index.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **位置命令（节点）**</p>
+<p style="margin-left:24px">路径：`nodes/location-command.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **媒体理解（入站）— 2026-01-17**</p>
+<p style="margin-left:24px">路径：`nodes/media-understanding.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **Talk 模式**</p>
+<p style="margin-left:24px">路径：`nodes/talk.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **节点故障排查**</p>
+<p style="margin-left:24px">路径：`nodes/troubleshooting.md`</p>
+<p style="margin-left:24px;color:#444">摘要：summary: 节点故障排查：排查配对、前台限制、权限与工具调用失败</p>
+<p>• **语音唤醒（全局唤醒词）**</p>
+<p style="margin-left:24px">路径：`nodes/voicewake.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<br>
+<h2>platforms</h2>
+<p>• **Android 应用（节点）**</p>
+<p style="margin-left:24px">路径：`platforms/android.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **在 DigitalOcean 上运行 OpenClaw**</p>
+<p style="margin-left:24px">路径：`platforms/digitalocean.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **平台**</p>
+<p style="margin-left:24px">路径：`platforms/index.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **iOS 应用（节点）**</p>
+<p style="margin-left:24px">路径：`platforms/ios.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **Linux 应用**</p>
+<p style="margin-left:24px">路径：`platforms/linux.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **macOS 上的 Gateway 网关（外部 launchd）**</p>
+<p style="margin-left:24px">路径：`platforms/mac/bundled-gateway.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **Canvas（macOS 应用）**</p>
+<p style="margin-left:24px">路径：`platforms/mac/canvas.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **macOS 上的 Gateway 网关生命周期**</p>
+<p style="margin-left:24px">路径：`platforms/mac/child-process.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **macOS 开发者设置**</p>
+<p style="margin-left:24px">路径：`platforms/mac/dev-setup.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **macOS 上的健康检查**</p>
+<p style="margin-left:24px">路径：`platforms/mac/health.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **菜单栏图标状态**</p>
+<p style="margin-left:24px">路径：`platforms/mac/icon.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **日志（macOS）**</p>
+<p style="margin-left:24px">路径：`platforms/mac/logging.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **菜单栏状态逻辑**</p>
+<p style="margin-left:24px">路径：`platforms/mac/menu-bar.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **Peekaboo Bridge（macOS UI 自动化）**</p>
+<p style="margin-left:24px">路径：`platforms/mac/peekaboo.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **macOS 权限（TCC）**</p>
+<p style="margin-left:24px">路径：`platforms/mac/permissions.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **OpenClaw macOS 发布（Sparkle）**</p>
+<p style="margin-left:24px">路径：`platforms/mac/release.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **远程 OpenClaw（macOS ⇄ 远程主机）**</p>
+<p style="margin-left:24px">路径：`platforms/mac/remote.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **Mac 签名（调试构建）**</p>
+<p style="margin-left:24px">路径：`platforms/mac/signing.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **Skills（macOS）**</p>
+<p style="margin-left:24px">路径：`platforms/mac/skills.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **语音浮层生命周期（macOS）**</p>
+<p style="margin-left:24px">路径：`platforms/mac/voice-overlay.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **语音唤醒与按键通话**</p>
+<p style="margin-left:24px">路径：`platforms/mac/voicewake.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **WebChat（macOS 应用）**</p>
+<p style="margin-left:24px">路径：`platforms/mac/webchat.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **OpenClaw macOS IPC 架构**</p>
+<p style="margin-left:24px">路径：`platforms/mac/xpc.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **OpenClaw macOS 配套应用（菜单栏 + Gateway 网关代理）**</p>
+<p style="margin-left:24px">路径：`platforms/macos.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **在 Oracle Cloud（OCI）上运行 OpenClaw**</p>
+<p style="margin-left:24px">路径：`platforms/oracle.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **在 Raspberry Pi 上运行 OpenClaw**</p>
+<p style="margin-left:24px">路径：`platforms/raspberry-pi.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **Windows (WSL2)**</p>
+<p style="margin-left:24px">路径：`platforms/windows.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<br>
+<h2>plugins</h2>
+<p>• **插件智能体工具**</p>
+<p style="margin-left:24px">路径：`plugins/agent-tools.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **插件清单（openclaw.plugin.json）**</p>
+<p style="margin-left:24px">路径：`plugins/manifest.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **Voice Call（插件）**</p>
+<p style="margin-left:24px">路径：`plugins/voice-call.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **Zalo Personal（插件）**</p>
+<p style="margin-left:24px">路径：`plugins/zalouser.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<br>
+<h2>providers</h2>
+<p>• **Anthropic（Claude）**</p>
+<p style="margin-left:24px">路径：`providers/anthropic.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **Amazon Bedrock**</p>
+<p style="margin-left:24px">路径：`providers/bedrock.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **Claude Max API 代理**</p>
+<p style="margin-left:24px">路径：`providers/claude-max-api-proxy.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **Deepgram（音频转录）**</p>
+<p style="margin-left:24px">路径：`providers/deepgram.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **GitHub Copilot**</p>
+<p style="margin-left:24px">路径：`providers/github-copilot.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **GLM 模型**</p>
+<p style="margin-left:24px">路径：`providers/glm.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **模型提供商**</p>
+<p style="margin-left:24px">路径：`providers/index.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **MiniMax**</p>
+<p style="margin-left:24px">路径：`providers/minimax.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **模型提供商**</p>
+<p style="margin-left:24px">路径：`providers/models.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **Moonshot AI (Kimi)**</p>
+<p style="margin-left:24px">路径：`providers/moonshot.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **Ollama**</p>
+<p style="margin-left:24px">路径：`providers/ollama.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **OpenAI**</p>
+<p style="margin-left:24px">路径：`providers/openai.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **OpenCode Zen**</p>
+<p style="margin-left:24px">路径：`providers/opencode.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **OpenRouter**</p>
+<p style="margin-left:24px">路径：`providers/openrouter.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **千帆（Qianfan）**</p>
+<p style="margin-left:24px">路径：`providers/qianfan.md`</p>
+<p style="margin-left:24px;color:#444">摘要：summary: 使用千帆统一 API 在 OpenClaw 中接入多种模型</p>
+<p>• **Qwen**</p>
+<p style="margin-left:24px">路径：`providers/qwen.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **Synthetic**</p>
+<p style="margin-left:24px">路径：`providers/synthetic.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **Venice AI（Venice 精选）**</p>
+<p style="margin-left:24px">路径：`providers/venice.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **Vercel AI Gateway**</p>
+<p style="margin-left:24px">路径：`providers/vercel-ai-gateway.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **Xiaomi MiMo**</p>
+<p style="margin-left:24px">路径：`providers/xiaomi.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **Z.AI**</p>
+<p style="margin-left:24px">路径：`providers/zai.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<br>
+<h2>refactor</h2>
+<p>• **Clawnet 重构（协议 + 认证统一）**</p>
+<p style="margin-left:24px">路径：`refactor/clawnet.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **Exec 主机重构计划**</p>
+<p style="margin-left:24px">路径：`refactor/exec-host.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **出站会话镜像重构（Issue #1520）**</p>
+<p style="margin-left:24px">路径：`refactor/outbound-session-mirroring.md`</p>
+<p style="margin-left:24px;color:#444">摘要：description: Track outbound session mirroring refactor notes, decisions, tests, and open items.</p>
+<p>• **插件 SDK + 运行时重构计划**</p>
+<p style="margin-left:24px">路径：`refactor/plugin-sdk.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **严格配置验证（仅通过 doctor 进行迁移）**</p>
+<p style="margin-left:24px">路径：`refactor/strict-config.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<br>
+<h2>reference</h2>
+<p>• **AGENTS.md — OpenClaw 个人助手（默认）**</p>
+<p style="margin-left:24px">路径：`reference/AGENTS.default.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **发布清单（npm + macOS）**</p>
+<p style="margin-left:24px">路径：`reference/RELEASING.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **API 用量与费用**</p>
+<p style="margin-left:24px">路径：`reference/api-usage-costs.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **名称由来**</p>
+<p style="margin-left:24px">路径：`reference/credits.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **设备型号数据库（友好名称）**</p>
+<p style="margin-left:24px">路径：`reference/device-models.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **RPC 适配器**</p>
+<p style="margin-left:24px">路径：`reference/rpc.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **会话管理与压缩（深入了解）**</p>
+<p style="margin-left:24px">路径：`reference/session-management-compaction.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **AGENTS.md - OpenClaw 工作区**</p>
+<p style="margin-left:24px">路径：`reference/templates/AGENTS.dev.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **AGENTS.md - 你的工作区**</p>
+<p style="margin-left:24px">路径：`reference/templates/AGENTS.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **BOOT.md**</p>
+<p style="margin-left:24px">路径：`reference/templates/BOOT.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **BOOTSTRAP.md - Hello, World**</p>
+<p style="margin-left:24px">路径：`reference/templates/BOOTSTRAP.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **HEARTBEAT.md**</p>
+<p style="margin-left:24px">路径：`reference/templates/HEARTBEAT.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **IDENTITY.md - 智能体身份**</p>
+<p style="margin-left:24px">路径：`reference/templates/IDENTITY.dev.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **IDENTITY.md - 我是谁？**</p>
+<p style="margin-left:24px">路径：`reference/templates/IDENTITY.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **SOUL.md - C-3PO 的灵魂**</p>
+<p style="margin-left:24px">路径：`reference/templates/SOUL.dev.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **SOUL.md - 你是谁**</p>
+<p style="margin-left:24px">路径：`reference/templates/SOUL.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **TOOLS.md - 用户工具备注（可编辑）**</p>
+<p style="margin-left:24px">路径：`reference/templates/TOOLS.dev.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **TOOLS.md - 本地备注**</p>
+<p style="margin-left:24px">路径：`reference/templates/TOOLS.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **USER.md - 用户档案**</p>
+<p style="margin-left:24px">路径：`reference/templates/USER.dev.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **USER.md - 关于你的用户**</p>
+<p style="margin-left:24px">路径：`reference/templates/USER.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **测试**</p>
+<p style="margin-left:24px">路径：`reference/test.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **Token 使用与成本**</p>
+<p style="margin-left:24px">路径：`reference/token-use.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **对话记录清理（提供商修正）**</p>
+<p style="margin-left:24px">路径：`reference/transcript-hygiene.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **向导参考**</p>
+<p style="margin-left:24px">路径：`reference/wizard.md`</p>
+<p style="margin-left:24px;color:#444">摘要：summary: Onboarding 向导参考：完整步骤、参数与配置字段</p>
+<br>
+<h2>root</h2>
+<p>• **AGENTS.md - zh-CN 文档翻译工作区**</p>
+<p style="margin-left:24px">路径：`AGENTS.md`</p>
+<p style="margin-left:24px;color:#444">摘要：- 维护 `docs/zh-CN/**`</p>
+<p>• **Brave Search API**</p>
+<p style="margin-left:24px">路径：`brave-search.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **日期与时间**</p>
+<p style="margin-left:24px">路径：`date-time.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **OpenClaw 🦞**</p>
+<p style="margin-left:24px">路径：`index.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **日志**</p>
+<p style="margin-left:24px">路径：`logging.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **网络中心**</p>
+<p style="margin-left:24px">路径：`network.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **Perplexity Sonar**</p>
+<p style="margin-left:24px">路径：`perplexity.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **Pi 开发工作流程**</p>
+<p style="margin-left:24px">路径：`pi-dev.md`</p>
+<p style="margin-left:24px;color:#444">摘要：title: Pi 开发工作流程</p>
+<p>• **Pi 集成架构**</p>
+<p style="margin-left:24px">路径：`pi.md`</p>
+<p style="margin-left:24px;color:#444">摘要：title: Pi 集成架构</p>
+<p>• **OpenProse**</p>
+<p style="margin-left:24px">路径：`prose.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **文本转语音（TTS）**</p>
+<p style="margin-left:24px">路径：`tts.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **VPS 托管**</p>
+<p style="margin-left:24px">路径：`vps.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<br>
+<h2>security</h2>
+<p>• **形式化验证（安全模型）**</p>
+<p style="margin-left:24px">路径：`security/formal-verification.md`</p>
+<p style="margin-left:24px;color:#444">摘要：permalink: /security/formal-verification/</p>
+<br>
+<h2>start</h2>
+<p>• **智能体引导**</p>
+<p style="margin-left:24px">路径：`start/bootstrapping.md`</p>
+<p style="margin-left:24px;color:#444">摘要：summary: 智能体引导流程：首次运行时如何初始化工作区与身份文件</p>
+<p>• **从这里开始**</p>
+<p style="margin-left:24px">路径：`start/docs-directory.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **入门指南**</p>
+<p style="margin-left:24px">路径：`start/getting-started.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **文档导航中心**</p>
+<p style="margin-left:24px">路径：`start/hubs.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **OpenClaw 的传说 🦞📖**</p>
+<p style="margin-left:24px">路径：`start/lore.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **新手引导（macOS 应用）**</p>
+<p style="margin-left:24px">路径：`start/onboarding.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **使用 OpenClaw 构建个人助手**</p>
+<p style="margin-left:24px">路径：`start/openclaw.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **安装**</p>
+<p style="margin-left:24px">路径：`start/quickstart.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **设置**</p>
+<p style="margin-left:24px">路径：`start/setup.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **案例展示**</p>
+<p style="margin-left:24px">路径：`start/showcase.md`</p>
+<p style="margin-left:24px;color:#444">摘要：description: Real-world OpenClaw projects from the community</p>
+<p>• **新手引导向导（CLI）**</p>
+<p style="margin-left:24px">路径：`start/wizard.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<br>
+<h2>tools</h2>
+<p>• **`openclaw agent`（直接智能体运行）**</p>
+<p style="margin-left:24px">路径：`tools/agent-send.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **apply_patch 工具**</p>
+<p style="margin-left:24px">路径：`tools/apply-patch.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **浏览器故障排除（Linux）**</p>
+<p style="margin-left:24px">路径：`tools/browser-linux-troubleshooting.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when: Browser control fails on Linux, especially with snap Chromium</p>
+<p>• **浏览器登录 + X/Twitter 发帖**</p>
+<p style="margin-left:24px">路径：`tools/browser-login.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **浏览器（openclaw 托管）**</p>
+<p style="margin-left:24px">路径：`tools/browser.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **Chrome 扩展（浏览器中继）**</p>
+<p style="margin-left:24px">路径：`tools/chrome-extension.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **ClawHub**</p>
+<p style="margin-left:24px">路径：`tools/clawhub.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **创建自定义 Skills 🛠**</p>
+<p style="margin-left:24px">路径：`tools/creating-skills.md`</p>
+<p style="margin-left:24px;color:#444">摘要：title: 创建 Skills</p>
+<p>• **提升模式（/elevated 指令）**</p>
+<p style="margin-left:24px">路径：`tools/elevated.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **执行审批**</p>
+<p style="margin-left:24px">路径：`tools/exec-approvals.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **Exec 工具**</p>
+<p style="margin-left:24px">路径：`tools/exec.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **Firecrawl**</p>
+<p style="margin-left:24px">路径：`tools/firecrawl.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **工具（OpenClaw）**</p>
+<p style="margin-left:24px">路径：`tools/index.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **LLM 任务**</p>
+<p style="margin-left:24px">路径：`tools/llm-task.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **Lobster**</p>
+<p style="margin-left:24px">路径：`tools/lobster.md`</p>
+<p style="margin-left:24px;color:#444">摘要：description: Typed workflow runtime for OpenClaw — composable pipelines with approval gates.</p>
+<p>• **多智能体沙箱与工具配置**</p>
+<p style="margin-left:24px">路径：`tools/multi-agent-sandbox-tools.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when: You want per-agent sandboxing or per-agent tool allow/deny policies in a multi-agent gate…</p>
+<p>• **插件（扩展）**</p>
+<p style="margin-left:24px">路径：`tools/plugin.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **表情回应工具**</p>
+<p style="margin-left:24px">路径：`tools/reactions.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **Skills 配置**</p>
+<p style="margin-left:24px">路径：`tools/skills-config.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **Skills（OpenClaw）**</p>
+<p style="margin-left:24px">路径：`tools/skills.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **斜杠命令**</p>
+<p style="margin-left:24px">路径：`tools/slash-commands.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **子智能体**</p>
+<p style="margin-left:24px">路径：`tools/subagents.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **思考级别（/think 指令）**</p>
+<p style="margin-left:24px">路径：`tools/thinking.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **Web 工具**</p>
+<p style="margin-left:24px">路径：`tools/web.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<br>
+<h2>web</h2>
+<p>• **控制 UI（浏览器）**</p>
+<p style="margin-left:24px">路径：`web/control-ui.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **仪表板（控制 UI）**</p>
+<p style="margin-left:24px">路径：`web/dashboard.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **Web（Gateway 网关）**</p>
+<p style="margin-left:24px">路径：`web/index.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **TUI（终端 UI）**</p>
+<p style="margin-left:24px">路径：`web/tui.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<p>• **WebChat（Gateway 网关 WebSocket UI）**</p>
+<p style="margin-left:24px">路径：`web/webchat.md`</p>
+<p style="margin-left:24px;color:#444">摘要：read_when:</p>
+<br>
+</body></html>
